@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 export default class App extends Component {
   constructor(props) {
     super(props);
-  
+
     this.state = {};
 
     this.socket = SocketIOClient('http://192.168.43.13:3000');
@@ -17,6 +17,10 @@ export default class App extends Component {
   async componentDidMount() {
     this.checkPermission();
     this.createNotificationListeners();
+
+    const channelId = new firebase.notifications.Android.Channel("ellcco", "Ellcco Channel", firebase.notifications.Android.Importance.High)
+      .setSound('stairs.mp3');
+    firebase.notifications().android.createChannel(channelId);
   }
 
   componentWillUnmount() {
@@ -26,19 +30,13 @@ export default class App extends Component {
 
   async createNotificationListeners() {
     this.notificationListener = firebase.notifications().onNotification(async (notification) => {
-      const channelId = new firebase.notifications.Android.Channel("my_channel", "My Channel", firebase.notifications.Android.Importance.Max);
-
-      firebase.notifications().android.createChannel(channelId);
-
       let localNotification = new firebase.notifications.Notification({
         data: notification.data,
-        sound: 'default',
-        show_in_foreground: true,
         title: notification.title,
         body: notification.body
       })
       .android.setPriority(firebase.notifications.Android.Priority.Max)
-      .android.setChannelId("my_channel")
+      .android.setChannelId("default_notification_channel_id")
       .android.setVibrate(1000);
 
       firebase.notifications().displayNotification(localNotification);
@@ -55,24 +53,22 @@ export default class App extends Component {
     }
 
     this.messageListener = firebase.messaging().onMessage(async (message) => {
-      console.log('new message');
-      const newNotification = new firebase.notifications.Notification()
-        .android.setChannelId(message.data.channelId)
-        .setNotificationId(message.messageId)
-        .setTitle(message.data.title)
-        .setBody(message.data.body)
-        .setSound("default")
-        .setData(message.Data)
-        .android.setAutoCancel(true)
-        .android.setSmallIcon('ic_launcher')
-        .android.setCategory(firebase.notifications.Android.Category.Alarm)
+      // const channelId = new firebase.notifications.Android.Channel("ellcco", "Ellcco Channel", firebase.notifications.Android.Importance.Max);
 
-      // Build a channel
-      const channelId = new firebase.notifications.Android.Channel(message.data.channelId, "My channel", firebase.notifications.Android.Importance.Max);
+      // firebase.notifications().android.createChannel(channelId);
 
-      // Create the channel
-      await firebase.notifications().android.createChannel(channelId);
-      await firebase.notifications().displayNotification(newNotification);
+      // let localNotification = new firebase.notifications.Notification({
+      //   data: message.data,
+      //   sound: 'stairs.mp3',
+      //   show_in_foreground: true,
+      //   title: message.title,
+      //   body: message.body
+      // })
+      // .android.setPriority(firebase.notifications.Android.Priority.Max)
+      // .android.setChannelId("ellcco")
+      // .android.setVibrate(1000);
+
+      // firebase.notifications().displayNotification(localNotification);
     });
   }
 
@@ -100,14 +96,14 @@ export default class App extends Component {
     console.log(fcmToken);
 
     this.socket.emit('on_new_fcm_token', JSON.stringify({
-      id_pengguna: '21de8431-cc71-4222-80b3-649983a76175',
+      id_pengguna: '1e2e3b32-00be-4826-b123-d84495fa5b86',
       token: fcmToken
     }));
   }
 
   async requestPermission() {
     try {
-      await firebase.messaging().requestPermission();
+      const permission = await firebase.messaging().requestPermission();
       this.getToken();
     } catch (error) {
       console.log('permission rejected');
