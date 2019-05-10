@@ -1,20 +1,81 @@
 import React, {Component} from 'react';
-import {AppState, Platform, StyleSheet, Text, View, Alert, Picker, Button} from 'react-native';
+import {AppState, Platform, StyleSheet, Text, View, Alert, Picker, Button, Vibration} from 'react-native';
 import firebase from 'react-native-firebase';
 import type { RemoteMessage, Notification, NotificationOpen } from 'react-native-firebase';
-import SocketIOClient from 'socket.io-client';
+import io from 'socket.io-client';
 import AsyncStorage from '@react-native-community/async-storage';
+import Sound from 'react-native-sound';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      notifikasi: null,
+      appState: AppState.currentState
+    };
 
-    this.socket = SocketIOClient('http://192.168.43.13:3000');
+    this.socket = io('http://192.168.43.13:3000');
+    
+    this.socket.on('connect', () => {
+      this.registerSocketListener();
+
+      this.socket.emit('on_new_socket_id', JSON.stringify({
+        id_pengguna: '1e2e3b32-00be-4826-b123-d84495fa5b86'
+      }));
+    });
+
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
+
+    this.inAppNotificationSound = new Sound('stairs.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+    });
+
+
+    console.log('volume: ' + this.inAppNotificationSound.getVolume());
+  }
+
+  handleAppStateChange = (nextAppState) => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
+      console.log('App has come to the foreground!');
+    }
+
+    this.setState({appState: nextAppState});
+  }
+
+  registerSocketListener = () => {
+    console.log(this.state.appState);
+    this.socket.on('on_new_order', message => {
+      if (this.state.appState === 'active') {
+        console.log(message);
+        // Do whatever we want
+        // Later :)
+        this.setState({ notifikasi: message });
+
+        this.playInAppNotificationSound();
+      }
+    });
+  }
+
+  playInAppNotificationSound = () => {
+    Vibration.vibrate(700);
+    this.inAppNotificationSound.play((success) => {
+      if (success) {
+        console.log('successfully finished playing');
+      } else {
+        console.log('playback failed due to audio decoding errors');
+      }
+    });
   }
 
   async componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
     this.checkPermission();
     this.createNotificationListeners();
 
@@ -24,6 +85,7 @@ export default class App extends Component {
   }
 
   componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
     this.notificationListener();
     this.notificationOpenedListener();
   }
@@ -111,11 +173,15 @@ export default class App extends Component {
   }
 
   render() {
+    const notifikasi = this.state.notifikasi === null ? (
+      <Text>No notification</Text>
+    ) : (<Text>{this.state.notifikasi}</Text>);
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Choose your notification time in seconds
+          Ellcco
         </Text>
+        {notifikasi}
       </View>
     );
   }
