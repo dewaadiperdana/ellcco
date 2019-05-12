@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { colors, fonts } from './styles';
 
 const Button = props => {
   const buttonBlockStyle = [
     styles.button,
     props.block && styles.buttonBlock,
     props.fullRound && styles.buttonFullRound,
-    props.bgWhite && styles.buttonBgWhite
+    props.green && styles.buttonGreen
   ];
 
   const buttonTextStyle = [
@@ -16,23 +16,13 @@ const Button = props => {
     props.textLight && styles.buttonTextLight
   ];
 
-  const button = 'linear' in props ? (
-    <LinearGradient colors={['#32CCBC', '#19AEDE']} start={{x: 0, y: -1}} end={{x: 1, y: 2}} style={buttonBlockStyle}>
-      <TouchableOpacity onPress={props.onPress} activeOpacity={1}>
-        <Text style={buttonTextStyle}>
-          {props.children}
-        </Text>
-      </TouchableOpacity>
-    </LinearGradient>
-  ) : (
+  return (
     <TouchableOpacity style={buttonBlockStyle} onPress={props.onPress} activeOpacity={1}>
-      <Text style={styles.buttonText}>
+      <Text style={[buttonTextStyle]}>
         {props.children}
       </Text>
     </TouchableOpacity>
   );
-
-  return button;
 };
 
 export default Button;
@@ -41,29 +31,23 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 15,
     paddingHorizontal: 25,
-    backgroundColor: '#19AEDE',
+    backgroundColor: colors.primary,
     alignSelf: 'flex-start',
     borderRadius: 5
   },
   buttonText: {
     textAlign: 'center',
-    fontFamily: 'Rubik-Medium',
+    fontFamily: fonts.medium,
     fontSize: 16
   },
-  buttonTextLight: { color: 'white' },
-  buttonTextDark: { color: '#585858' },
+  buttonTextLight: { color: colors.white },
+  buttonTextDark: { color: colors.black },
   buttonBlock: {
     width: '100%',
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
   },
   buttonFullRound: {
     borderRadius: 50
   },
-  buttonBgWhite: {
-    backgroundColor: 'white'
-  }
+  buttonWhite: { backgroundColor: colors.white },
+  buttonGreen: { backgroundColor: colors.green }
 });

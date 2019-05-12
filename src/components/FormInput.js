@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
-import { spacing, text } from './styles';
+import { spacing, colors, text } from './styles';
 
 const FormInput = props => {
   let placeholder = 'placeholder' in props ? props.placeholder : null;
@@ -12,7 +12,7 @@ const FormInput = props => {
         style={[styles.formInput, text.paragraph]}
         onChangeText={props.onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#C9C9C9"
+        placeholderTextColor={colors.verylightgrey}
         secureTextEntry={password} />
     </View>
   );
@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderColor: '#D9D9D9',
+    borderColor: colors.verylightgrey,
     borderRadius: 5,
+    backgroundColor: colors.white
   }
 });

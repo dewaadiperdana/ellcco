@@ -4,7 +4,8 @@ import { View, StyleSheet } from 'react-native';
 const Container = props => {
   const blockStyles = [
     styles.container,
-    props.centerContent && styles.containerCenterContent
+    props.centerContent && styles.containerCenterContent,
+    props.verticalCenter && styles.containerVerticalCenter
   ];
 
   return (
@@ -26,5 +27,9 @@ const styles = StyleSheet.create({
     flex: 1, 
     alignItems: 'center',
     justifyContent: 'center', 
+  },
+  containerVerticalCenter: {
+    flex: 1,
+    justifyContent: 'center'
   }
 });

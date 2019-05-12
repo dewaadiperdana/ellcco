@@ -1,35 +1,31 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import fonts from './fonts';
+import colors from './colors';
 
 const text = StyleSheet.create({
-  alignCenter: {
-    textAlign: 'center'
-  },
-  alignLeft: {
-    textAlign: 'left'
-  },
-  alignRight: {
-    textAlign: 'right'
-  },
+  alignCenter: { textAlign: 'center' },
+  alignLeft: { textAlign: 'left' },
+  alignRight: { textAlign: 'right' },
   h1: {
     fontSize: 30,
-    fontFamily: 'Rubik-Medium',
-    color: '#575757',
+    fontFamily: fonts.medium,
+    color: colors.black,
     marginBottom: 5
   },
   h2: {
     fontSize: 25,
-    fontFamily: 'Rubik-Medium',
-    color: '#575757',
+    fontFamily: fonts.medium,
+    color: colors.black,
     marginBottom: 5
   },
   paragraph: {
     fontSize: 14,
-    fontFamily: 'Rubik-Regular'
+    fontFamily: fonts.regular
   },
-  bold: { fontFamily: 'Rubik-Bold' },
-  medium: { fontFamily: 'Rubik-Medium' },
-  black: { fontFamily: 'Rubik-Black' },
+  bold: { fontFamily: fonts.bold },
+  medium: { fontFamily: fonts.medium },
+  black: { fontFamily: fonts.black },
 });
 
 export default text;

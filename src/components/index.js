@@ -5,6 +5,7 @@ import Button from './Button';
 import FormGroup from './FormGroup';
 import FormInput from './FormInput';
 import FormLabel from './FormLabel';
+import Block from './Block';
 
 export {
   Container,
@@ -13,5 +14,6 @@ export {
   Button,
   FormGroup,
   FormInput,
-  FormLabel
+  FormLabel,
+  Block
 };
