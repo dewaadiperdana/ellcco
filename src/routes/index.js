@@ -60,7 +60,7 @@ const MainNavigator = createStackNavigator(
     Dashboard: BottomTabNavigator
   },
   {
-    initialRouteName: 'Intro',
+    initialRouteName: 'Register',
     navigationOptions: {
       headerMode: 'screen'
     }

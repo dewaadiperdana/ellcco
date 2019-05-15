@@ -6,6 +6,7 @@ import FormGroup from './FormGroup';
 import FormInput from './FormInput';
 import FormLabel from './FormLabel';
 import Block from './Block';
+import Spinner from './Spinner';
 
 export {
   Container,
@@ -15,5 +16,6 @@ export {
   FormGroup,
   FormInput,
   FormLabel,
-  Block
+  Block,
+  Spinner
 };

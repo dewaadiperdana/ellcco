@@ -3,6 +3,9 @@ import { View, Text } from 'react-native';
 import { Container } from '../../components';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+import NotificationProvider from '../../providers/NotificationProvider';
+import SocketProvider from '../../providers/SocketProvider';
+
 class Dashboard extends Component {
   static navigationOptions = {
     header: null,
@@ -14,6 +17,9 @@ class Dashboard extends Component {
   render() {
     return (
       <Container centerContent>
+        <NotificationProvider />
+        <SocketProvider />
+        
         <Text>Dashboard</Text>
       </Container>
     );

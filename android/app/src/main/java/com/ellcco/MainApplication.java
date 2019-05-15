@@ -7,10 +7,12 @@ import com.zmxv.RNSound.RNSoundPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactApplication;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -31,14 +33,16 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new VectorIconsPackage(),
+            new ReactNativeConfigPackage(),
+          new VectorIconsPackage(),
           new RNGestureHandlerPackage(),
           new RNSoundPackage(),
           new AsyncStoragePackage(),
           new LinearGradientPackage(),
           new RNFirebasePackage(),
           new RNFirebaseMessagingPackage(),
-          new RNFirebaseNotificationsPackage()
+          new RNFirebaseNotificationsPackage(),
+          new RNFirebaseAuthPackage()
       );
     }
 

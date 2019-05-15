@@ -13,6 +13,7 @@ export default FormGroup;
 
 const styles = StyleSheet.create({
   formGroup: {
+    width: '100%',
     marginBottom: 25,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
