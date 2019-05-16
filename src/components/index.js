@@ -7,6 +7,7 @@ import FormInput from './FormInput';
 import FormLabel from './FormLabel';
 import Block from './Block';
 import Spinner from './Spinner';
+import AlertError from './AlertError';
 
 export {
   Container,
@@ -17,5 +18,6 @@ export {
   FormInput,
   FormLabel,
   Block,
-  Spinner
+  Spinner,
+  AlertError
 };

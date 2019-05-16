@@ -14,6 +14,14 @@ class FormError {
   get(field) {
     return this.has(field) ? this.errors[field].message : null;
   }
+
+  delete(field) {
+    if(this.has(field)) {
+      return;
+    }
+
+    delete this.errors[field];
+  }
 }
 
 export default FormError;

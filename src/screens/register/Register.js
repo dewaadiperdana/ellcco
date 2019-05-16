@@ -18,7 +18,7 @@ import {
   Block,
   Spinner
 } from '../../components';
-import Pengguna from '../../services/Pengguna';
+import PenggunaService from '../../services/PenggunaService';
 import { text, spacing, colors, fonts } from '../../components/styles';
 import FormError from '../../helpers/FormError';
 
@@ -68,7 +68,7 @@ class Register extends Component {
     this.setState({ spinner: true });
 
     try {
-      const hakAkses = await Pengguna.getHakAkses();
+      const hakAkses = await PenggunaService.getHakAkses();
       const data = hakAkses.map(item => {
         return {
           label: item.nama,
@@ -100,8 +100,7 @@ class Register extends Component {
     this.setState({ spinner: true });
 
     try {
-      await Pengguna.register(this.state.form);
-      console.log('Login');
+      await PenggunaService.register(this.state.form);
       this.props.navigation.navigate('Login');
     } catch (error) {
       this.setState({

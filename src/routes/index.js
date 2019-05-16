@@ -3,12 +3,8 @@ import {
   createStackNavigator,
   createBottomTabNavigator,
   createAppContainer,
-  StackNavigator,
-  TabNavigator,
-  SwitchNavigator
+  createSwitchNavigator
 } from 'react-navigation';
-
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { colors, fonts } from '../components/styles';
 
@@ -19,8 +15,9 @@ import Dashboard from '../screens/dashboard/Dashboard';
 import Pesan from '../screens/pesan/Pesan';
 import Histori from '../screens/histori/Histori';
 import Lainnya from '../screens/lainnya/Lainnya';
+import AuthLoading from '../screens/autoloading/AuthLoading';
 
-const BottomTabNavigator = createBottomTabNavigator(
+const DashboardNavigator = createBottomTabNavigator(
   {
     Dashboard,
     Pesan,
@@ -52,19 +49,27 @@ const BottomTabNavigator = createBottomTabNavigator(
   }
 );
 
-const MainNavigator = createStackNavigator(
+const WelcomeNavigator = createStackNavigator(
   {
 	  Intro,
     Login,
     Register,
-    Dashboard: BottomTabNavigator
   },
   {
-    initialRouteName: 'Register',
+    initialRouteName: 'Intro',
     navigationOptions: {
       headerMode: 'screen'
     }
   }
 );
 
-export default createAppContainer(MainNavigator);
+export default createAppContainer(createSwitchNavigator(
+  {
+    AuthLoading: AuthLoading,
+    Dashboard: DashboardNavigator,
+    Welcome: WelcomeNavigator,
+  },
+  {
+    initialRouteName: 'AuthLoading'
+  }
+));
