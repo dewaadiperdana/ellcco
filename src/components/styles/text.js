@@ -23,9 +23,17 @@ const text = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.regular
   },
+  light: { fontFamily: fonts.light },
   bold: { fontFamily: fonts.bold },
   medium: { fontFamily: fonts.medium },
   black: { fontFamily: fonts.black },
+  fontExtraLarge: { fontSize: 45 },
+  fontLarge: { fontSize: 40 },
+  fontMedium: { fontSize: 35 },
+  fontSmall: { fontSize: 25 },
+  fontRegular: { fontSize: 15 },
+  fontExtraSmall: { fontSize: 13 },
+  fontSmallest: { fontSize: 11 },
 });
 
 export default text;

@@ -8,6 +8,7 @@ import FormLabel from './FormLabel';
 import Block from './Block';
 import Spinner from './Spinner';
 import AlertError from './AlertError';
+import Card from './Card';
 
 export {
   Container,
@@ -19,5 +20,6 @@ export {
   FormLabel,
   Block,
   Spinner,
-  AlertError
+  AlertError,
+  Card
 };
