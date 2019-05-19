@@ -7,6 +7,7 @@ const colors = {
   red: '#D63031',
   lightgrey: '#9C9EA3',
   verylightgrey: '#CCCCCC',
+  semiLightGrey: '#DEDEDE',
   extraLightGrey: '#EFEFEF',
   transparent: 'transparent'
 };

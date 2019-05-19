@@ -1,5 +1,4 @@
 import Container from './Container';
-import WrapBox from './WrapBox';
 import Background from './Background';
 import Button from './Button';
 import FormGroup from './FormGroup';
@@ -9,10 +8,12 @@ import Block from './Block';
 import Spinner from './Spinner';
 import AlertError from './AlertError';
 import Card from './Card';
+import Wrapper from './Wrapper';
+import Separator from './Separator';
+import ListItem from './ListItem';
 
 export {
   Container,
-  WrapBox,
   Background,
   Button,
   FormGroup,
@@ -21,5 +22,8 @@ export {
   Block,
   Spinner,
   AlertError,
-  Card
+  Card,
+  Wrapper,
+  Separator,
+  ListItem
 };

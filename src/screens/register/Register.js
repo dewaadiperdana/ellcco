@@ -4,7 +4,8 @@ import {
   TouchableWithoutFeedback,
   StatusBar,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  Image
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import RNPickerSelect from 'react-native-picker-select';
@@ -128,17 +129,24 @@ class Register extends Component {
     ) : null;
 
     return (
-      <Background>
+      <Background color={colors.white}>
         <StatusBar
           barStyle="dark-content"
           hidden={false}
           backgroundColor={colors.white}
           translucent={true} />
-        <Container verticalCenter>
-          <Spinner isVisible={this.state.spinner} type="bar" color="white" />
+        <Spinner isVisible={this.state.spinner} type="bar" color="white" />
+        <Container>
+          <Block spaceAround>
+            <Block>
+              <Image source={require('../../assets/images/intro@152x152.png')} width={152} height={152} />
+            </Block>
+            <Block column wrapContent alignLeft style={spacing.ml2}>
+              <Text style={text.h1}>Daftar</Text>
+              <Text style={[text.paragraph, spacing.mb2]}>Silahkan daftar jika belum punya akun</Text>
+            </Block>
+          </Block>
           <ScrollView>
-            <Text style={text.h1}>Daftar</Text>
-            <Text style={[text.paragraph, spacing.mb2]}>Silahkan daftar jika belum punya akun</Text>
             <FormGroup>
               <FormLabel text="Nama" />
               <FormInput

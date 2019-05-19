@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import Json from './Json';
 
 class Storage {
   static async has(key) {
@@ -9,12 +10,16 @@ class Storage {
 
   static async get(key) {
     if (!Storage.has(key)) {
-      return;
+      return null;
     }
 
     const item = await AsyncStorage.getItem(key);
 
-    return JSON.parse(item);
+    if (Json.isValid(item)) {
+      return JSON.parse(item);
+    }
+
+    return item;
   }
 
   static async put(key, value) {
@@ -25,7 +30,7 @@ class Storage {
 
   static async delete(key) {
     if (!Storage.has(key)) {
-      return;
+      return null;
     }
 
     await AsyncStorage.removeItem(key);

@@ -13,6 +13,14 @@ const spacing = StyleSheet.create({
   mb2: { marginBottom: 20 },
   mb3: { marginBottom: 30 },
   mb4: { marginBottom: 40 },
+  ml1: { marginLeft: 10 },
+  ml2: { marginLeft: 20 },
+  ml3: { marginLeft: 30 },
+  ml4: { marginLeft: 40 },
+  mr1: { marginRight: 10 },
+  mr2: { marginRight: 20 },
+  mr3: { marginRight: 30 },
+  mr4: { marginRight: 40 },
 });
 
 export default spacing;

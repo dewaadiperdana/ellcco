@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StatusBar, TouchableOpacity } from 'react-native';
+import { Text, StatusBar, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Background, Container, Block, Card, Button } from '../../components';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -34,8 +34,8 @@ class Dashboard extends Component {
     });
   }
 
-  gotoPesan = () => {
-    this.props.navigation.navigate('Pesan');
+  goto = route => {
+    this.props.navigation.navigate(route);
   }
 
   render() {
@@ -48,7 +48,7 @@ class Dashboard extends Component {
           <NotificationProvider />
           <SocketProvider />
           
-          <Block spaceBetween style={[spacing.mt2, spacing.mb4]}>
+          <Block spaceBetween alignCenter style={[spacing.mt2, spacing.mb4]}>
             <Block column alignLeft>
               <Text style={[
                 text.fontSmall,
@@ -62,7 +62,9 @@ class Dashboard extends Component {
               ]}>{auth.nama}</Text>
             </Block>
             <Block column alignRight>
-              <FontAwesome5 name="bell" size={25} />
+              <TouchableWithoutFeedback onPress={() => this.goto('Notifikasi')}>
+                <FontAwesome5 name="bell" size={25} />
+              </TouchableWithoutFeedback>
             </Block>
           </Block>
 
@@ -116,7 +118,7 @@ class Dashboard extends Component {
             fullRound={true}
             block={true}
             textLight={true}
-            onPress={this.gotoPesan}>Selengkapnya</Button>
+            onPress={() => this.goto('Pesan')}>Selengkapnya</Button>
         </Container>
       </Background>
     );

@@ -1,8 +1,10 @@
 import io from 'socket.io-client';
 import React, { Component } from 'react';
 import Sound from 'react-native-sound';
-import AsyncStorage from '@react-native-community/async-storage';
 import { AppState, Vibration } from 'react-native';
+import Storage from '../helpers/Storage';
+import Socket from '../helpers/Socket';
+import Config from 'react-native-config';
 
 class SocketProvider extends Component {
   constructor(props) {
@@ -13,11 +15,10 @@ class SocketProvider extends Component {
     };
     
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
-    this.socket = io('http://192.168.43.13:3000');
+    this.socket = io(Config.APP_URL);
 
     this.socket.on('connect', () => {
       this.registerSocketListener();
-
       this.emitNewSocketId();
     });
 
@@ -52,21 +53,25 @@ class SocketProvider extends Component {
     }
   }
 
-  emitNewSocketId = () => {
-    // this.socket.emit('on_new_socket_id', JSON.stringify({
-    //   id_pengguna: '1e2e3b32-00be-4826-b123-d84495fa5b86',
-    //   socket: this.socket.id
-    // }));
+  emitNewSocketId = async () => {
+    const token = await Storage.get('fcm_token');
+    const auth = await Storage.get('auth');
+
+    this.socket.emit('on_new_socket_id', JSON.stringify({
+      id_pengguna: auth.id,
+      socket: this.socket.id
+    }));
 
     this.emitNewFcmToken();
   }
 
   emitNewFcmToken = async () => {
-    const token = await AsyncStorage.getItem('fcm_token');
+    const token = await Storage.get('fcm_token');
+    const auth = await Storage.get('auth');
 
     if (token) {
       this.socket.emit('on_new_fcm_token', JSON.stringify({
-        id_pengguna: 'xxx',
+        id_pengguna: auth.id,
         token: token
       }));
     }

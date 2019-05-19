@@ -6,7 +6,9 @@ import {
   createSwitchNavigator
 } from 'react-navigation';
 
-import { colors, fonts } from '../components/styles';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+import { colors, fonts, text } from '../components/styles';
 
 import Intro from '../screens/intro/Intro';
 import Login from '../screens/login/Login';
@@ -16,42 +18,23 @@ import Pesan from '../screens/pesan/Pesan';
 import Histori from '../screens/histori/Histori';
 import Lainnya from '../screens/lainnya/Lainnya';
 import AuthLoading from '../screens/autoloading/AuthLoading';
+import FormPesan from '../screens/pesan/FormPesan';
+import Notifikasi from '../screens/notifikasi/Notifikasi';
+import DetailNotifikasi from '../screens/notifikasi/DetailNotifikasi';
 
-const DashboardNavigator = createBottomTabNavigator(
+const PesanNavigator = createStackNavigator(
   {
-    Dashboard,
     Pesan,
-    Histori,
-    Lainnya
+    FormPesan
   },
   {
-    initialRouteName: 'Dashboard',
-    navigationOptions: {
-      header: null
-    },
-    animationEnabled: true,
-    swipeEnabled: true,
-    tabBarOptions: {
-      activeTintColor: colors.primary,
-      inactiveTintColor: colors.lightgrey,
-      style: {        
-        height: 60,        
-        paddingVertical: 5,        
-        backgroundColor: colors.white,
-        borderWidth: 0,
-        borderTopColor: colors.transparent   
-      },      
-      labelStyle: {        
-        fontSize: 13,        
-        fontFamily: fonts.regular     
-      } 
-    },
+    initialRouteName: 'Pesan'
   }
 );
 
 const WelcomeNavigator = createStackNavigator(
   {
-	  Intro,
+    Intro,
     Login,
     Register,
   },
@@ -63,10 +46,63 @@ const WelcomeNavigator = createStackNavigator(
   }
 );
 
+const DashboardTabNavigator = createBottomTabNavigator(
+  {
+    Dashboard,
+    Pesan: {
+      screen: PesanNavigator,
+      navigationOptions: {
+        header: null,
+        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+          return <FontAwesome5 name="shopping-bag" size={20} focused={focused} color={tintColor} />;
+        },
+      }
+    },
+    Histori,
+    Lainnya
+  },
+  {
+    initialRouteName: 'Dashboard',
+    animationEnabled: true,
+    swipeEnabled: true,
+    navigationOptions: {
+      header: null
+    },
+    tabBarOptions: {
+      activeTintColor: colors.primary,
+      inactiveTintColor: colors.lightgrey,
+      style: {        
+        height: 60,        
+        paddingVertical: 5,        
+        backgroundColor: colors.white,
+        borderWidth: 1,
+        borderTopColor: colors.extraLightGrey,
+        borderBottomColor: colors.transparent
+      },      
+      labelStyle: {        
+        fontSize: 11,        
+        fontFamily: fonts.regular     
+      } 
+    }
+  }
+);
+
+const DashboardStackNavigator = createStackNavigator(
+  {
+    Dashboard: DashboardTabNavigator,
+    FormPesan,
+    Notifikasi,
+    DetailNotifikasi
+  },
+  {
+    initialRouteName: 'Dashboard'
+  }
+);
+
 export default createAppContainer(createSwitchNavigator(
   {
     AuthLoading: AuthLoading,
-    Dashboard: DashboardNavigator,
+    Dashboard: DashboardStackNavigator,
     Welcome: WelcomeNavigator,
   },
   {

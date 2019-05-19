@@ -5,7 +5,10 @@ const Container = props => {
   const blockStyles = [
     styles.container,
     props.centerContent && styles.containerCenterContent,
-    props.verticalCenter && styles.containerVerticalCenter
+    props.verticalCenter && styles.containerVerticalCenter,
+    props.noPaddingAndMargin && styles.containerNoPaddingAndMargin,
+    props.noFlex && styles.containerNoFlex,
+    'style' in props ? props.style : {}
   ];
 
   return (
@@ -31,5 +34,12 @@ const styles = StyleSheet.create({
   containerVerticalCenter: {
     flex: 1,
     justifyContent: 'center'
+  },
+  containerNoPaddingAndMargin: {
+    margin: 0,
+    padding: 0
+  },
+  containerNoFlex: {
+    flex: 0,
   }
 });

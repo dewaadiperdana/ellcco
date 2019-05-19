@@ -28,7 +28,10 @@ const FormInput = props => {
         onChangeText={props.onChangeText}
         placeholder={placeholder}
         placeholderTextColor={('error' in props && props.error === true) ? colors.red : colors.verylightgrey}
-        secureTextEntry={password} />
+        secureTextEntry={password}
+        multiline={('multiline' in props && props.multiline === true) ? true : false}
+        numberOfLines={('multiline' in props && props.multiline === true) ? 7 : 1}
+        textAlignVertical={('multiline' in props && props.multiline === true) ? "top" : "center"} />
         {feedback}
     </View>
   );

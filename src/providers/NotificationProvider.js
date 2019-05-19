@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import firebase from 'react-native-firebase';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from '../helpers/Storage';
+import Socket from '../helpers/Socket';
+import SocketProvider from './SocketProvider';
 
 class NotificationProvider extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   async componentDidMount() {
     this.checkPermission();
     this.createNotificationListeners();
@@ -68,15 +74,17 @@ class NotificationProvider extends Component {
   }
 
   async getToken() {
-    let fcmToken = await AsyncStorage.getItem('fcm_token');
+    let fcmToken = await Storage.get('fcm_token');
 
     if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
 
       if (fcmToken) {
-        await AsyncStorage.setItem('fcm_token', fcmToken);
+        await Storage.put('fcm_token', fcmToken);
       }
     }
+
+    console.log(`FCM Token: ${fcmToken}`);
   }
 
   async requestPermission() {
