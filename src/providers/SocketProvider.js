@@ -5,6 +5,7 @@ import { AppState, Vibration } from 'react-native';
 import Storage from '../helpers/Storage';
 import Socket from '../helpers/Socket';
 import Config from 'react-native-config';
+import { ON_NEW_FCM_TOKEN, ON_NEW_ORDER, ON_ORDER_ACCEPTED } from '../config/events';
 
 class SocketProvider extends Component {
   constructor(props) {
@@ -35,7 +36,8 @@ class SocketProvider extends Component {
   }
 
   registerSocketListener = () => {
-    this.socket.on('on_new_order', this.onNewOrderListener);
+    this.socket.on(ON_NEW_ORDER, this.onNewOrderListener);
+    this.socket.on(ON_ORDER_ACCEPTED, this.onOrderAcceptedListener);
 
     // Other listeners will be down here...
   }
@@ -50,6 +52,12 @@ class SocketProvider extends Component {
       this.playInAppNotificationSound();
 
       // What todo next?
+    }
+  }
+
+  onOrderAcceptedListener = message => {
+    if (this.state.appState === 'active') {
+      this.playInAppNotificationSound();
     }
   }
 

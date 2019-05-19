@@ -12,6 +12,10 @@ class NotificationProvider extends Component {
   async componentDidMount() {
     this.checkPermission();
     this.createNotificationListeners();
+
+    const channelId = new firebase.notifications.Android.Channel("ellcco", "Ellcco Channel", firebase.notifications.Android.Importance.High)
+      .setSound('stairs.mp3');
+    firebase.notifications().android.createChannel(channelId);
   }
 
   async componentWillUnmount() {
