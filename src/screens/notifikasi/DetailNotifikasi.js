@@ -15,13 +15,16 @@ import {
   Container,
   Block,
   Background,
-  Separator
+  Separator,
+  Spinner
 } from '../../components';
 
 import { colors, text, spacing } from '../../components/styles';
 
 import styles from './styles';
 import Storage from '../../helpers/Storage';
+
+import NotifikasiService from '../../services/NotifikasiService';
 
 import NotifikasiRegular from './detailnotifikasi/NotifikasiRegular';
 import NotifikasiPesanan from './detailnotifikasi/NotifikasiPesanan';
@@ -46,6 +49,37 @@ class DetailNotifikasi extends Component {
     }
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      spinner: false,
+      notifikasi: {}
+    };
+  }
+
+  componentDidMount() {
+    this.tandaiSudahDibaca();
+  }
+
+  tandaiSudahDibaca = async () => {
+    const { navigation } = this.props;
+    const notifikasi = navigation.getParam('notifikasi');
+
+    if (notifikasi.dibaca === false) {
+      this.setState({ spinner: true, notifikasi: notifikasi });
+
+      try {
+        await NotifikasiService.tandaiSudahDibaca(notifikasi.id);
+
+        this.setState({ spinner: false });
+      } catch (error) {
+        this.setState({ spinner: false });
+        alert('Maaf, sedang terjadi kesalahan');
+      }
+    }
+  }
+
   renderNotifikasiContent = () => {
     const { navigation } = this.props;
     const notifikasi = navigation.getParam('notifikasi');
@@ -63,7 +97,7 @@ class DetailNotifikasi extends Component {
   render() {
     return (
       <Background color={colors.white}>
-        <StatusBar barStyle="dark-content" hidden={false} backgroundColor={colors.white} translucent={true} />
+        <Spinner isVisible={this.state.spinner} color={colors.white} type="bar" />
         <Container noPaddingAndMargin>
           <Block column alignCenter paddingHorizontal>
             <Image source={require('../../assets/images/notifikasi@189x189.png')} width={189} height={189} />

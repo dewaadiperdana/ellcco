@@ -51,14 +51,18 @@ class Histori extends Component {
     this.props.navigation.navigate('Pesan');
   }
 
+  gotoDetail = pesanan => {
+    this.props.navigation.navigate('DetailPesanan', {
+      pesanan: pesanan
+    });
+  }
+
   render() {
     const historiContent = this.state.histori === null ? (
-      <Container centerContent>
-        <HistoriKosong gotoPesan={this.gotoPesan} />
-      </Container>
+      <HistoriKosong gotoPesan={this.gotoPesan} />
     ) : (
       <Container noPaddingAndMargin>
-        <ListHistori histori={this.state.histori} />
+        <ListHistori histori={this.state.histori} gotoDetail={this.gotoDetail} />
       </Container>
     );
 

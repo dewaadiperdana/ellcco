@@ -13,6 +13,8 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Container, Block, Background, Wrapper } from '../../components';
 
+import moment from 'moment';
+
 import { colors, text, spacing } from '../../components/styles';
 
 import styles from './styles';
@@ -60,7 +62,7 @@ const ListNotifikasi = props => {
                       <Text style={[
                         text.fontRegular,
                         { color: item.dibaca ? colors.verylightgrey : colors.black }
-                      ]}>{item.tanggal}</Text>
+                      ]}>{moment(item.tanggal).format('LL')}</Text>
                     </Block>
                     <Text style={[
                       text.fontRegular,

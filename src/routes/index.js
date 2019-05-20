@@ -21,6 +21,7 @@ import AuthLoading from '../screens/autoloading/AuthLoading';
 import FormPesan from '../screens/pesan/FormPesan';
 import Notifikasi from '../screens/notifikasi/Notifikasi';
 import DetailNotifikasi from '../screens/notifikasi/DetailNotifikasi';
+import DetailPesanan from '../screens/pesan/DetailPesanan';
 
 const PesanNavigator = createStackNavigator(
   {
@@ -91,6 +92,7 @@ const DashboardStackNavigator = createStackNavigator(
   {
     Dashboard: DashboardTabNavigator,
     FormPesan,
+    DetailPesanan,
     Notifikasi,
     DetailNotifikasi
   },

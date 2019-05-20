@@ -15,8 +15,12 @@ import {
   FormInput,
   FormGroup,
   FormLabel,
-  Button
+  Button,
+  Spinner
 } from '../../components';
+
+import FormError from '../../helpers/FormError';
+import PesanService from '../../services/PesanService';
 
 import { colors, text, spacing } from '../../components/styles';
 
@@ -41,14 +45,71 @@ export default class FormPesan extends Component {
     }
   };
 
-  render() {
-    const { navigation } = this.props;
+  constructor(props) {
+    super(props);
 
-    const layanan = navigation.getParam('layanan');
+    this.state = {
+      layanan: {},
+      form: {
+        nama_kerusakan: '',
+        deskripsi_kerusakan: ''
+      },
+      spinner: false,
+      errors: new FormError({})
+    };
+  }
+
+  componentDidMount() {
+    const layanan = this.props.navigation.getParam('layanan');
+
+    this.setState({ layanan });
+  }
+
+  handleChangeText = (field, value) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        [field]: value
+      }
+    });
+  }
+
+  processPesan = async () => {
+    this.setState({ spinner: true });
+
+    try {
+      const data = {
+        id_layanan: this.state.layanan.id,
+        nama_kerusakan: this.state.form.nama_kerusakan,
+        deskripsi_kerusakan: this.state.form.deskripsi_kerusakan
+      };
+
+      await PesanService.pesan(data);
+
+      this.setState({ spinner: false });
+
+      this.props.navigation.dispatch({
+        type: 'Navigation/NAVIGATE',
+        routeName: 'Dashboard',
+        action: {
+          type: 'Navigation/NAVIGATE',
+          routeName: 'Histori'
+        }
+      });
+    } catch (error) {
+      this.setState({
+        spinner: false,
+        errors: new FormError(error)
+      });
+    }
+  }
+
+  render() {
+    const { layanan, errors } = this.state;
 
     return (
       <Background color={colors.white}>
-        <StatusBar barStyle="dark-content" hidden={false} backgroundColor={colors.white} translucent={true} />
+        <Spinner isVisible={this.state.spinner} type="bar" color="white" />
         <Container>
           <ScrollView>
             <Block column alignCenter style={[spacing.mb2]}>
@@ -69,13 +130,24 @@ export default class FormPesan extends Component {
             </Block>
             <FormGroup>
               <FormLabel text="Bagaimana kerusakan alat anda?"/>
-              <FormInput placeholder="Misalkan : TV mati total" />
+              <FormInput
+                error={errors.has('nama_kerusakan')}
+                feedback={errors.get('nama_kerusakan')}
+                placeholder="Misalkan : TV mati total"
+                onChangeText={text => this.handleChangeText('nama_kerusakan', text)}
+              />
             </FormGroup>
             <FormGroup>
               <FormLabel text="Ceritakan bagaimana kerusakan alat anda"/>
-              <FormInput placeholder="Misalkan : Ketika dihidupkan tidak ada indikator nyala, layar mati..." multiline={true} />
+              <FormInput
+                error={errors.has('deskripsi_kerusakan')}
+                feedback={errors.get('deskripsi_kerusakan')}
+                placeholder="Misalkan : Ketika dihidupkan tidak ada indikator nyala, layar mati..."
+                multiline={true}
+                onChangeText={text => this.handleChangeText('deskripsi_kerusakan', text)}
+              />
             </FormGroup>
-            <Button fullRound block textLight>Pesan</Button>
+            <Button fullRound block textLight onPress={this.processPesan}>Pesan</Button>
           </ScrollView>
         </Container>
       </Background>

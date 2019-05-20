@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StatusBar, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { Text, StatusBar, TouchableOpacity, TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
 import { Background, Container, Block, Card, Button } from '../../components';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -7,6 +7,9 @@ import NotificationProvider from '../../providers/NotificationProvider';
 import SocketProvider from '../../providers/SocketProvider';
 import ElectronicIcons from '../../config/fonticons/electronicicons';
 import Storage from '../../helpers/Storage';
+import NotifikasiService from '../../services/NotifikasiService';
+
+import NotificationIcon from './components/NotificationIcon';
 
 import { colors, text, spacing } from '../../components/styles';
 
@@ -22,10 +25,16 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      auth: {}
+      auth: {},
+      notifikasi: null
     };
 
     this.getAuthUser();
+    this.getNotifikasiBelumDibaca();
+  }
+
+  componentDidMount() {
+    
   }
 
   getAuthUser = async () => {
@@ -34,12 +43,37 @@ class Dashboard extends Component {
     });
   }
 
+  getNotifikasiBelumDibaca = async () => {
+    try {
+      const notifikasi = await NotifikasiService.getNotifikasiBelumDibaca();
+
+      this.setState({ notifikasi: notifikasi });
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   goto = route => {
     this.props.navigation.navigate(route);
   }
 
+  renderNotificationIcon = () => {
+    const notificationIndicator = this.state.notifikasi ? (
+      <View style={styles.notificationIndicator}></View>
+    ) : null;
+
+    return (
+      <TouchableOpacity onPress={() => this.goto('Notifikasi')}>
+        <Block alignMiddle alignCenter column>
+          <FontAwesome5 name="bell" size={25} color={colors.black} />
+          {notificationIndicator}
+        </Block>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
-    const { auth } = this.state;
+    const { auth, notifikasi } = this.state;
 
     return (
       <Background color={colors.white}>
@@ -62,18 +96,8 @@ class Dashboard extends Component {
               ]}>{auth.nama}</Text>
             </Block>
             <Block column alignRight>
-              <TouchableWithoutFeedback onPress={() => this.goto('Notifikasi')}>
-                <FontAwesome5 name="bell" size={25} />
-              </TouchableWithoutFeedback>
+              {this.renderNotificationIcon()}
             </Block>
-          </Block>
-
-          <Block style={spacing.mb1}>
-            <Text style={[
-              text.fontRegular,
-              text.medium,
-              text.alignCenter
-            ]}>Alat elektronik anda rusak ?</Text>
           </Block>
 
           <Block column style={spacing.mb2}>
@@ -126,3 +150,15 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
+
+const styles = StyleSheet.create({
+  notificationIndicator: {
+    width: 10,
+    height: 10,
+    borderRadius: 50,
+    position: 'absolute',
+    left: -3,
+    bottom: 3,
+    backgroundColor: colors.red
+  }
+});

@@ -22,7 +22,7 @@ export default ListItem;
 const styles = StyleSheet.create({
   listItemContainer: {
     borderBottomWidth: 1,
-    borderColor: colors.semiLightGrey,
+    borderBottomColor: colors.semiLightGrey,
     paddingVertical: 10,
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   listItemContainerLast: {
     borderBottomWidth: 0,
-    borderColor: colors.transparent
+    borderBottomColor: colors.transparent
   },
   listItemContainerFirst: {
     paddingTop: 0

@@ -3,9 +3,14 @@ import React, { Component } from 'react';
 import Sound from 'react-native-sound';
 import { AppState, Vibration } from 'react-native';
 import Storage from '../helpers/Storage';
-import Socket from '../helpers/Socket';
 import Config from 'react-native-config';
-import { ON_NEW_FCM_TOKEN, ON_NEW_ORDER, ON_ORDER_ACCEPTED } from '../config/events';
+import {
+  ON_NEW_FCM_TOKEN,
+  ON_NEW_ORDER,
+  ON_ORDER_ACCEPTED,
+  ON_NEW_SOCKET_ID,
+  ON_REUQEST_JOIN_ROOM
+} from '../config/events';
 
 class SocketProvider extends Component {
   constructor(props) {
@@ -55,9 +60,16 @@ class SocketProvider extends Component {
     }
   }
 
-  onOrderAcceptedListener = message => {
+  onOrderAcceptedListener = async message => {
     if (this.state.appState === 'active') {
       this.playInAppNotificationSound();
+      
+      const auth = await Storage.get('auth');
+
+      this.socket.emit(ON_REUQEST_JOIN_ROOM, JSON.stringify({
+        tipe: 'pelanggan',
+        id: auth.id
+      }));
     }
   }
 
@@ -65,7 +77,7 @@ class SocketProvider extends Component {
     const token = await Storage.get('fcm_token');
     const auth = await Storage.get('auth');
 
-    this.socket.emit('on_new_socket_id', JSON.stringify({
+    this.socket.emit(ON_NEW_SOCKET_ID, JSON.stringify({
       id_pengguna: auth.id,
       socket: this.socket.id
     }));
@@ -78,7 +90,7 @@ class SocketProvider extends Component {
     const auth = await Storage.get('auth');
 
     if (token) {
-      this.socket.emit('on_new_fcm_token', JSON.stringify({
+      this.socket.emit(ON_NEW_FCM_TOKEN, JSON.stringify({
         id_pengguna: auth.id,
         token: token
       }));

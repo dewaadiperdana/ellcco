@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Image, StatusBar, TouchableWithoutFeedback, FlatList, ScrollView, TouchableOpacity } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { Container, Block, Background } from '../../components';
+import { Background, Spinner } from '../../components';
 
-import { colors, text, spacing } from '../../components/styles';
+import { colors } from '../../components/styles';
 
 import styles from './styles';
-import Storage from '../../helpers/Storage';
 
+import NotifikasiService from '../../services/NotifikasiService';
 import NotifikasiKosong from './NotifikasiKosong';
 import ListNotifikasi from './ListNotifikasi';
+import Storage from '../../helpers/Storage';
 
 class Notifikasi extends Component {
   static navigationOptions = {
@@ -35,33 +36,28 @@ class Notifikasi extends Component {
     super(props);
 
     this.state = {
-      notifikasi: [
-        {
-          id: 'alsdkas',
-          judul: 'Pesanan',
-          tanggal: '17 Mei 2019',
-          deskripsi: 'Pesanan anda telah diterima',
-          dibaca: false,
-          tipe: 'regular'
-        },
-        {
-          id: 'a0sdapasod',
-          judul: 'Pesanan',
-          tanggal: '17 Mei 2019',
-          deskripsi: 'Pesanan anda telah diterima',
-          dibaca: true,
-          tipe: 'regular'
-        },
-        {
-          id: 'asd09asdkl',
-          judul: 'Pesanan',
-          tanggal: '17 Mei 2019',
-          deskripsi: 'Pesanan anda telah diterima',
-          dibaca: true,
-          tipe: 'pesanan'
-        }
-      ]
+      notifikasi: []
     };
+  }
+
+  componentDidMount() {
+    this.getNotifikasi();
+  }
+
+  getNotifikasi = async () => {
+    this.setState({ spinner: true });
+
+    const auth = await Storage.get('auth');
+
+    try {
+      const notifikasi = await NotifikasiService.getNotifikasi(auth.id);  
+      
+      this.setState({ spinner: false, notifikasi: notifikasi });
+    } catch (error) {
+      alert('Maaf, sedang terjadi kesalahan');
+      this.setState({ spinner: false });
+    }
+    
   }
 
   gotoDetailNotifikasi = item => {
@@ -79,7 +75,7 @@ class Notifikasi extends Component {
 
     return (
       <Background color={colors.white}>
-        <StatusBar barStyle="dark-content" hidden={false} backgroundColor={colors.white} translucent={true} />
+        <Spinner isVisible={this.state.spinner} type="bar" color={colors.white} />
         {notifikasiComponent}
       </Background>
     );

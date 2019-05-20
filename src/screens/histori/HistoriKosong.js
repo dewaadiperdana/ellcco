@@ -6,7 +6,7 @@ import { colors, text, spacing } from '../../components/styles';
 
 const HistoriKosong = props => {
   return (
-    <Wrapper>
+    <Container centerContent>
       <Image source={require('../../assets/images/histori@258.png')} width={266} height={266} />
       <Text style={[
         text.medium,
@@ -21,7 +21,7 @@ const HistoriKosong = props => {
         green={true}
         textLight={true}
         onPress={props.gotoPesan}>Pesan Sekarang</Button>
-    </Wrapper>
+    </Container>
   );
 };
 

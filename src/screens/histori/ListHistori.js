@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { View, Text, Image, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { Background, Container, Button, Block, Wrapper } from '../../components';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import moment from 'moment';
 
 import { colors, text, spacing } from '../../components/styles';
 
 import styles from './styles';
 
 const ListHistori = props => {
+  moment.locale('id');
+
 	return (
     <Wrapper>
       <Block spaceAround padding style={[spacing.mt3]}>
@@ -29,7 +32,7 @@ const ListHistori = props => {
             <View style={styles.separator} />
           )}
           renderItem={({item}) => (
-            <TouchableOpacity style={styles.listHistori}>
+            <TouchableOpacity style={styles.listHistori} onPress={() => props.gotoDetail(item)}>
               <Block spaceBetween alignCenter>
                 <Block column>
                   <Block>
@@ -38,7 +41,7 @@ const ListHistori = props => {
                   </Block>
                   <Block style={[spacing.mt1, spacing.mb1]}>
                     <FontAwesome5 name="calendar" size={16} color={colors.black} style={spacing.mr1} />
-                    <Text style={text.medium}>{item.tanggal}</Text>
+                    <Text style={text.medium}>{moment(item.tanggal).format('LLL')}</Text>
                   </Block>
                   <Block>
                     <FontAwesome5 name={item.icon_status} size={16} color={colors.black} style={spacing.mr1} />
