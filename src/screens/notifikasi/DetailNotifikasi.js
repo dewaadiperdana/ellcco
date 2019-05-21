@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import {
-  View,
   Text,
-  Button,
   Image,
-  StatusBar,
   TouchableWithoutFeedback,
-  FlatList,
-  ScrollView,
-  TouchableOpacity
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {
@@ -21,8 +15,8 @@ import {
 
 import { colors, text, spacing } from '../../components/styles';
 
-import styles from './styles';
-import Storage from '../../helpers/Storage';
+import { connect } from 'react-redux';
+import { fetchUnreadNotifications } from '../../store/actions/notificationAction';
 
 import NotifikasiService from '../../services/NotifikasiService';
 
@@ -73,6 +67,7 @@ class DetailNotifikasi extends Component {
         await NotifikasiService.tandaiSudahDibaca(notifikasi.id);
 
         this.setState({ spinner: false });
+        this.props.fetchUnreadNotifications();
       } catch (error) {
         this.setState({ spinner: false });
         alert('Maaf, sedang terjadi kesalahan');
@@ -117,4 +112,10 @@ class DetailNotifikasi extends Component {
   }
 }
 
-export default DetailNotifikasi;
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUnreadNotifications: () => { dispatch(fetchUnreadNotifications()) }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(DetailNotifikasi);

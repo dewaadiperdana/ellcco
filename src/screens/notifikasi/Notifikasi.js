@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { connect } from 'react-redux';
 import { Background, Spinner } from '../../components';
 
 import { colors } from '../../components/styles';
-
-import styles from './styles';
 
 import NotifikasiService from '../../services/NotifikasiService';
 import NotifikasiKosong from './NotifikasiKosong';
 import ListNotifikasi from './ListNotifikasi';
 import Storage from '../../helpers/Storage';
+
+import { fetchAllNotifications } from '../../store/actions/notificationAction';
 
 class Notifikasi extends Component {
   static navigationOptions = {
@@ -41,7 +42,8 @@ class Notifikasi extends Component {
   }
 
   componentDidMount() {
-    this.getNotifikasi();
+    // this.getNotifikasi();
+    this.props.fetchAllNotifications();
   }
 
   getNotifikasi = async () => {
@@ -67,8 +69,8 @@ class Notifikasi extends Component {
   }
 
   render() {
-    const notifikasiComponent = this.state.notifikasi ? (
-      <ListNotifikasi gotoDetailNotifikasi={this.gotoDetailNotifikasi} notifikasi={this.state.notifikasi} />
+    const notifikasiComponent = this.props.allNotifications ? (
+      <ListNotifikasi gotoDetailNotifikasi={this.gotoDetailNotifikasi} notifikasi={this.props.allNotifications} />
     ) : (
       <NotifikasiKosong />
     );
@@ -82,4 +84,16 @@ class Notifikasi extends Component {
   }
 }
 
-export default Notifikasi;
+const mapStateToProps = state => {
+  return {
+    allNotifications: state.notifications.all
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchAllNotifications: () => { dispatch(fetchAllNotifications()) }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notifikasi);

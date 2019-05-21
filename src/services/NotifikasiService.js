@@ -13,9 +13,9 @@ class NotifikasiService {
     NotifikasiService.auth = await Storage.get('auth');
   }
 
-  static async getNotifikasi(id) {
-    const url = `${Config.APP_URL}/api/notifikasi/${id}`;
+  static async getNotifikasi() {
     const auth = await Storage.get('auth');
+    const url = `${Config.APP_URL}/api/notifikasi/${auth.id}`;
 
     try {
       const notifikasi = await axios.get(url, {

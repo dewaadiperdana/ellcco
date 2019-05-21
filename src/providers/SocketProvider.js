@@ -4,6 +4,9 @@ import Sound from 'react-native-sound';
 import { AppState, Vibration } from 'react-native';
 import Storage from '../helpers/Storage';
 import Config from 'react-native-config';
+import { connect } from 'react-redux';
+import { fetchUnreadNotifications } from '../store/actions/notificationAction';
+
 import {
   ON_NEW_FCM_TOKEN,
   ON_NEW_ORDER,
@@ -63,6 +66,7 @@ class SocketProvider extends Component {
   onOrderAcceptedListener = async message => {
     if (this.state.appState === 'active') {
       this.playInAppNotificationSound();
+      this.props.fetchUnreadNotifications();
       
       const auth = await Storage.get('auth');
 
@@ -102,4 +106,10 @@ class SocketProvider extends Component {
   }
 }
 
-export default SocketProvider;
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUnreadNotifications: () => dispatch(fetchUnreadNotifications())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SocketProvider);

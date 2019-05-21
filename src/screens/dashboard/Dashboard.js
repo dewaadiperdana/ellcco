@@ -9,7 +9,8 @@ import ElectronicIcons from '../../config/fonticons/electronicicons';
 import Storage from '../../helpers/Storage';
 import NotifikasiService from '../../services/NotifikasiService';
 
-import NotificationIcon from './components/NotificationIcon';
+import { connect } from 'react-redux';
+import { fetchUnreadNotifications } from '../../store/actions/notificationAction';
 
 import { colors, text, spacing } from '../../components/styles';
 
@@ -34,7 +35,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    
+    this.props.fetchUnreadNotifications();
   }
 
   getAuthUser = async () => {
@@ -58,7 +59,7 @@ class Dashboard extends Component {
   }
 
   renderNotificationIcon = () => {
-    const notificationIndicator = this.state.notifikasi ? (
+    const notificationIndicator = this.props.unreadNotifications.length > 0 ? (
       <View style={styles.notificationIndicator}></View>
     ) : null;
 
@@ -149,7 +150,19 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = state => {
+  return {
+    unreadNotifications: state.notifications.unread
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUnreadNotifications: () => { dispatch(fetchUnreadNotifications()) }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
 const styles = StyleSheet.create({
   notificationIndicator: {
