@@ -11,7 +11,7 @@ const ListItem = props => {
   ];
 
   return (
-    <View style={styles.listItemContainer}>
+    <View style={listItemBlockStyles}>
       {props.children}
     </View>
   );
@@ -27,8 +27,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    flex: 0.5
   },
   listItemContainerLast: {
     borderBottomWidth: 0,

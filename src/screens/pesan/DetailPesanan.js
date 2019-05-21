@@ -5,7 +5,7 @@ import { Background, Container, Button, Spinner, Block, ListItem, Separator } fr
 import moment from 'moment';
 
 import Storage from '../../helpers/Storage';
-import PesanSevice from '../../services/PesanService';
+import PesanService from '../../services/PesanService';
 
 import { colors, text, spacing } from '../../components/styles';
 
@@ -49,9 +49,7 @@ class DetailPesanan extends Component {
     this.setState({ spinner: true });
 
     try {
-      const detail = await PesanSevice.detail(pesanan.id, pesanan.id_pelanggan, pesanan.id_tukang);
-
-      console.log(detail);
+      const detail = await PesanService.detail(pesanan.id, pesanan.id_pelanggan, pesanan.id_tukang);
 
       this.setState({ spinner: false, detail: detail });
     } catch (error) {
@@ -79,7 +77,7 @@ class DetailPesanan extends Component {
           <Text style={text.medium}>Kerusakan</Text>
           <Text style={text.regular}>{this.state.detail.pesanan.nama_kerusakan}</Text>
         </ListItem>
-        <ListItem>
+        <ListItem last>
           <Text style={text.medium}>Status</Text>
           <Text style={text.regular}>{this.state.detail.pesanan.status.nama}</Text>
         </ListItem>
@@ -100,7 +98,7 @@ class DetailPesanan extends Component {
           <Text style={text.medium}>No. Telp</Text>
           <Text style={text.regular}>{this.state.detail.pelanggan.no_telp}</Text>
         </ListItem>
-        <ListItem>
+        <ListItem last>
           <Text style={text.medium}>Kode Pengguna</Text>
           <Text style={text.regular}>{this.state.detail.pelanggan.kode_pengguna}</Text>
         </ListItem>
@@ -121,7 +119,7 @@ class DetailPesanan extends Component {
           <Text style={text.medium}>No. Telp</Text>
           <Text style={text.regular}>{this.state.detail.tukang.no_telp}</Text>
         </ListItem>
-        <ListItem>
+        <ListItem last>
           <Text style={text.medium}>Kode Pengguna</Text>
           <Text style={text.regular}>{this.state.detail.tukang.kode_pengguna}</Text>
         </ListItem>

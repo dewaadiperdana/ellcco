@@ -1,10 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import {
-  Container,
   Block,
-  Background,
-  Separator
 } from '../../../components';
 
 import { colors, text, spacing } from '../../../components/styles';

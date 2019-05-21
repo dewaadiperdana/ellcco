@@ -41,6 +41,32 @@ class PesanService {
       throw error;
     }
   }
+
+  static async terima(kode) {
+    const urlKode = `${Config.APP_URL}/api/pesanan/get-by-kode/${kode}`;
+    const urlTerima = `${Config.APP_URL}/api/pesanan/terima`;
+    const auth = await Storage.get('auth');
+
+    try {
+      const pesanan = await axios.get(urlKode, { headers: { "Authorization": `Bearer ${auth.token}` } });
+      const data = JSON.parse(pesanan.data.data);
+      const response = await axios.post(urlTerima,
+        {
+          id_pesanan: data.id,
+          id_pengguna: auth.id
+        },
+        {
+          headers: {
+            "Authorization": `Bearer ${auth.token}`
+          }
+        }
+      );
+
+      return Promise.resolve(JSON.parse(response.data.data));
+    } catch (error) {
+      return Promise.reject(JSON.parse(error.response.data.data));
+    }
+  }
 }
 
 export default PesanService;

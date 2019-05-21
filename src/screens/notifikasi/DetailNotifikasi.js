@@ -10,18 +10,22 @@ import {
   Block,
   Background,
   Separator,
-  Spinner
+  Spinner,
+  AlertError
 } from '../../components';
 
 import { colors, text, spacing } from '../../components/styles';
 
+import FormError from '../../helpers/FormError';
+
 import { connect } from 'react-redux';
-import { fetchUnreadNotifications } from '../../store/actions/notificationAction';
+import { fetchUnreadNotifications, fetchAllNotifications } from '../../store/actions/notificationAction';
 
 import NotifikasiService from '../../services/NotifikasiService';
+import PesanService from '../../services/PesanService';
 
-import NotifikasiRegular from './detailnotifikasi/NotifikasiRegular';
-import NotifikasiPesanan from './detailnotifikasi/NotifikasiPesanan';
+import NotifikasiRegular from './components/NotifikasiRegular';
+import NotifikasiPesanan from './components/NotifikasiPesanan';
 
 class DetailNotifikasi extends Component {
   static navigationOptions = {
@@ -48,7 +52,9 @@ class DetailNotifikasi extends Component {
 
     this.state = {
       spinner: false,
-      notifikasi: {}
+      notifikasi: {},
+      detailPesanan: {},
+      errors: new FormError({})
     };
   }
 
@@ -68,10 +74,26 @@ class DetailNotifikasi extends Component {
 
         this.setState({ spinner: false });
         this.props.fetchUnreadNotifications();
+        this.props.fetchAllNotifications();
       } catch (error) {
         this.setState({ spinner: false });
         alert('Maaf, sedang terjadi kesalahan');
       }
+    }
+  }
+
+  terimaPesanan = async pesanan => {
+    this.setState({ spinner: true });
+
+    try {
+      const response = await PesanService.terima(pesanan.kode_pesanan);
+
+      this.setState({ spinner: false });
+      this.props.navigation.navigate('DetailPesanan', {
+        pesanan: response
+      });
+    } catch (error) {
+      this.setState({ spinner: false, errors: new FormError(error) });
     }
   }
 
@@ -82,10 +104,8 @@ class DetailNotifikasi extends Component {
     switch(notifikasi.tipe) {
       case 'regular':
         return <NotifikasiRegular data={notifikasi} />;
-        break;
       case 'pesanan':
-        return <NotifikasiPesanan data={notifikasi} />;
-        break;
+        return <NotifikasiPesanan data={notifikasi} onTerima={this.terimaPesanan} />;
     }
   }
 
@@ -93,6 +113,10 @@ class DetailNotifikasi extends Component {
     return (
       <Background color={colors.white}>
         <Spinner isVisible={this.state.spinner} color={colors.white} type="bar" />
+        <AlertError
+            text={this.state.errors.get('modal')}
+            isVisible={this.state.errors.has('modal')}
+            onOkPress={() => this.setState({ errors: new FormError({})})} />
         <Container noPaddingAndMargin>
           <Block column alignCenter paddingHorizontal>
             <Image source={require('../../assets/images/notifikasi@189x189.png')} width={189} height={189} />
@@ -114,7 +138,8 @@ class DetailNotifikasi extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUnreadNotifications: () => { dispatch(fetchUnreadNotifications()) }
+    fetchUnreadNotifications: () => { dispatch(fetchUnreadNotifications()) },
+    fetchAllNotifications: () => { dispatch(fetchAllNotifications()) }
   };
 };
 

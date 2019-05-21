@@ -58,8 +58,7 @@ class SocketProvider extends Component {
   onNewOrderListener = message => {
     if (this.state.appState === 'active') {
       this.playInAppNotificationSound();
-
-      // What todo next?
+      this.props.fetchUnreadNotifications();
     }
   }
 

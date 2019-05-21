@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, StatusBar, TouchableOpacity, TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
 import { Background, Container, Block, Card, Button } from '../../components';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import NotificationProvider from '../../providers/NotificationProvider';
 import SocketProvider from '../../providers/SocketProvider';
@@ -66,7 +67,7 @@ class Dashboard extends Component {
     return (
       <TouchableOpacity onPress={() => this.goto('Notifikasi')}>
         <Block alignMiddle alignCenter column>
-          <FontAwesome5 name="bell" size={25} color={colors.black} />
+          <FontAwesome name="bell" size={25} color={colors.black} />
           {notificationIndicator}
         </Block>
       </TouchableOpacity>
