@@ -2,33 +2,35 @@ import Config from 'react-native-config';
 import axios from 'axios';
 
 class PenggunaService {
-  static async register(user) {
-    const url = `${Config.APP_URL}/api/pengguna/register`;
+  static async register(hakAkses, user) {
+    let role = hakAkses === 'pelanggan' ? 'pelanggan' : 'tukang';
+    const url = `${Config.APP_URL}/api/v1/${role}/register`;
     
     try {
       await axios.post(url, user);
 
       return Promise.resolve(true);
     } catch (error) {
-      return Promise.reject(JSON.parse(error.response.data.data));
+      return Promise.reject(error.response.data);
     }
   }
 
-  static async login(user) {
-    const url = `${Config.APP_URL}/api/pengguna/login`;
+  static async login(hakAkses, user) {
+    let role = hakAkses === 'pelanggan' ? 'pelanggan' : 'tukang';
+    const url = `${Config.APP_URL}/api/v1/${role}/login`;
 
     try {
       const response = await axios.post(url, user);
       
-      return Promise.resolve(response.data.data);
+      return Promise.resolve(response.data);
     } catch (error) {
-      return Promise.reject(JSON.parse(error.response.data.data));
+      return Promise.reject(error.response.data);
     }
   }
 
   static async getHakAkses() {
     try {
-      const url = `${Config.APP_URL}/api/pengguna/hakakses`;
+      const url = `${Config.APP_URL}/api/v1/pengguna/hakakses`;
       const response = await axios.get(url);
       
       return Promise.resolve(JSON.parse(response.data.data));
@@ -38,7 +40,7 @@ class PenggunaService {
   }
 
   static async isAuthenticated(token) {
-    const url = `${Config.APP_URL}/api/pengguna/is-authenticated`;
+    const url = `${Config.APP_URL}/api/v1/pengguna/is-authenticated`;
 
     try {
       const checkIsAuthenticated = await axios.post(url, {}, {

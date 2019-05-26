@@ -23,6 +23,7 @@ const text = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.regular
   },
+  regular: { fontFamily: fonts.regular, color: colors.black },
   light: { fontFamily: fonts.light, color: colors.black },
   bold: { fontFamily: fonts.bold, color: colors.black },
   medium: { fontFamily: fonts.medium, color: colors.black },

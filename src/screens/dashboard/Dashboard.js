@@ -31,12 +31,12 @@ class Dashboard extends Component {
       notifikasi: null
     };
 
-    this.getAuthUser();
     this.getNotifikasiBelumDibaca();
   }
 
   componentDidMount() {
     this.props.fetchUnreadNotifications();
+    this.getAuthUser();
   }
 
   getAuthUser = async () => {
@@ -90,12 +90,12 @@ class Dashboard extends Component {
                 text.fontSmall,
                 text.light,
                 colors.black
-              ]}>Hallo</Text>
+              ]}>Halo</Text>
               <Text style={[
                   text.fontSmall,
                   text.bold,
                   colors.black
-              ]}>{auth.nama}</Text>
+              ]}>{'akun' in auth ? auth.akun.nama : null}</Text>
             </Block>
             <Block column alignRight>
               {this.renderNotificationIcon()}

@@ -1,13 +1,14 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { colors, fonts } from './styles';
+import React from "react";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { colors, fonts } from "./styles";
 
 const Button = props => {
   const buttonBlockStyle = [
     styles.button,
     props.block && styles.buttonBlock,
     props.fullRound && styles.buttonFullRound,
-    props.green && styles.buttonGreen
+    props.green && styles.buttonGreen,
+    props.noTopRound && styles.buttonNoTopRound
   ];
 
   const buttonTextStyle = [
@@ -17,10 +18,12 @@ const Button = props => {
   ];
 
   return (
-    <TouchableOpacity style={buttonBlockStyle} onPress={props.onPress} activeOpacity={1}>
-      <Text style={[buttonTextStyle]}>
-        {props.children}
-      </Text>
+    <TouchableOpacity
+      style={buttonBlockStyle}
+      onPress={props.onPress}
+      activeOpacity={1}
+    >
+      <Text style={[buttonTextStyle]}>{props.children}</Text>
     </TouchableOpacity>
   );
 };
@@ -32,22 +35,26 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 25,
     backgroundColor: colors.primary,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     borderRadius: 5
   },
   buttonText: {
-    textAlign: 'center',
+    textAlign: "center",
     fontFamily: fonts.medium,
     fontSize: 16
   },
   buttonTextLight: { color: colors.white },
   buttonTextDark: { color: colors.black },
   buttonBlock: {
-    width: '100%',
+    width: "100%"
   },
   buttonFullRound: {
     borderRadius: 50
   },
   buttonWhite: { backgroundColor: colors.white },
-  buttonGreen: { backgroundColor: colors.green }
+  buttonGreen: { backgroundColor: colors.green },
+  buttonNoTopRound: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0
+  }
 });

@@ -11,8 +11,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { colors, fonts, text } from '../components/styles';
 
 import Intro from '../screens/intro/Intro';
-import Login from '../screens/login/Login';
-import Register from '../screens/register/Register';
+import LoginPelanggan from '../screens/login/LoginPelanggan';
+import LoginTukang from '../screens/login/LoginTukang';
+import RegisterPelanggan from '../screens/register/RegisterPelanggan';
+import RegisterTukang from '../screens/register/RegisterTukang';
 import Dashboard from '../screens/dashboard/Dashboard';
 import Pesan from '../screens/pesan/Pesan';
 import Histori from '../screens/histori/Histori';
@@ -36,8 +38,10 @@ const PesanNavigator = createStackNavigator(
 const WelcomeNavigator = createStackNavigator(
   {
     Intro,
-    Login,
-    Register,
+    LoginPelanggan,
+    LoginTukang,
+    RegisterPelanggan,
+    RegisterTukang
   },
   {
     initialRouteName: 'Intro',
@@ -47,7 +51,7 @@ const WelcomeNavigator = createStackNavigator(
   }
 );
 
-const DashboardTabNavigator = createBottomTabNavigator(
+const DashboardPelangganTabNavigator = createBottomTabNavigator(
   {
     Dashboard,
     Pesan: {
@@ -88,9 +92,9 @@ const DashboardTabNavigator = createBottomTabNavigator(
   }
 );
 
-const DashboardStackNavigator = createStackNavigator(
+const DashboardPelangganStackNavigator = createStackNavigator(
   {
-    Dashboard: DashboardTabNavigator,
+    Dashboard: DashboardPelangganTabNavigator,
     FormPesan,
     DetailPesanan,
     Notifikasi,
@@ -104,7 +108,7 @@ const DashboardStackNavigator = createStackNavigator(
 export default createAppContainer(createSwitchNavigator(
   {
     AuthLoading: AuthLoading,
-    Dashboard: DashboardStackNavigator,
+    DashboardPelanggan: DashboardPelangganStackNavigator,
     Welcome: WelcomeNavigator,
   },
   {

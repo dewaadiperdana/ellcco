@@ -1,31 +1,31 @@
-import React, { Component } from 'react';
-import {
-  Text,
-  Image,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import React, { Component } from "react";
+import { Text, TouchableWithoutFeedback } from "react-native";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {
   Container,
   Block,
   Background,
   Separator,
   Spinner,
-  AlertError
-} from '../../components';
+  AlertError,
+  Illustration
+} from "../../components";
 
-import { colors, text, spacing } from '../../components/styles';
+import { colors, text, spacing } from "../../components/styles";
 
-import FormError from '../../helpers/FormError';
+import FormError from "../../helpers/FormError";
 
-import { connect } from 'react-redux';
-import { fetchUnreadNotifications, fetchAllNotifications } from '../../store/actions/notificationAction';
+import { connect } from "react-redux";
+import {
+  fetchUnreadNotifications,
+  fetchAllNotifications
+} from "../../store/actions/notificationAction";
 
-import NotifikasiService from '../../services/NotifikasiService';
-import PesanService from '../../services/PesanService';
+import NotifikasiService from "../../services/NotifikasiService";
+import PesanService from "../../services/PesanService";
 
-import NotifikasiRegular from './components/NotifikasiRegular';
-import NotifikasiPesanan from './components/NotifikasiPesanan';
+import NotifikasiRegular from "./components/NotifikasiRegular";
+import NotifikasiPesanan from "./components/NotifikasiPesanan";
 
 class DetailNotifikasi extends Component {
   static navigationOptions = {
@@ -36,14 +36,14 @@ class DetailNotifikasi extends Component {
     ),
     headerLeftContainerStyle: {
       paddingLeft: 30,
-      marginTop: 25,
+      marginTop: 25
     },
     headerStyle: {
-      borderBottomColor: 'transparent',
-      shadowColor: 'transparent',
+      borderBottomColor: "transparent",
+      shadowColor: "transparent",
       elevation: 0,
       shadowOpacity: 0,
-      backgroundColor: colors.transparent,
+      backgroundColor: colors.transparent
     }
   };
 
@@ -64,7 +64,7 @@ class DetailNotifikasi extends Component {
 
   tandaiSudahDibaca = async () => {
     const { navigation } = this.props;
-    const notifikasi = navigation.getParam('notifikasi');
+    const notifikasi = navigation.getParam("notifikasi");
 
     if (notifikasi.dibaca === false) {
       this.setState({ spinner: true, notifikasi: notifikasi });
@@ -77,10 +77,10 @@ class DetailNotifikasi extends Component {
         this.props.fetchAllNotifications();
       } catch (error) {
         this.setState({ spinner: false });
-        alert('Maaf, sedang terjadi kesalahan');
+        alert("Maaf, sedang terjadi kesalahan");
       }
     }
-  }
+  };
 
   terimaPesanan = async pesanan => {
     this.setState({ spinner: true });
@@ -89,44 +89,57 @@ class DetailNotifikasi extends Component {
       const response = await PesanService.terima(pesanan.kode_pesanan);
 
       this.setState({ spinner: false });
-      this.props.navigation.navigate('DetailPesanan', {
+      this.props.navigation.navigate("DetailPesanan", {
         pesanan: response
       });
     } catch (error) {
       this.setState({ spinner: false, errors: new FormError(error) });
     }
-  }
+  };
 
   renderNotifikasiContent = () => {
     const { navigation } = this.props;
-    const notifikasi = navigation.getParam('notifikasi');
+    const notifikasi = navigation.getParam("notifikasi");
 
-    switch(notifikasi.tipe) {
-      case 'regular':
+    switch (notifikasi.tipe) {
+      case "regular":
         return <NotifikasiRegular data={notifikasi} />;
-      case 'pesanan':
-        return <NotifikasiPesanan data={notifikasi} onTerima={this.terimaPesanan} />;
+      case "pesanan":
+        return (
+          <NotifikasiPesanan data={notifikasi} onTerima={this.terimaPesanan} />
+        );
     }
-  }
+  };
 
   render() {
     return (
       <Background color={colors.white}>
-        <Spinner isVisible={this.state.spinner} color={colors.white} type="bar" />
+        <Spinner
+          isVisible={this.state.spinner}
+          color={colors.white}
+          type="bar"
+        />
         <AlertError
-            text={this.state.errors.get('modal')}
-            isVisible={this.state.errors.has('modal')}
-            onOkPress={() => this.setState({ errors: new FormError({})})} />
+          text={this.state.errors.get("modal")}
+          isVisible={this.state.errors.has("modal")}
+          onOkPress={() => this.setState({ errors: new FormError({}) })}
+        />
         <Container noPaddingAndMargin>
           <Block column alignCenter paddingHorizontal>
-            <Image source={require('../../assets/images/notifikasi@189x189.png')} width={189} height={189} />
-            <Text style={[
-              text.fontSmall,
-              text.medium
-            ]}>Detail Notifikasi</Text>
+            <Illustration
+              width={189}
+              height={189}
+              source={require("../../assets/images/notifikasi.jpg")}
+            />
+            <Text style={[text.fontSmall, text.medium]}>Detail Notifikasi</Text>
           </Block>
           <Block paddingHorizontal>
-            <FontAwesome5 name="trash" size={20} color={colors.black} style={[spacing.mt2]} />          
+            <FontAwesome5
+              name="trash"
+              size={20}
+              color={colors.black}
+              style={[spacing.mt2]}
+            />
           </Block>
           <Separator />
           {this.renderNotifikasiContent()}
@@ -138,9 +151,16 @@ class DetailNotifikasi extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUnreadNotifications: () => { dispatch(fetchUnreadNotifications()) },
-    fetchAllNotifications: () => { dispatch(fetchAllNotifications()) }
+    fetchUnreadNotifications: () => {
+      dispatch(fetchUnreadNotifications());
+    },
+    fetchAllNotifications: () => {
+      dispatch(fetchAllNotifications());
+    }
   };
 };
 
-export default connect(null, mapDispatchToProps)(DetailNotifikasi);
+export default connect(
+  null,
+  mapDispatchToProps
+)(DetailNotifikasi);

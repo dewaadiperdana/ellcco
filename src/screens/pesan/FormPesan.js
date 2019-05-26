@@ -1,12 +1,6 @@
-import React, { Component } from 'react';
-import {
-  Text,
-  TouchableWithoutFeedback,
-  Image,
-  ScrollView,
-  StatusBar
-} from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import React, { Component } from "react";
+import { Text, TouchableWithoutFeedback, ScrollView } from "react-native";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 import {
   Container,
@@ -16,13 +10,14 @@ import {
   FormGroup,
   FormLabel,
   Button,
-  Spinner
-} from '../../components';
+  Spinner,
+  Illustration
+} from "../../components";
 
-import FormError from '../../helpers/FormError';
-import PesanService from '../../services/PesanService';
+import FormError from "../../helpers/FormError";
+import PesanService from "../../services/PesanService";
 
-import { colors, text, spacing } from '../../components/styles';
+import { colors, text, spacing } from "../../components/styles";
 
 export default class FormPesan extends Component {
   static navigationOptions = {
@@ -34,14 +29,14 @@ export default class FormPesan extends Component {
     ),
     headerLeftContainerStyle: {
       paddingLeft: 30,
-      marginTop: 25,
+      marginTop: 25
     },
     headerStyle: {
-      borderBottomColor: 'transparent',
-      shadowColor: 'transparent',
+      borderBottomColor: "transparent",
+      shadowColor: "transparent",
       elevation: 0,
       shadowOpacity: 0,
-      backgroundColor: colors.transparent,
+      backgroundColor: colors.transparent
     }
   };
 
@@ -51,8 +46,8 @@ export default class FormPesan extends Component {
     this.state = {
       layanan: {},
       form: {
-        nama_kerusakan: '',
-        deskripsi_kerusakan: ''
+        nama_kerusakan: "",
+        deskripsi_kerusakan: ""
       },
       spinner: false,
       errors: new FormError({})
@@ -60,7 +55,7 @@ export default class FormPesan extends Component {
   }
 
   componentDidMount() {
-    const layanan = this.props.navigation.getParam('layanan');
+    const layanan = this.props.navigation.getParam("layanan");
 
     this.setState({ layanan });
   }
@@ -72,7 +67,7 @@ export default class FormPesan extends Component {
         [field]: value
       }
     });
-  }
+  };
 
   processPesan = async () => {
     this.setState({ spinner: true });
@@ -89,11 +84,11 @@ export default class FormPesan extends Component {
       this.setState({ spinner: false });
 
       this.props.navigation.dispatch({
-        type: 'Navigation/NAVIGATE',
-        routeName: 'Dashboard',
+        type: "Navigation/NAVIGATE",
+        routeName: "Dashboard",
         action: {
-          type: 'Navigation/NAVIGATE',
-          routeName: 'Histori'
+          type: "Navigation/NAVIGATE",
+          routeName: "Histori"
         }
       });
     } catch (error) {
@@ -102,7 +97,7 @@ export default class FormPesan extends Component {
         errors: new FormError(error)
       });
     }
-  }
+  };
 
   render() {
     const { layanan, errors } = this.state;
@@ -113,11 +108,14 @@ export default class FormPesan extends Component {
         <Container>
           <ScrollView>
             <Block column alignCenter style={[spacing.mb2]}>
-              <Image source={require('../../assets/images/pesan@159x159.png')} width={159} height={159} />
-              <Text style={[
-                text.fontSemiRegular,
-                text.medium
-              ]}>Lengkapi Data Pesanan Anda</Text>
+              <Illustration
+                width={159}
+                height={159}
+                source={require("../../assets/images/pesan.jpg")}
+              />
+              <Text style={[text.fontSemiRegular, text.medium]}>
+                Lengkapi Data Pesanan Anda
+              </Text>
             </Block>
             <Block alignCenter style={spacing.mb1}>
               <Text style={text.bold}>Perbaikan</Text>
@@ -125,29 +123,36 @@ export default class FormPesan extends Component {
                 name="angle-double-right"
                 size={11}
                 color={colors.black}
-                style={[spacing.ml1, spacing.mr1]} />
+                style={[spacing.ml1, spacing.mr1]}
+              />
               <Text style={text.regular}>{layanan.nama}</Text>
             </Block>
             <FormGroup>
-              <FormLabel text="Bagaimana kerusakan alat anda?"/>
+              <FormLabel text="Bagaimana kerusakan alat anda?" />
               <FormInput
-                error={errors.has('nama_kerusakan')}
-                feedback={errors.get('nama_kerusakan')}
+                error={errors.has("nama_kerusakan")}
+                feedback={errors.get("nama_kerusakan")}
                 placeholder="Misalkan : TV mati total"
-                onChangeText={text => this.handleChangeText('nama_kerusakan', text)}
+                onChangeText={text =>
+                  this.handleChangeText("nama_kerusakan", text)
+                }
               />
             </FormGroup>
             <FormGroup>
-              <FormLabel text="Ceritakan bagaimana kerusakan alat anda"/>
+              <FormLabel text="Ceritakan bagaimana kerusakan alat anda" />
               <FormInput
-                error={errors.has('deskripsi_kerusakan')}
-                feedback={errors.get('deskripsi_kerusakan')}
+                error={errors.has("deskripsi_kerusakan")}
+                feedback={errors.get("deskripsi_kerusakan")}
                 placeholder="Misalkan : Ketika dihidupkan tidak ada indikator nyala, layar mati..."
                 multiline={true}
-                onChangeText={text => this.handleChangeText('deskripsi_kerusakan', text)}
+                onChangeText={text =>
+                  this.handleChangeText("deskripsi_kerusakan", text)
+                }
               />
             </FormGroup>
-            <Button fullRound block textLight onPress={this.processPesan}>Pesan</Button>
+            <Button fullRound block textLight onPress={this.processPesan}>
+              Pesan
+            </Button>
           </ScrollView>
         </Container>
       </Background>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Spinner, Container } from '../../components';
 import { colors } from '../../components/styles';
-import AsyncStorage from '@react-native-community/async-storage';
+import Storage from '../../helpers/Storage';
 import PenggunaService from '../../services/PenggunaService';
 
 class AuthLoading extends Component {
@@ -12,16 +12,16 @@ class AuthLoading extends Component {
   }
 
   processAuthentication = async () => {
-    const authStorage = await AsyncStorage.getItem('auth');
+    const authStorage = await Storage.get('auth');
 
-    if(authStorage !== null) {
-      const auth = JSON.parse(authStorage);
-      const isAuthenticated = await PenggunaService.isAuthenticated(auth.token);
+    // if(authStorage !== null) {
+    //   const auth = JSON.parse(authStorage);
+    //   const isAuthenticated = await PenggunaService.isAuthenticated(auth.token);
 
-      this.props.navigation.navigate(isAuthenticated ? 'Dashboard' : 'Welcome');
-    }
+    //   this.props.navigation.navigate(isAuthenticated ? 'Dashboard' : 'Welcome');
+    // }
     
-    this.props.navigation.navigate(authStorage ? 'Dashboard' : 'Welcome');
+    this.props.navigation.navigate(authStorage ? 'DashboardPelanggan' : 'Welcome');
   }
 
   render() {
