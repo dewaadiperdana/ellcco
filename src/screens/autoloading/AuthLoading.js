@@ -12,16 +12,28 @@ class AuthLoading extends Component {
   }
 
   processAuthentication = async () => {
-    const authStorage = await Storage.get('auth');
+    const auth = await Storage.get('auth');
 
-    // if(authStorage !== null) {
-    //   const auth = JSON.parse(authStorage);
-    //   const isAuthenticated = await PenggunaService.isAuthenticated(auth.token);
+    if(auth == null) {
+      this.props.navigation.navigate('Welcome');
+      return;
+    }
 
-    //   this.props.navigation.navigate(isAuthenticated ? 'Dashboard' : 'Welcome');
-    // }
-    
-    this.props.navigation.navigate(authStorage ? 'DashboardPelanggan' : 'Welcome');
+    const isAuthenticated = await PenggunaService.isAuthenticated(auth.akun.hak_akses, auth.token);
+
+    if (isAuthenticated) {
+      switch(auth.akun.hak_akses) {
+        case 'pelanggan':
+          this.props.navigation.navigate('DashboardPelanggan');
+          break;
+        case 'tukang':
+          this.props.navigation.navigate('DashboardTukang');
+          break;
+        default:
+          this.props.navigation.navigate('Welcome');
+          break;
+      }
+    }
   }
 
   render() {

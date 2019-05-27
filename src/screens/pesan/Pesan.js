@@ -16,6 +16,7 @@ import {
 } from "../../components";
 import LayananService from "../../services/LayananService";
 import styles from "./styles";
+import Socket from '../../providers/Socket';
 
 import { text, colors, spacing } from "../../components/styles";
 

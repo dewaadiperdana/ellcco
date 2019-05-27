@@ -12,6 +12,7 @@ import Wrapper from "./Wrapper";
 import Separator from "./Separator";
 import ListItem from "./ListItem";
 import Illustration from "./Illustration";
+import Badge from "./Badge";
 
 export {
   Container,
@@ -27,5 +28,6 @@ export {
   Wrapper,
   Separator,
   ListItem,
-  Illustration
+  Illustration,
+  Badge
 };

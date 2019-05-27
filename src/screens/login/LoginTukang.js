@@ -21,7 +21,7 @@ import {
 import { text, spacing, colors } from "../../components/styles";
 import PenggunaService from "../../services/PenggunaService";
 import FormError from "../../helpers/FormError";
-import AsyncStorage from "@react-native-community/async-storage";
+import Storage from '../../helpers/Storage';
 
 class LoginTukang extends Component {
   static navigationOptions = {
@@ -68,9 +68,9 @@ class LoginTukang extends Component {
       const response = await PenggunaService.login("tukang", this.state.form);
       this.setState({ spinner: false });
 
-      await AsyncStorage.setItem("auth", response);
+      await Storage.put("auth", response);
 
-      this.props.navigation.navigate("Dashboard");
+      this.props.navigation.navigate("DashboardTukang");
     } catch (error) {
       this.setState({ spinner: false, errors: new FormError(error) });
     }

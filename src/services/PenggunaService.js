@@ -39,19 +39,18 @@ class PenggunaService {
     }
   }
 
-  static async isAuthenticated(token) {
-    const url = `${Config.APP_URL}/api/v1/pengguna/is-authenticated`;
+  static async isAuthenticated(hakAkses, token) {
+    let role = hakAkses === 'pelanggan' ? 'pelanggan' : 'tukang';
+    const url = `${Config.APP_URL}/api/v1/${role}/is-authenticated`;
 
     try {
-      const checkIsAuthenticated = await axios.post(url, {}, {
+      const response = await axios.post(url, {}, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
       });
 
-      const verified = JSON.parse(checkIsAuthenticated.data.data);
-
-      return Promise.resolve(verified.isAuthenticated);
+      return Promise.resolve(response.data.isAuthenticated);
     } catch (error) {
       // 
     }

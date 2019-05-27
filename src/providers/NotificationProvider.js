@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import firebase from 'react-native-firebase';
 import Storage from '../helpers/Storage';
-import Socket from '../helpers/Socket';
-import SocketProvider from './SocketProvider';
+import Socket from './Socket';
+import { ON_NEW_FCM_TOKEN } from '../config/events';
+
 
 class NotificationProvider extends Component {
   constructor(props) {
@@ -79,6 +80,7 @@ class NotificationProvider extends Component {
 
   async getToken() {
     let fcmToken = await Storage.get('fcm_token');
+    let auth = await Storage.get('auth');
 
     if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
@@ -88,7 +90,11 @@ class NotificationProvider extends Component {
       }
     }
 
-    console.log(`FCM Token: ${fcmToken}`);
+    Socket.io.emit(ON_NEW_FCM_TOKEN, JSON.stringify({
+      hakAkses: auth.akun.hak_akses,
+      idAkun: auth.akun.id,
+      token: fcmToken
+    }));
   }
 
   async requestPermission() {

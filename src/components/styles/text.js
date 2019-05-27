@@ -1,12 +1,12 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import fonts from './fonts';
-import colors from './colors';
+import React from "react";
+import { StyleSheet } from "react-native";
+import fonts from "./fonts";
+import colors from "./colors";
 
 const text = StyleSheet.create({
-  alignCenter: { textAlign: 'center' },
-  alignLeft: { textAlign: 'left' },
-  alignRight: { textAlign: 'right' },
+  alignCenter: { textAlign: "center" },
+  alignLeft: { textAlign: "left" },
+  alignRight: { textAlign: "right" },
   h1: {
     fontSize: 30,
     fontFamily: fonts.medium,
@@ -23,6 +23,8 @@ const text = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.regular
   },
+  colorLight: { color: colors.white },
+  colorDark: { color: colors.black },
   regular: { fontFamily: fonts.regular, color: colors.black },
   light: { fontFamily: fonts.light, color: colors.black },
   bold: { fontFamily: fonts.bold, color: colors.black },
@@ -35,7 +37,7 @@ const text = StyleSheet.create({
   fontRegular: { fontSize: 15, color: colors.black },
   fontSemiRegular: { fontSize: 18, color: colors.black },
   fontExtraSmall: { fontSize: 13, color: colors.black },
-  fontSmallest: { fontSize: 11, color: colors.black },
+  fontSmallest: { fontSize: 11, color: colors.black }
 });
 
 export default text;

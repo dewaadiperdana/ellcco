@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import Sound from 'react-native-sound';
 import { AppState, Vibration } from 'react-native';
 import Storage from '../helpers/Storage';
+import Socket from './Socket';
 import Config from 'react-native-config';
 import { connect } from 'react-redux';
 import { fetchUnreadNotifications } from '../store/actions/notificationAction';
 
 import {
-  ON_NEW_FCM_TOKEN,
   ON_NEW_ORDER,
   ON_ORDER_ACCEPTED,
   ON_NEW_SOCKET_ID,
@@ -20,16 +20,16 @@ class SocketProvider extends Component {
     super(props);
 
     this.state = {
-      appState: AppState.currentState
+      appState: AppState.currentState,
+      auth: {}
     };
     
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
-    this.socket = io(Config.APP_URL);
 
-    this.socket.on('connect', () => {
-      this.registerSocketListener();
-      this.emitNewSocketId();
-    });
+    // this.socket.on('connect', () => {
+    //   this.registerSocketListener();
+    //   this.emitNewSocketId();
+    // });
 
     this.inAppNotificationSound = new Sound('stairs.mp3', Sound.MAIN_BUNDLE, (error) => {
       if (error) {
@@ -37,6 +37,24 @@ class SocketProvider extends Component {
         return;
       }
     });
+  }
+
+  componentDidMount() {
+    Socket.connect();
+
+    Socket.io.on('connect', this.sendNewSocket);
+  }
+
+  sendNewSocket = async () => {
+    const auth = await Storage.get('auth');
+    
+    this.setState({ auth: auth });
+
+    Socket.io.emit(ON_NEW_SOCKET_ID, JSON.stringify({
+      hakAkses: auth.akun.hak_akses,
+      idAkun: auth.akun.id,
+      socket: Socket.io.id
+    }));
   }
 
   handleAppStateChange = (nextAppState) => {

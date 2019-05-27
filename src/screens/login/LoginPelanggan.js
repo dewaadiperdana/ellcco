@@ -3,6 +3,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  StatusBar,
   Image
 } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -21,7 +22,7 @@ import {
 import { text, spacing, colors } from "../../components/styles";
 import PenggunaService from "../../services/PenggunaService";
 import FormError from "../../helpers/FormError";
-import Storage from '../../helpers/Storage';
+import AsyncStorage from "@react-native-community/async-storage";
 
 class LoginPelanggan extends Component {
   static navigationOptions = {
@@ -71,10 +72,9 @@ class LoginPelanggan extends Component {
       );
       this.setState({ spinner: false });
 
-      await Storage.put("auth", response);
-      console.log('redirect');
+      await AsyncStorage.setItem("auth", response);
 
-      this.props.navigation.navigate("DashboardPelanggan");
+      this.props.navigation.navigate("Dashboard");
     } catch (error) {
       this.setState({ spinner: false, errors: new FormError(error) });
     }
@@ -91,15 +91,22 @@ class LoginPelanggan extends Component {
 
   render() {
     const { errors } = this.state;
+    console.log(errors.errors);
 
     return (
       <Background color={colors.white}>
+        <StatusBar
+          barStyle="dark-content"
+          hidden={false}
+          backgroundColor={colors.white}
+          translucent={true}
+        />
         <Spinner isVisible={this.state.spinner} type="bar" color="white" />
         <Container>
           <Alert
             title="Error"
-            text={errors.get('modal')}
-            isVisible={errors.has('modal')}
+            text={errors.get("modal")}
+            isVisible={errors.has("modal")}
             onClosePress={() => this.setState({ errors: new FormError({}) })}
           />
           <Block spaceAround>
