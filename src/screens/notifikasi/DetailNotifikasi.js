@@ -7,7 +7,7 @@ import {
   Background,
   Separator,
   Spinner,
-  AlertError,
+  Alert,
   Illustration
 } from "../../components";
 
@@ -77,24 +77,25 @@ class DetailNotifikasi extends Component {
         this.props.fetchAllNotifications();
       } catch (error) {
         this.setState({ spinner: false });
-        alert("Maaf, sedang terjadi kesalahan");
+        alert(error);
       }
     }
   };
 
   terimaPesanan = async pesanan => {
-    this.setState({ spinner: true });
+    alert('Terima pesanan');
+    // this.setState({ spinner: true });
 
-    try {
-      const response = await PesanService.terima(pesanan.kode_pesanan);
+    // try {
+    //   const response = await PesanService.terima(pesanan.id);
 
-      this.setState({ spinner: false });
-      this.props.navigation.navigate("DetailPesanan", {
-        pesanan: response
-      });
-    } catch (error) {
-      this.setState({ spinner: false, errors: new FormError(error) });
-    }
+    //   this.setState({ spinner: false });
+    //   this.props.navigation.navigate("DetailPesanan", {
+    //     pesanan: response
+    //   });
+    // } catch (error) {
+    //   this.setState({ spinner: false, errors: new FormError(error) });
+    // }
   };
 
   renderNotifikasiContent = () => {
@@ -105,9 +106,9 @@ class DetailNotifikasi extends Component {
       case "regular":
         return <NotifikasiRegular data={notifikasi} />;
       case "pesanan":
-        return (
-          <NotifikasiPesanan data={notifikasi} onTerima={this.terimaPesanan} />
-        );
+        return <NotifikasiPesanan data={notifikasi} onTerima={this.terimaPesanan} />;
+       default:
+         return null;
     }
   };
 
@@ -115,11 +116,12 @@ class DetailNotifikasi extends Component {
     return (
       <Background color={colors.white}>
         <Spinner
+          whiteBackdrop
           isVisible={this.state.spinner}
-          color={colors.white}
+          color={colors.black}
           type="bar"
         />
-        <AlertError
+        <Alert
           text={this.state.errors.get("modal")}
           isVisible={this.state.errors.has("modal")}
           onOkPress={() => this.setState({ errors: new FormError({}) })}

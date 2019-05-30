@@ -51,7 +51,7 @@ class DashboardTukang extends Component {
   }
 
   componentDidMount() {
-    // this.props.fetchUnreadNotifications();
+    this.props.fetchUnreadNotifications();
     this.getAuthUser();
   }
 
@@ -61,15 +61,15 @@ class DashboardTukang extends Component {
     });
   };
 
-  getNotifikasiBelumDibaca = async () => {
-    try {
-      const notifikasi = await NotifikasiService.getNotifikasiBelumDibaca();
+  // getNotifikasiBelumDibaca = async () => {
+  //   try {
+  //     const notifikasi = await NotifikasiService.getNotifikasiBelumDibaca();
 
-      this.setState({ notifikasi: notifikasi });
-    } catch (error) {
-      alert(error);
-    }
-  };
+  //     this.setState({ notifikasi: notifikasi });
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
   goto = route => {
     this.props.navigation.navigate(route);

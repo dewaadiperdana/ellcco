@@ -26,11 +26,6 @@ class SocketProvider extends Component {
     
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
 
-    // this.socket.on('connect', () => {
-    //   this.registerSocketListener();
-    //   this.emitNewSocketId();
-    // });
-
     this.inAppNotificationSound = new Sound('stairs.mp3', Sound.MAIN_BUNDLE, (error) => {
       if (error) {
         console.log('Failed to load the sound', error);
@@ -42,7 +37,10 @@ class SocketProvider extends Component {
   componentDidMount() {
     Socket.connect();
 
-    Socket.io.on('connect', this.sendNewSocket);
+    Socket.io.on('connect', () => {
+      this.sendNewSocket();
+      this.registerSocketListener();
+    });
   }
 
   sendNewSocket = async () => {
@@ -62,8 +60,8 @@ class SocketProvider extends Component {
   }
 
   registerSocketListener = () => {
-    this.socket.on(ON_NEW_ORDER, this.onNewOrderListener);
-    this.socket.on(ON_ORDER_ACCEPTED, this.onOrderAcceptedListener);
+    Socket.io.on(ON_NEW_ORDER, this.onNewOrderListener);
+    Socket.io.on(ON_ORDER_ACCEPTED, this.onOrderAcceptedListener);
 
     // Other listeners will be down here...
   }

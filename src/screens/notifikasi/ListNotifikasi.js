@@ -28,7 +28,7 @@ const ListNotifikasi = props => {
             />
           </Block>
           <Block column alignLeft alignMiddle wrapContent style={spacing.ml2}>
-            <Text style={[text.h1, text.alignLeft]}>Notifikasi</Text>
+            <Text style={[text.h2, text.alignLeft]}>Notifikasi</Text>
             <Text style={[text.paragraph, text.alignLeft]}>
               Daftar Notifikasi Yang Masuk Ke Akun Anda
             </Text>

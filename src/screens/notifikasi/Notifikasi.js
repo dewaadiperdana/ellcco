@@ -42,24 +42,7 @@ class Notifikasi extends Component {
   }
 
   componentDidMount() {
-    // this.getNotifikasi();
     this.props.fetchAllNotifications();
-  }
-
-  getNotifikasi = async () => {
-    this.setState({ spinner: true });
-
-    const auth = await Storage.get('auth');
-
-    try {
-      const notifikasi = await NotifikasiService.getNotifikasi(auth.id);  
-      
-      this.setState({ spinner: false, notifikasi: notifikasi });
-    } catch (error) {
-      alert('Maaf, sedang terjadi kesalahan');
-      this.setState({ spinner: false });
-    }
-    
   }
 
   gotoDetailNotifikasi = item => {
@@ -69,7 +52,7 @@ class Notifikasi extends Component {
   }
 
   render() {
-    const notifikasiComponent = this.props.allNotifications ? (
+    const notifikasiComponent = this.props.allNotifications.length >= 1 ? (
       <ListNotifikasi gotoDetailNotifikasi={this.gotoDetailNotifikasi} notifikasi={this.props.allNotifications} />
     ) : (
       <NotifikasiKosong />

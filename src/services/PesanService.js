@@ -25,35 +25,32 @@ class PesanService {
     }
   }
 
-  static async detail(idPesanan, idPelanggan, idTukang = null) {
-    const url = `${Config.APP_URL}/api/pesanan/detail/${idPesanan}/${idPelanggan}${idTukang ? `/${idTukang}` : ''}`;
+  static async detail(id) {
+    const url = `${Config.APP_URL}/api/v1/pemesanan/${id}`;
     const auth = await Storage.get('auth');
 
     try {
-      const detail = await axios.get(url, {
+      const response = await axios.get(url, {
         headers: {
           "Authorization": `Bearer ${auth.token}`
         }
       });
 
-      return Promise.resolve(JSON.parse(detail.data.data));
+      return Promise.resolve(response.data);
     } catch (error) {
       throw error;
     }
   }
 
-  static async terima(kode) {
-    const urlKode = `${Config.APP_URL}/api/pesanan/get-by-kode/${kode}`;
-    const urlTerima = `${Config.APP_URL}/api/pesanan/terima`;
+  static async terima(id) {
+    const url = `${Config.APP_URL}/api/v1/pemesanan/terima`;
     const auth = await Storage.get('auth');
 
     try {
-      const pesanan = await axios.get(urlKode, { headers: { "Authorization": `Bearer ${auth.token}` } });
-      const data = JSON.parse(pesanan.data.data);
-      const response = await axios.post(urlTerima,
+      const response = await axios.post(url,
         {
-          id_pesanan: data.id,
-          id_pengguna: auth.id
+          id_pesanan: id,
+          id_pengguna: auth.akun.id
         },
         {
           headers: {
@@ -62,9 +59,9 @@ class PesanService {
         }
       );
 
-      return Promise.resolve(JSON.parse(response.data.data));
+      return Promise.resolve(response.data);
     } catch (error) {
-      return Promise.reject(JSON.parse(error.response.data.data));
+      throw error;
     }
   }
 }

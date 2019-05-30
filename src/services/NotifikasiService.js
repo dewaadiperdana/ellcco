@@ -15,7 +15,8 @@ class NotifikasiService {
 
   static async getNotifikasi() {
     const auth = await Storage.get('auth');
-    const url = `${Config.APP_URL}/api/notifikasi/${auth.id}`;
+    const role = auth.akun.hak_akses === 'pelanggan' ? 'pelanggan' : 'tukang';
+    const url = `${Config.APP_URL}/api/v1/notifikasi/${role}/${auth.akun.id}`;
 
     try {
       const notifikasi = await axios.get(url, {
@@ -24,14 +25,14 @@ class NotifikasiService {
         }
       });
 
-      return Promise.resolve(JSON.parse(notifikasi.data.data));
+      return Promise.resolve(notifikasi.data);
     } catch (error) {
       return Promise.reject(error);
     }
   }
 
   static async tandaiSudahDibaca(id) {
-    const url = `${Config.APP_URL}/api/notifikasi/mark-as-read`;
+    const url = `${Config.APP_URL}/api/v1/notifikasi/mark-as-read`;
     const auth = await Storage.get('auth');
 
     try {
@@ -49,7 +50,8 @@ class NotifikasiService {
 
   static async getNotifikasiBelumDibaca() {
     const auth = await Storage.get('auth');
-    const url = `${Config.APP_URL}/api/notifikasi/get-unread-notification/${auth.id}`;
+    const role = auth.akun.hak_akses === 'pelanggan' ? 'pelanggan' : 'tukang';
+    const url = `${Config.APP_URL}/api/v1/notifikasi/unread/${role}/${auth.akun.id}`;
 
     try {
       const notifikasi = await axios.get(url, {
@@ -58,7 +60,7 @@ class NotifikasiService {
         }
       });
 
-      return Promise.resolve(JSON.parse(notifikasi.data.data));
+      return Promise.resolve(notifikasi.data);
     } catch (error) {
       return Promise.reject(error);
     }

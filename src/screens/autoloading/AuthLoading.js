@@ -25,13 +25,13 @@ class AuthLoading extends Component {
       switch(auth.akun.hak_akses) {
         case 'pelanggan':
           this.props.navigation.navigate('DashboardPelanggan');
-          break;
+          return;
         case 'tukang':
           this.props.navigation.navigate('DashboardTukang');
-          break;
+          return;
         default:
           this.props.navigation.navigate('Welcome');
-          break;
+          return;
       }
     }
   }
@@ -39,7 +39,7 @@ class AuthLoading extends Component {
   render() {
     return (
       <Container centerContent>
-        <Spinner isVisible={true} type="bar" color={colors.white} />
+        <Spinner isVisible={true} noBackdrop type="bar" color={colors.black} />
       </Container>
     );
   }

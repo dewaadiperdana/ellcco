@@ -11,6 +11,7 @@ import {
   WaveIndicator
 } from 'react-native-indicators';
 import { View, StyleSheet, Dimensions } from 'react-native';
+import { colors } from './styles';
 
 const { width, height } = Dimensions.get('window');
 
@@ -30,8 +31,14 @@ const Spinner = props => {
 
   let SpinnerComponent = spinners[props.type];
 
+  const spinnerBlockStyles = [
+    styles.spinner,
+    props.noBackdrop && styles.spinnerNoBackdrop,
+    props.whiteBackdrop && styles.spinnerWhiteBackdrop
+  ];
+
   return props.isVisible === true ? (
-    <View style={styles.spinner}>
+    <View style={spinnerBlockStyles}>
       <SpinnerComponent />
     </View>
   ) : null;
@@ -45,6 +52,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    height: height,
+    width: width,
+    position: 'absolute',
+    zIndex: 2,
+  },
+  spinnerNoBackdrop: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    height: height,
+    width: width,
+    position: 'absolute',
+    zIndex: 2,
+  },
+  spinnerWhiteBackdrop: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.white,
     height: height,
     width: width,
     position: 'absolute',
