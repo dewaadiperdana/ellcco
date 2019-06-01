@@ -83,19 +83,18 @@ class DetailNotifikasi extends Component {
   };
 
   terimaPesanan = async pesanan => {
-    alert('Terima pesanan');
-    // this.setState({ spinner: true });
+    this.setState({ spinner: true });
 
-    // try {
-    //   const response = await PesanService.terima(pesanan.id);
+    try {
+      const response = await PesanService.terima(pesanan.id);
 
-    //   this.setState({ spinner: false });
-    //   this.props.navigation.navigate("DetailPesanan", {
-    //     pesanan: response
-    //   });
-    // } catch (error) {
-    //   this.setState({ spinner: false, errors: new FormError(error) });
-    // }
+      this.setState({ spinner: false });
+      this.props.navigation.navigate("DetailPesanan", {
+        pesanan: pesanan
+      });
+    } catch (error) {
+      this.setState({ spinner: false, errors: new FormError(error) });
+    }
   };
 
   renderNotifikasiContent = () => {
@@ -122,9 +121,10 @@ class DetailNotifikasi extends Component {
           type="bar"
         />
         <Alert
+          title="Error"
           text={this.state.errors.get("modal")}
           isVisible={this.state.errors.has("modal")}
-          onOkPress={() => this.setState({ errors: new FormError({}) })}
+          onClosePress={() => this.setState({ errors: new FormError({}) })}
         />
         <Container noPaddingAndMargin>
           <Block column alignCenter paddingHorizontal>

@@ -20,6 +20,8 @@ import NotifikasiService from "../../services/NotifikasiService";
 import { connect } from "react-redux";
 import { fetchUnreadNotifications } from "../../store/actions/notificationAction";
 
+import Auth from '../../models/auth';
+
 import { colors, text, spacing } from "../../components/styles";
 
 class DashboardPelanggan extends Component {
@@ -42,7 +44,7 @@ class DashboardPelanggan extends Component {
     super(props);
 
     this.state = {
-      auth: {},
+      auth: new Auth({}),
       notifikasi: null
     };
 
@@ -110,7 +112,7 @@ class DashboardPelanggan extends Component {
                 Halo
               </Text>
               <Text style={[text.fontSmall, text.bold, colors.black]}>
-                {"akun" in auth ? auth.akun.nama : null}
+                {auth.akun.nama}
               </Text>
             </Block>
             <Block column alignRight>

@@ -23,6 +23,8 @@ import ListPerbaikanTukang from "./components/ListPerbaikanTukang";
 
 import { colors, text, spacing } from "../../components/styles";
 
+import Auth from '../../models/auth';
+
 class DashboardTukang extends Component {
   static navigationOptions = {
     header: null,
@@ -43,7 +45,7 @@ class DashboardTukang extends Component {
     super(props);
 
     this.state = {
-      auth: {},
+      auth: new Auth({}),
       notifikasi: null
     };
 
@@ -116,7 +118,7 @@ class DashboardTukang extends Component {
                 Halo
               </Text>
               <Text style={[text.fontSmall, text.bold, colors.black]}>
-                {"akun" in auth ? auth.akun.nama : null}
+                {auth.akun.nama}
               </Text>
             </Block>
             <Block column alignRight>

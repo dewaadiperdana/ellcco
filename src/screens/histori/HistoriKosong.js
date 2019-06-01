@@ -21,17 +21,19 @@ const HistoriKosong = props => {
           spacing.mb4
         ]}
       >
-        Anda Belum Memesan Layanan
+        {props.role === 'pelanggan' ? 'Anda belum memesan layanan' : 'Anda belum menerima pesanan'}
       </Text>
-      <Button
-        fullRound={true}
-        block={true}
-        green={true}
-        textLight={true}
-        onPress={props.gotoPesan}
-      >
-        Pesan Sekarang
-      </Button>
+      {props.role === 'pelanggan' ? (
+        <Button
+          fullRound={true}
+          block={true}
+          green={true}
+          textLight={true}
+          onPress={props.gotoPesan}
+        >
+          Pesan Sekarang
+        </Button>
+      ) : null}
     </Container>
   );
 };

@@ -50,7 +50,7 @@ class PesanService {
       const response = await axios.post(url,
         {
           id_pesanan: id,
-          id_pengguna: auth.akun.id
+          id_tukang: auth.akun.id
         },
         {
           headers: {
@@ -61,7 +61,24 @@ class PesanService {
 
       return Promise.resolve(response.data);
     } catch (error) {
-      throw error;
+      return Promise.reject(error.response.data);
+    }
+  }
+
+  static async histori() {
+    const auth = await Storage.get('auth');
+    const url = `${Config.APP_URL}/api/v1/pemesanan/histori/${auth.akun.hak_akses}/${auth.akun.id}`;
+
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          "Authorization": `Bearer ${auth.token}`
+        }
+      });
+
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.reject(error);
     }
   }
 }

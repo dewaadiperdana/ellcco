@@ -5,8 +5,10 @@ import { Background, Container, Button, Spinner } from '../../components';
 
 import HistoriKosong from './HistoriKosong';
 import ListHistori from './ListHistori';
-import HistoriService from '../../services/HistoriService';
+import PesanService from '../../services/PesanService';
 import Storage from '../../helpers/Storage';
+
+import Auth from '../../models/auth';
 
 import { colors, text, spacing } from '../../components/styles';
 
@@ -23,7 +25,8 @@ class Histori extends Component {
 
     this.state = {
       histori: [],
-      spinner: false
+      spinner: false,
+      auth: new Auth({})
     };
   }
 
@@ -32,18 +35,16 @@ class Histori extends Component {
   }
 
   getHistori = async () => {
-    this.setState({ spinner: true });
-
     const auth = await Storage.get('auth');
+    this.setState({ spinner: true, auth: new Auth(auth) });
 
     try {
-      const histori = await HistoriService.getHistori(auth.hak_akses, auth.id, auth.token);
-      console.log(histori);
+      const histori = await PesanService.histori();
 
       this.setState({ spinner: false, histori: histori });
     } catch (error) {
       this.setState({ spinner: false });
-      console.log(error);
+      alert(error);
     }
   }
 
@@ -58,8 +59,9 @@ class Histori extends Component {
   }
 
   render() {
-    const historiContent = this.state.histori === null ? (
-      <HistoriKosong gotoPesan={this.gotoPesan} />
+    const { auth, histori } = this.state;
+    const historiContent = histori === null || histori.length <= 0 ? (
+      <HistoriKosong gotoPesan={this.gotoPesan} role={auth} />
     ) : (
       <Container noPaddingAndMargin>
         <ListHistori histori={this.state.histori} gotoDetail={this.gotoDetail} />
@@ -68,7 +70,7 @@ class Histori extends Component {
 
     return (
       <Background color={colors.white}>
-        <Spinner isVisible={this.state.spinner} type="bar" color="white" />
+        <Spinner isVisible={this.state.spinner} whiteBackdrop type="bar" color={colors.black} />
         {historiContent}
       </Background>
     );

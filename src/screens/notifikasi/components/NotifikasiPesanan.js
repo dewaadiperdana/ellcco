@@ -70,13 +70,17 @@ class NotifikasiPesanan extends Component {
               <Text style={text.medium}>Layanan</Text>
               <Text style={text.regular}>{'jasa' in detail ? detail.jasa.nama : '-'}</Text>
             </ListItem>
+            <ListItem>
+              <Text style={text.medium}>Kerusakan</Text>
+              <Text style={text.regular}>{detail.kerusakan}</Text>
+            </ListItem>
             <ListItem last>
               <Text style={text.medium}>Status</Text>
               <Badge>
                 {'status' in detail ? detail.status.replace('-', ' ') : '-'}
               </Badge>
             </ListItem>
-            <Text style={[spacing.mt1, text.regular]}>{detail.deskripsi_kerusakan}</Text>
+            <Text style={[spacing.mt1, text.regular]}>{detail.deskripsi}</Text>
           </Block>
           <Separator />
           <Block column paddingHorizontal>

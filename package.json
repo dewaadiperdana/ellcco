@@ -4,12 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "start-8082": "node node_modules/react-native/local-cli/cli.js start --port 8082",
     "test": "jest",
-    "android-dev": "ENVFILE=.env.dev react-native run-android",
-    "android-dev-8082": "ENVFILE=.env.dev react-native run-android --port 8082",
-    "android-staging": "ENVFILE=.env.staging react-native run-android",
-    "android-prod": "ENVFILE=.env.prod react-native run-android",
+    "android-dev": "SET ENVFILE=.env.dev && react-native run-android",
+    "android-staging": "SET ENVFILE=.env.staging && react-native run-android",
+    "android-prod": "SET ENVFILE=.env.prod && react-native run-android",
     "build-android-prod": "export ENVFILE=.env.prod && cd android && ./gradlew assembleRelease && cd .."
   },
   "dependencies": {

@@ -8,7 +8,8 @@ import {
   Block,
   ListItem,
   Separator,
-  Illustration
+  Illustration,
+  Badge
 } from "../../components";
 import moment from "moment";
 
@@ -56,11 +57,7 @@ class DetailPesanan extends Component {
     this.setState({ spinner: true });
 
     try {
-      const detail = await PesanService.detail(
-        pesanan.id,
-        pesanan.id_pelanggan,
-        pesanan.id_tukang
-      );
+      const detail = await PesanService.detail(pesanan.id);
 
       this.setState({ spinner: false, detail: detail });
     } catch (error) {
@@ -70,97 +67,104 @@ class DetailPesanan extends Component {
   };
 
   renderDetailPesanan = () => {
-    return "pesanan" in this.state.detail ? (
+    const { detail } = this.state;
+
+    return (
       <Block column paddingHorizontal>
         <ListItem first>
           <Text style={text.medium}>Kode Pesanan</Text>
           <Text style={text.regular}>
-            {this.state.detail.pesanan.kode_pesanan}
+            {detail.kode}
           </Text>
         </ListItem>
         <ListItem>
           <Text style={text.medium}>Tanggal</Text>
           <Text style={text.regular}>
-            {moment(this.state.detail.pesanan.tanggal).format("LLL")}
+            {moment(detail.tanggal).format("LLL")}
           </Text>
         </ListItem>
         <ListItem>
           <Text style={text.medium}>Layanan</Text>
           <Text style={text.regular}>
-            {this.state.detail.pesanan.layanan.nama}
+            {'jasa' in detail ? detail.jasa.nama : '-'}
           </Text>
         </ListItem>
         <ListItem>
           <Text style={text.medium}>Kerusakan</Text>
           <Text style={text.regular}>
-            {this.state.detail.pesanan.nama_kerusakan}
+            {detail.kerusakan}
           </Text>
         </ListItem>
         <ListItem last>
           <Text style={text.medium}>Status</Text>
-          <Text style={text.regular}>
-            {this.state.detail.pesanan.status.nama}
-          </Text>
+          <Badge
+            green={detail.status === 'menunggu_perbaikan'}
+          >
+            {detail.status}
+          </Badge>
         </ListItem>
         <Text style={[text.regular, spacing.mt1]}>
-          {this.state.detail.pesanan.deskripsi_kerusakan}
+          {detail.deskripsi}
         </Text>
       </Block>
-    ) : null;
+    );
   };
 
-  renderDetailPemesan = () => {
-    return "pelanggan" in this.state.detail ? (
+  renderDetailPelanggan = () => {
+    const { detail } = this.state;
+
+    return "pelanggan" in detail ? (
       <Block column paddingHorizontal>
         <Text style={[text.medium, text.fontSemiRegular, spacing.mb2]}>
           Pemesan
         </Text>
         <ListItem first>
           <Text style={text.medium}>Nama</Text>
-          <Text style={text.regular}>{this.state.detail.pelanggan.nama}</Text>
+          <Text style={text.regular}>{detail.pelanggan.nama}</Text>
         </ListItem>
         <ListItem>
           <Text style={text.medium}>No. Telp</Text>
           <Text style={text.regular}>
-            {this.state.detail.pelanggan.no_telp}
+            {detail.pelanggan.no_telp}
           </Text>
         </ListItem>
         <ListItem last>
           <Text style={text.medium}>Kode Pengguna</Text>
           <Text style={text.regular}>
-            {this.state.detail.pelanggan.kode_pengguna}
+            {detail.pelanggan.kode}
           </Text>
         </ListItem>
         <Text style={[text.regular, spacing.mt1]}>
-          {this.state.detail.pelanggan.alamat}
+          {detail.pelanggan.alamat}
         </Text>
       </Block>
     ) : null;
   };
 
-  renderDetailPenerima = () => {
-    return "tukang" in this.state.detail &&
-      this.state.detail.tukang !== null ? (
+  renderDetailTukang = () => {
+    const { detail } = this.state;
+
+    return "tukang" in detail && detail.tukang !== null ? (
       <Block column padding>
         <Text style={[text.medium, text.fontSemiRegular, spacing.mb2]}>
           Penerima
         </Text>
         <ListItem first>
           <Text style={text.medium}>Nama</Text>
-          <Text style={text.regular}>{this.state.detail.tukang.nama}</Text>
+          <Text style={text.regular}>{detail.tukang.nama}</Text>
         </ListItem>
         <ListItem>
           <Text style={text.medium}>No. Telp</Text>
-          <Text style={text.regular}>{this.state.detail.tukang.no_telp}</Text>
+          <Text style={text.regular}>{detail.tukang.no_telp}</Text>
         </ListItem>
         <ListItem last>
           <Text style={text.medium}>Kode Pengguna</Text>
           <Text style={text.regular}>
-            {this.state.detail.tukang.kode_pengguna}
+            {detail.tukang.kode}
           </Text>
         </ListItem>
         <Text style={[text.regular, spacing.mt1]}>
-          {this.state.detail.tukang.alamat}
+          {detail.tukang.alamat}
         </Text>
       </Block>
     ) : (
@@ -175,7 +179,7 @@ class DetailPesanan extends Component {
   render() {
     return (
       <Background color={colors.white}>
-        <Spinner isVisible={this.state.spinner} type="bar" color="white" />
+        <Spinner isVisible={this.state.spinner} whiteBackdrop type="bar" color={colors.black} />
         <Container noPaddingAndMargin>
           <ScrollView>
             <Container>
@@ -192,9 +196,9 @@ class DetailPesanan extends Component {
             </Container>
             {this.renderDetailPesanan()}
             <Separator />
-            {this.renderDetailPemesan()}
+            {this.renderDetailPelanggan()}
             <Separator />
-            {this.renderDetailPenerima()}
+            {this.renderDetailTukang()}
           </ScrollView>
         </Container>
       </Background>

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
-import { Block, Wrapper, Illustration } from "../../components";
+import { Block, Wrapper, Illustration, Badge } from "../../components";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import moment from "moment";
 
@@ -15,8 +15,6 @@ import { colors, text, spacing } from "../../components/styles";
 import styles from "./styles";
 
 const ListHistori = props => {
-  moment.locale("id");
-
   return (
     <Wrapper>
       <Block spaceAround padding style={[spacing.mt3]}>
@@ -59,7 +57,7 @@ const ListHistori = props => {
                         color={colors.black}
                         style={spacing.mr1}
                       />
-                      <Text style={text.medium}>{item.nama_kerusakan}</Text>
+                      <Text style={text.medium}>{item.kerusakan}</Text>
                     </Block>
                     <Block style={[spacing.mt1, spacing.mb1]}>
                       <FontAwesome5
@@ -73,13 +71,11 @@ const ListHistori = props => {
                       </Text>
                     </Block>
                     <Block>
-                      <FontAwesome5
-                        name={item.icon_status}
-                        size={16}
-                        color={colors.black}
-                        style={spacing.mr1}
-                      />
-                      <Text style={text.medium}>{item.nama_status}</Text>
+                      <Badge
+                        green={item.status === 'menunggu_perbaikan'}
+                      >
+                        {item.status}
+                      </Badge>
                     </Block>
                   </Block>
                   <FontAwesome5 name="angle-right" size={35} />
