@@ -60,6 +60,7 @@ class Histori extends Component {
 
   render() {
     const { auth, histori } = this.state;
+
     const historiContent = histori === null || histori.length <= 0 ? (
       <HistoriKosong gotoPesan={this.gotoPesan} role={auth} />
     ) : (

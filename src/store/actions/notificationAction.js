@@ -1,4 +1,5 @@
 import NotifikasiService from '../../services/NotifikasiService';
+import Notifikasi from '../../models/notifikasi';
 
 const SAVE_ALL_NOTIFICATIONS = 'SAVE_ALL_NOTIFICATIONS';
 const SAVE_UNREAD_NOTIFICATIONS = 'SAVE_UNREAD_NOTIFICATIONS';
@@ -22,7 +23,7 @@ const fetchUnreadNotifications = () => {
     try {
       const unreadNotifications = await NotifikasiService.getNotifikasiBelumDibaca();
 
-      dispatch(saveUnreadNotifications(unreadNotifications));
+      dispatch(saveUnreadNotifications(unreadNotifications.map(item => new Notifikasi(item))));
     } catch (error) {
       throw error;
     }
@@ -34,7 +35,7 @@ const fetchAllNotifications = () => {
     try {
       const allNotifications = await NotifikasiService.getNotifikasi();
 
-      dispatch(saveAllNotifications(allNotifications));
+      dispatch(saveAllNotifications(allNotifications.map(item => new Notifikasi(item))));
     } catch (error) {
       throw error;
     }

@@ -9,6 +9,8 @@ import { colors, text, spacing } from '../../../components/styles';
 import moment from 'moment';
 
 const NotifikasiRegular = props => {
+  // props.readNotification();
+  
   return (
     <Block column alignLeft paddingHorizontal>
       <Text style={[text.fontSemiRegular, text.medium]}>{props.data.judul}</Text>

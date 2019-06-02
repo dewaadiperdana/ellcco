@@ -48,8 +48,6 @@ class DashboardTukang extends Component {
       auth: new Auth({}),
       notifikasi: null
     };
-
-    // this.getNotifikasiBelumDibaca();
   }
 
   componentDidMount() {
@@ -62,16 +60,6 @@ class DashboardTukang extends Component {
       auth: await Storage.get("auth")
     });
   };
-
-  // getNotifikasiBelumDibaca = async () => {
-  //   try {
-  //     const notifikasi = await NotifikasiService.getNotifikasiBelumDibaca();
-
-  //     this.setState({ notifikasi: notifikasi });
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // };
 
   goto = route => {
     this.props.navigation.navigate(route);

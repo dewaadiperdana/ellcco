@@ -52,6 +52,7 @@ class PenggunaService {
 
       return Promise.resolve(response.data.isAuthenticated);
     } catch (error) {
+      alert(error);
       console.log(error);
     }
   }

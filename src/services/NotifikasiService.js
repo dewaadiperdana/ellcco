@@ -1,6 +1,7 @@
 import Config from 'react-native-config';
 import axios from 'axios';
 import Storage from '../helpers/Storage';
+import Notifikasi from '../models/notifikasi';
 
 class NotifikasiService {
   static auth = {};
@@ -11,6 +12,24 @@ class NotifikasiService {
 
   static async getAuth() {
     NotifikasiService.auth = await Storage.get('auth');
+  }
+
+  static async single(id) {
+    const auth = await Storage.get('auth');
+
+    try {
+      const url = `${Config.APP_URL}/api/v1/notifikasi/${id}`;
+
+      const response = await axios.get(url, {
+        headers: {
+          "Authorization": `Bearer ${auth.token}`
+        }
+      });
+
+      return Promise.resolve(new Notifikasi(response.data));
+    } catch (error) {
+      alert(error);
+    }
   }
 
   static async getNotifikasi() {

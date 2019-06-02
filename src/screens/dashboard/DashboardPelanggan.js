@@ -47,12 +47,10 @@ class DashboardPelanggan extends Component {
       auth: new Auth({}),
       notifikasi: null
     };
-
-    // this.getNotifikasiBelumDibaca();
   }
 
   componentDidMount() {
-    // this.props.fetchUnreadNotifications();
+    this.props.fetchUnreadNotifications();
     this.getAuthUser();
   }
 
@@ -60,16 +58,6 @@ class DashboardPelanggan extends Component {
     this.setState({
       auth: await Storage.get("auth")
     });
-  };
-
-  getNotifikasiBelumDibaca = async () => {
-    try {
-      const notifikasi = await NotifikasiService.getNotifikasiBelumDibaca();
-
-      this.setState({ notifikasi: notifikasi });
-    } catch (error) {
-      alert(error);
-    }
   };
 
   goto = route => {

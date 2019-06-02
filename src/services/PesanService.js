@@ -1,6 +1,9 @@
 import axios from 'axios';
 import Config from 'react-native-config';
 import Storage from '../helpers/Storage';
+import User from '../models/user';
+import Jasa from '../models/jasa';
+import Pemesanan from '../models/pemesanan';
 
 class PesanService {
   static async pesan(data) {
@@ -36,7 +39,12 @@ class PesanService {
         }
       });
 
-      return Promise.resolve(response.data);
+      let detail = new Pemesanan(response.data);
+      detail.jasa = new Jasa(detail.jasa);
+      detail.pelanggan = new User(detail.pelanggan);
+      detail.tukang = new User(detail.tukang);
+
+      return Promise.resolve(detail);
     } catch (error) {
       throw error;
     }
@@ -76,7 +84,7 @@ class PesanService {
         }
       });
 
-      return Promise.resolve(response.data);
+      return Promise.resolve(response.data.map(item => new Pemesanan(item)));
     } catch (error) {
       return Promise.reject(error);
     }

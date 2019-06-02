@@ -27,6 +27,8 @@ import PesanService from "../../services/PesanService";
 import NotifikasiRegular from "./components/NotifikasiRegular";
 import NotifikasiPesanan from "./components/NotifikasiPesanan";
 
+import Pemesanan from '../../models/pemesanan';
+
 class DetailNotifikasi extends Component {
   static navigationOptions = {
     headerLeft: ({ onPress }) => (
@@ -53,32 +55,51 @@ class DetailNotifikasi extends Component {
     this.state = {
       spinner: false,
       notifikasi: {},
-      detailPesanan: {},
+      detailPesanan: new Pemesanan({}),
       errors: new FormError({})
     };
   }
 
   componentDidMount() {
     this.tandaiSudahDibaca();
+    this.getDetailIfOrderNotification();
+  }
+
+  getDetailIfOrderNotification = async () => {
+    const notifikasi = this.props.navigation.getParam('notifikasi');
+    const pesanan = JSON.parse(notifikasi.data);
+
+    if (notifikasi.tipe === 'pesanan') {
+      this.setState({ spinner: true });
+
+      try {
+        const response = await PesanService.detail(pesanan.id);
+        console.log(response);
+        this.setState({ spinner: false, detailPesanan: response });
+      } catch (error) {
+        this.setState({ spinner: false });
+        alert(error);
+      }
+    }
   }
 
   tandaiSudahDibaca = async () => {
     const { navigation } = this.props;
     const notifikasi = navigation.getParam("notifikasi");
 
-    if (notifikasi.dibaca === false) {
-      this.setState({ spinner: true, notifikasi: notifikasi });
+    try {
+      if (notifikasi.dibaca === false) {
+        this.setState({ spinner: true });
 
-      try {
         await NotifikasiService.tandaiSudahDibaca(notifikasi.id);
 
         this.setState({ spinner: false });
         this.props.fetchUnreadNotifications();
         this.props.fetchAllNotifications();
-      } catch (error) {
-        this.setState({ spinner: false });
-        alert(error);
       }
+    } catch (error) {
+      this.setState({ spinner: false });
+      alert(error);
     }
   };
 
@@ -105,7 +126,12 @@ class DetailNotifikasi extends Component {
       case "regular":
         return <NotifikasiRegular data={notifikasi} />;
       case "pesanan":
-        return <NotifikasiPesanan data={notifikasi} onTerima={this.terimaPesanan} />;
+        return (
+          <NotifikasiPesanan
+            data={notifikasi}
+            detail={this.state.detailPesanan}
+            onTerima={this.terimaPesanan} />
+        );
        default:
          return null;
     }
