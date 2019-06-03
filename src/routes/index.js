@@ -26,6 +26,8 @@ import FormPesan from "../screens/pesan/FormPesan";
 import Notifikasi from "../screens/notifikasi/Notifikasi";
 import DetailNotifikasi from "../screens/notifikasi/DetailNotifikasi";
 import DetailPesanan from "../screens/pesan/DetailPesanan";
+import DetailPerbaikan from '../screens/pesan/DetailPerbaikan';
+import Obrolan from '../screens/pesan/Obrolan';
 
 const PesanNavigator = createStackNavigator(
   {
@@ -107,7 +109,9 @@ const DashboardPelangganStackNavigator = createStackNavigator(
     FormPesan,
     DetailPesanan,
     Notifikasi,
-    DetailNotifikasi
+    DetailNotifikasi,
+    DetailPerbaikan,
+    Obrolan
   },
   {
     initialRouteName: "DashboardPelanggan"
@@ -122,7 +126,7 @@ const DashboardTukangTabNavigator = createBottomTabNavigator(
     Lainnya
   },
   {
-    initialRouteName: "DashboardTukang",
+    initialRouteName: "Histori",
     animationEnabled: true,
     swipeEnabled: true,
     navigationOptions: {
@@ -147,12 +151,27 @@ const DashboardTukangTabNavigator = createBottomTabNavigator(
   }
 );
 
+const DashboardTukangStackNavigator = createStackNavigator(
+  {
+    DashboardTukang: DashboardTukangTabNavigator,
+    FormPesan,
+    DetailPesanan,
+    Notifikasi,
+    DetailNotifikasi,
+    DetailPerbaikan,
+    Obrolan
+  },
+  {
+    initialRouteName: "DashboardTukang"
+  }
+);
+
 export default createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoading,
       DashboardPelanggan: DashboardPelangganStackNavigator,
-      DashboardTukang: DashboardTukangTabNavigator,
+      DashboardTukang: DashboardTukangStackNavigator,
       Welcome: WelcomeNavigator
     },
     {

@@ -60,3 +60,5 @@ android/app/google-services.json
 
 .env.dev
 .env.prod
+.vscode/launch.json
+.vscode

@@ -84,6 +84,23 @@ class NotifikasiService {
       return Promise.reject(error);
     }
   }
+
+  static async delete(id) {
+    const url = `${Config.APP_URL}/api/v1/notifikasi/${id}`;
+    const auth = await Storage.get('auth');
+
+    try {
+      const response = await axios.delete(url, {
+        headers: {
+          "Authorization": `Bearer ${auth.token}`
+        }
+      });
+
+      return Promise.resolve(response.data);
+    } catch (error) {
+      return Promise.resolve(error);
+    }
+  }
 }
 
 export default NotifikasiService;

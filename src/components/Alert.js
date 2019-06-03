@@ -36,17 +36,44 @@ class Alert extends Component {
             <Text style={[text.regular, text.paragraph, styles.modalContent]}>
               {this.state.text}
             </Text>
-            <Button
-              block
-              textLight
-              noTopRound
-              onPress={() => {
-                this.closeModal();
-                this.state.onClosePress();
-              }}
-            >
-              Tutup
-            </Button>
+            {
+              this.props.allowCancelAndConfirm === true ? (
+                <Block row>
+                  <Button
+                    textLight
+                    red
+                    half
+                    style={{ borderRadius: 0, borderBottomLeftRadius: 5 }}
+                    onPress={this.props.onClosePress}
+                  >Tutup</Button>
+                  <Button
+                    textLight
+                    half
+                    style={{ borderRadius: 0, borderBottomRightRadius: 5 }}
+                    onPress={() => {
+                      this.closeModal();
+                      this.props.onClosePress();
+                      this.props.onConfirm();
+                    }}
+                  >Oke</Button>
+                </Block>
+              ) : (
+                <Button
+                  block
+                  textLight
+                  noTopRound
+                  onPress={() => {
+                    this.closeModal();
+                    
+                    if ('onClosePress' in this.props) {
+                      this.state.onClosePress();
+                    }
+                  }}
+                >
+                  Tutup
+                </Button>
+              )
+            }
           </Block>
         </Container>
       </Modal>

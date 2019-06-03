@@ -8,7 +8,8 @@ import {
   Separator,
   Spinner,
   Alert,
-  Illustration
+  Illustration,
+  Button
 } from "../../components";
 
 import { colors, text, spacing } from "../../components/styles";
@@ -28,6 +29,7 @@ import NotifikasiRegular from "./components/NotifikasiRegular";
 import NotifikasiPesanan from "./components/NotifikasiPesanan";
 
 import Pemesanan from '../../models/pemesanan';
+import Notifikasi from '../../models/notifikasi';
 
 class DetailNotifikasi extends Component {
   static navigationOptions = {
@@ -54,9 +56,10 @@ class DetailNotifikasi extends Component {
 
     this.state = {
       spinner: false,
-      notifikasi: {},
+      notifikasi: new Notifikasi(this.props.navigation.getParam('notifikasi')),
       detailPesanan: new Pemesanan({}),
-      errors: new FormError({})
+      errors: new FormError({}),
+      konfirmasiHapus: false
     };
   }
 
@@ -74,7 +77,7 @@ class DetailNotifikasi extends Component {
 
       try {
         const response = await PesanService.detail(pesanan.id);
-        console.log(response);
+
         this.setState({ spinner: false, detailPesanan: response });
       } catch (error) {
         this.setState({ spinner: false });
@@ -101,7 +104,7 @@ class DetailNotifikasi extends Component {
       this.setState({ spinner: false });
       alert(error);
     }
-  };
+  }
 
   terimaPesanan = async pesanan => {
     this.setState({ spinner: true });
@@ -116,7 +119,24 @@ class DetailNotifikasi extends Component {
     } catch (error) {
       this.setState({ spinner: false, errors: new FormError(error) });
     }
-  };
+  }
+
+  deleteNotification = async () => {
+    this.setState({ spinner: true });
+
+    try {
+      const deleted = await NotifikasiService.delete(this.state.notifikasi.id);
+
+      if (deleted) {
+        this.setState({ spinner: false });
+        this.props.fetchAllNotifications();
+        this.props.navigation.navigate('Notifikasi');
+      }
+    } catch (error) {
+      this.setState({ spinner: false });
+      alert(error);
+    }
+  }
 
   renderNotifikasiContent = () => {
     const { navigation } = this.props;
@@ -152,6 +172,14 @@ class DetailNotifikasi extends Component {
           isVisible={this.state.errors.has("modal")}
           onClosePress={() => this.setState({ errors: new FormError({}) })}
         />
+        <Alert
+          title="Anda yakin?"
+          text="Anda yakin ingin menghapus notifikasi ini?"
+          isVisible={this.state.konfirmasiHapus}
+          allowCancelAndConfirm={true}
+          onClosePress={() => this.setState({ konfirmasiHapus: !this.state.konfirmasiHapus })}
+          onConfirm={() => this.deleteNotification()}
+        />
         <Container noPaddingAndMargin>
           <Block column alignCenter paddingHorizontal>
             <Illustration
@@ -161,12 +189,12 @@ class DetailNotifikasi extends Component {
             />
             <Text style={[text.fontSmall, text.medium]}>Detail Notifikasi</Text>
           </Block>
-          <Block paddingHorizontal>
-            <FontAwesome5
-              name="trash"
-              size={20}
-              color={colors.black}
-              style={[spacing.mt2]}
+          <Block alignMiddle style={{ paddingTop: 10 }}>
+            <Button
+              circleWithIcon={true}
+              icon="trash-alt"
+              red={true}
+              onPress={() => this.setState({ konfirmasiHapus: true })}
             />
           </Block>
           <Separator />

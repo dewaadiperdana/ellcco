@@ -7,6 +7,8 @@ const Container = props => {
     props.centerContent && styles.containerCenterContent,
     props.verticalCenter && styles.containerVerticalCenter,
     props.noPaddingAndMargin && styles.containerNoPaddingAndMargin,
+    props.paddingVertical && styles.containerPaddingVertical,
+    props.noHorizontalMargin && styles.containerNoHorizontalMargin,
     props.noFlex && styles.containerNoFlex,
     'style' in props ? props.style : {}
   ];
@@ -38,6 +40,10 @@ const styles = StyleSheet.create({
   containerNoPaddingAndMargin: {
     margin: 0,
     padding: 0
+  },
+  containerNoHorizontalMargin: { marginHorizontal: 0 },
+  containerPaddingVertical: {
+    paddingVertical: 30
   },
   containerNoFlex: {
     flex: 0,

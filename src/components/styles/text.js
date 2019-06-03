@@ -23,6 +23,7 @@ const text = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.regular
   },
+  textMuted: { color: colors.verylightgrey },
   colorLight: { color: colors.white },
   colorDark: { color: colors.black },
   regular: { fontFamily: fonts.regular, color: colors.black },
@@ -30,6 +31,9 @@ const text = StyleSheet.create({
   bold: { fontFamily: fonts.bold, color: colors.black },
   medium: { fontFamily: fonts.medium, color: colors.black },
   black: { fontFamily: fonts.black, color: colors.black },
+  italic: { fontFamily: fonts.italic, color: colors.black },
+  textBoldItalic: { fontFamily: fonts.boldItalic },
+  textBlackItalic: { fontFamily: fonts.blackItalic },
   fontExtraLarge: { fontSize: 45, color: colors.black },
   fontLarge: { fontSize: 40, color: colors.black },
   fontMedium: { fontSize: 35, color: colors.black },

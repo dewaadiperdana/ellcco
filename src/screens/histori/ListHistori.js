@@ -72,7 +72,8 @@ const ListHistori = props => {
                     </Block>
                     <Block>
                       <Badge
-                        green={item.status === 'menunggu_perbaikan'}
+                        blue={(item.status === 'perbaikan_selesai')}
+                        red={(item.status === 'menunggu_pembayaran' || item.status === 'perbaikan_dibatalkan')}
                       >
                         {item.status}
                       </Badge>

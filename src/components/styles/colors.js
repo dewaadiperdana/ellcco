@@ -5,6 +5,7 @@ const colors = {
   primary: '#0984E3',
   black: '#2D3436',
   red: '#D63031',
+  purple: '#6c5ce7',
   lightgrey: '#9C9EA3',
   verylightgrey: '#CCCCCC',
   semiLightGrey: '#DEDEDE',

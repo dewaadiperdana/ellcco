@@ -3,7 +3,10 @@ import { View, ImageBackground } from "react-native";
 
 const Illustration = props => {
   return (
-    <View style={{ width: props.width, height: props.height }}>
+    <View style={[
+      { width: props.width, height: props.height },
+      'style' in props ? props.style : {}
+    ]}>
       <ImageBackground
         style={{ width: props.width, height: props.height }}
         source={props.source}

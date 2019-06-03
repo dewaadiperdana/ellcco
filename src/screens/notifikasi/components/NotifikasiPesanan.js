@@ -31,7 +31,6 @@ class NotifikasiPesanan extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log(props);
     return {...props};
   }
 
@@ -44,20 +43,6 @@ class NotifikasiPesanan extends Component {
 
     this.setState({ auth: auth });
   }
-
-  // getDetailPesanan = async () => {
-  //   this.setState({ spinner: true });
-
-  //   const data = JSON.parse(this.state.notifikasi.data);
-
-  //   try {
-  //     const pesanan = await PesanService.detail(data.id);
-  //     this.setState({ spinner: false, detail: pesanan });
-  //   } catch (error) {
-  //     this.setState({ spinner: false });
-  //     alert(error);
-  //   }
-  // }
 
   render() {
     const { spinner, notifikasi, auth } = this.state;

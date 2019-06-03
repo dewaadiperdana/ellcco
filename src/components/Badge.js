@@ -5,8 +5,8 @@ import { colors, fonts } from "./styles";
 const Badge = props => {
   const badgeBlockStyles = [
     styles.badgeDefault,
-    props.red && styles.bagdeBgRed,
-    props.green && styles.bagdeBgGreen
+    props.blue && styles.badgeBgBlue,
+    props.red && styles.bagdeBgRed
   ];
 
   return (
@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
   badgeDefault: {
     padding: 5,
     borderRadius: 5,
-    backgroundColor: colors.primary
+    backgroundColor: colors.green
   },
   bagdeBgRed: {
     backgroundColor: colors.red
   },
-  bagdeBgGreen: {
-    backgroundColor: colors.green
+  badgeBgBlue: {
+    backgroundColor: colors.primary
   },
   badgeTextDefault: {
     fontFamily: fonts.medium,

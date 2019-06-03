@@ -9,12 +9,12 @@ import {
   ListItem,
   Separator,
   Illustration,
-  Badge
+  Badge,
+  Button
 } from "../../components";
 import moment from "moment";
-
 import PesanService from "../../services/PesanService";
-
+import Pemesanan from '../../models/pemesanan';
 import { colors, text, spacing } from "../../components/styles";
 
 class DetailPesanan extends Component {
@@ -41,7 +41,7 @@ class DetailPesanan extends Component {
     super(props);
 
     this.state = {
-      detail: {},
+      detail: new Pemesanan({}),
       spinner: false
     };
   }
@@ -64,7 +64,11 @@ class DetailPesanan extends Component {
       this.setState({ spinner: false });
       throw error;
     }
-  };
+  }
+
+  _goto = (screen, params) => {
+    this.props.navigation.navigate(screen, params);
+  }
 
   renderDetailPesanan = () => {
     const { detail } = this.state;
@@ -98,7 +102,8 @@ class DetailPesanan extends Component {
         <ListItem last>
           <Text style={text.medium}>Status</Text>
           <Badge
-            green={detail.status === 'menunggu_perbaikan'}
+            blue={(detail.status === 'perbaikan_selesai')}
+            red={(detail.status === 'perbaikan_dibatalkan' || detail.status === 'menunggu_pembayaran')}
           >
             {detail.status}
           </Badge>
@@ -192,6 +197,27 @@ class DetailPesanan extends Component {
                 <Text style={[text.medium, text.fontSmall]}>
                   Detail Pesanan
                 </Text>
+                <Block row alignMiddle style={spacing.mt1}>
+                  <Button
+                    circleWithIcon={true}
+                    icon="tasks"
+                    onPress={() => this._goto('DetailPerbaikan', {
+                      pemesanan: this.state.detail
+                    })}
+                  />
+                  <Button
+                    circleWithIcon={true}
+                    icon="comments"
+                    green
+                    style={[spacing.ml1, spacing.mr1]}
+                    onPress={() => this._goto('Obrolan', {
+                      pemesanan: this.state.detail
+                    })} />
+                  <Button
+                    circleWithIcon={true}
+                    icon="edit"
+                    purple />
+                </Block>
               </Block>
             </Container>
             {this.renderDetailPesanan()}

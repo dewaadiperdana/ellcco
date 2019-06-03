@@ -1,22 +1,11 @@
 import io from 'socket.io-client';
+import Config from 'react-native-config';
 
 class Socket {
-  static socket;
+  static io;
 
-  static init() {
-    Socket.socket = io('http://192.168.43.13:3000');
-  }
-
-  static emit(event, payload) {
-    Socket.socket.emit(event, payload);
-  }
-
-  static onConnect(callback) {
-    Socket.socket.on('connect', callback());
-  }
-
-  static on(event, callback) {
-    Socket.socket.on(event, callback);
+  static connect() {
+    Socket.io = io(Config.APP_URL);
   }
 }
 
