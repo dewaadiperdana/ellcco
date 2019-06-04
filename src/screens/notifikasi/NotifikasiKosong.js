@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { Text, ScrollView, RefreshControl } from "react-native";
 import { Container, Block, Illustration } from "../../components";
 
-import { text } from "../../components/styles";
+import { text, spacing } from "../../components/styles";
 
-import { connect } from 'react-redux';
-import { fetchAllNotifications } from '../../store/actions/notificationAction';
+import { connect } from "react-redux";
+import { fetchAllNotifications } from "../../store/actions/notificationAction";
 
 class NotifikasiKosong extends Component {
   constructor(props) {
@@ -18,11 +18,11 @@ class NotifikasiKosong extends Component {
 
   _onRefresh = () => {
     this.props.fetchAllNotifications();
-  }
+  };
 
   render() {
     return (
-      <Container centerContent>
+      <Container>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -31,16 +31,23 @@ class NotifikasiKosong extends Component {
             />
           }
         >
-          <Block column alignCenter>
+          <Container centerContent>
             <Illustration
               width={189}
               height={189}
               source={require("../../assets/images/notifikasi.jpg")}
             />
-            <Text style={[text.fontSmall, text.medium, text.alignCenter]}>
+            <Text
+              style={[
+                text.fontSmall,
+                text.medium,
+                text.alignCenter,
+                spacing.mt1
+              ]}
+            >
               Anda Belum Memiliki Notifikasi
             </Text>
-          </Block>
+          </Container>
         </ScrollView>
       </Container>
     );
@@ -49,8 +56,13 @@ class NotifikasiKosong extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAllNotifications: () => { dispatch(fetchAllNotifications()) }
+    fetchAllNotifications: () => {
+      dispatch(fetchAllNotifications());
+    }
   };
 };
 
-export default connect(null, mapDispatchToProps)(NotifikasiKosong);
+export default connect(
+  null,
+  mapDispatchToProps
+)(NotifikasiKosong);

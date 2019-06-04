@@ -22,8 +22,8 @@ import {
 import { text, spacing, colors } from "../../components/styles";
 import PenggunaService from "../../services/PenggunaService";
 import FormError from "../../helpers/FormError";
-import Storage from '../../helpers/Storage';
-import Auth from '../../models/auth';
+import Storage from "../../helpers/Storage";
+import Auth from "../../models/auth";
 
 class LoginPelanggan extends Component {
   static navigationOptions = {
@@ -73,7 +73,7 @@ class LoginPelanggan extends Component {
       );
       this.setState({ spinner: false });
 
-      await Storage.put('auth', new Auth(response));
+      await Storage.put("auth", new Auth(response));
 
       this.props.navigation.navigate("DashboardPelanggan");
     } catch (error) {
@@ -102,7 +102,12 @@ class LoginPelanggan extends Component {
           backgroundColor={colors.white}
           translucent={true}
         />
-        <Spinner isVisible={this.state.spinner} type="bar" color="white" />
+        <Spinner
+          isVisible={this.state.spinner}
+          type="bar"
+          color={colors.black}
+          whiteBackdrop
+        />
         <Container>
           <Alert
             title="Error"

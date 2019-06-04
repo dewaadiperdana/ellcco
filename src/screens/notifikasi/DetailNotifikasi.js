@@ -28,8 +28,8 @@ import PesanService from "../../services/PesanService";
 import NotifikasiRegular from "./components/NotifikasiRegular";
 import NotifikasiPesanan from "./components/NotifikasiPesanan";
 
-import Pemesanan from '../../models/pemesanan';
-import Notifikasi from '../../models/notifikasi';
+import Pemesanan from "../../models/pemesanan";
+import Notifikasi from "../../models/notifikasi";
 
 class DetailNotifikasi extends Component {
   static navigationOptions = {
@@ -56,7 +56,7 @@ class DetailNotifikasi extends Component {
 
     this.state = {
       spinner: false,
-      notifikasi: new Notifikasi(this.props.navigation.getParam('notifikasi')),
+      notifikasi: new Notifikasi(this.props.navigation.getParam("notifikasi")),
       detailPesanan: new Pemesanan({}),
       errors: new FormError({}),
       konfirmasiHapus: false
@@ -64,15 +64,15 @@ class DetailNotifikasi extends Component {
   }
 
   componentDidMount() {
-    this.tandaiSudahDibaca();
-    this.getDetailIfOrderNotification();
+    this._getDetailOrder();
+    this._tandaiSudahDibaca();
   }
 
-  getDetailIfOrderNotification = async () => {
-    const notifikasi = this.props.navigation.getParam('notifikasi');
+  _getDetailOrder = async () => {
+    const notifikasi = this.state.notifikasi;
     const pesanan = JSON.parse(notifikasi.data);
 
-    if (notifikasi.tipe === 'pesanan') {
+    if (notifikasi.tipe === "pesanan") {
       this.setState({ spinner: true });
 
       try {
@@ -84,27 +84,27 @@ class DetailNotifikasi extends Component {
         alert(error);
       }
     }
-  }
+  };
 
-  tandaiSudahDibaca = async () => {
-    const { navigation } = this.props;
-    const notifikasi = navigation.getParam("notifikasi");
+  _tandaiSudahDibaca = async () => {
+    const notifikasi = this.state.notifikasi;
 
-    try {
-      if (notifikasi.dibaca === false) {
-        this.setState({ spinner: true });
+    if (notifikasi.dibaca === false) {
+      this.setState({ spinner: true });
 
+      try {
         await NotifikasiService.tandaiSudahDibaca(notifikasi.id);
 
         this.setState({ spinner: false });
+
         this.props.fetchUnreadNotifications();
         this.props.fetchAllNotifications();
+      } catch (error) {
+        this.setState({ spinner: false });
+        alert(error);
       }
-    } catch (error) {
-      this.setState({ spinner: false });
-      alert(error);
     }
-  }
+  };
 
   terimaPesanan = async pesanan => {
     this.setState({ spinner: true });
@@ -119,7 +119,7 @@ class DetailNotifikasi extends Component {
     } catch (error) {
       this.setState({ spinner: false, errors: new FormError(error) });
     }
-  }
+  };
 
   deleteNotification = async () => {
     this.setState({ spinner: true });
@@ -130,13 +130,13 @@ class DetailNotifikasi extends Component {
       if (deleted) {
         this.setState({ spinner: false });
         this.props.fetchAllNotifications();
-        this.props.navigation.navigate('Notifikasi');
+        this.props.navigation.navigate("Notifikasi");
       }
     } catch (error) {
       this.setState({ spinner: false });
       alert(error);
     }
-  }
+  };
 
   renderNotifikasiContent = () => {
     const { navigation } = this.props;
@@ -150,14 +150,16 @@ class DetailNotifikasi extends Component {
           <NotifikasiPesanan
             data={notifikasi}
             detail={this.state.detailPesanan}
-            onTerima={this.terimaPesanan} />
+            onTerima={this.terimaPesanan}
+          />
         );
-       default:
-         return null;
+      default:
+        return null;
     }
   };
 
   render() {
+    console.log(this.state.spinner);
     return (
       <Background color={colors.white}>
         <Spinner
@@ -177,7 +179,9 @@ class DetailNotifikasi extends Component {
           text="Anda yakin ingin menghapus notifikasi ini?"
           isVisible={this.state.konfirmasiHapus}
           allowCancelAndConfirm={true}
-          onClosePress={() => this.setState({ konfirmasiHapus: !this.state.konfirmasiHapus })}
+          onClosePress={() =>
+            this.setState({ konfirmasiHapus: !this.state.konfirmasiHapus })
+          }
           onConfirm={() => this.deleteNotification()}
         />
         <Container noPaddingAndMargin>

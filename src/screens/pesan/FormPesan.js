@@ -44,20 +44,14 @@ export default class FormPesan extends Component {
     super(props);
 
     this.state = {
-      layanan: {},
+      jasa: this.props.navigation.getParam("jasa"),
       form: {
-        nama_kerusakan: "",
-        deskripsi_kerusakan: ""
+        kerusakan: "",
+        deskripsi: ""
       },
       spinner: false,
       errors: new FormError({})
     };
-  }
-
-  componentDidMount() {
-    const layanan = this.props.navigation.getParam("layanan");
-
-    this.setState({ layanan });
   }
 
   handleChangeText = (field, value) => {
@@ -69,14 +63,14 @@ export default class FormPesan extends Component {
     });
   };
 
-  processPesan = async () => {
+  _pesan = async () => {
     this.setState({ spinner: true });
 
     try {
       const data = {
-        id_layanan: this.state.layanan.id,
-        nama_kerusakan: this.state.form.nama_kerusakan,
-        deskripsi_kerusakan: this.state.form.deskripsi_kerusakan
+        id_jasa: this.state.jasa.id,
+        kerusakan: this.state.form.kerusakan,
+        deskripsi: this.state.form.deskripsi
       };
 
       await PesanService.pesan(data);
@@ -85,7 +79,7 @@ export default class FormPesan extends Component {
 
       this.props.navigation.dispatch({
         type: "Navigation/NAVIGATE",
-        routeName: "Dashboard",
+        routeName: "DashboardPelanggan",
         action: {
           type: "Navigation/NAVIGATE",
           routeName: "Histori"
@@ -100,11 +94,16 @@ export default class FormPesan extends Component {
   };
 
   render() {
-    const { layanan, errors } = this.state;
+    const { jasa, errors } = this.state;
 
     return (
       <Background color={colors.white}>
-        <Spinner isVisible={this.state.spinner} type="bar" color="white" />
+        <Spinner
+          isVisible={this.state.spinner}
+          type="bar"
+          color={colors.black}
+          whiteBackdrop
+        />
         <Container>
           <ScrollView>
             <Block column alignCenter style={[spacing.mb2]}>
@@ -125,32 +124,28 @@ export default class FormPesan extends Component {
                 color={colors.black}
                 style={[spacing.ml1, spacing.mr1]}
               />
-              <Text style={text.regular}>{layanan.nama}</Text>
+              <Text style={text.regular}>{jasa.nama}</Text>
             </Block>
             <FormGroup>
               <FormLabel text="Bagaimana kerusakan alat anda?" />
               <FormInput
-                error={errors.has("nama_kerusakan")}
-                feedback={errors.get("nama_kerusakan")}
+                error={errors.has("kerusakan")}
+                feedback={errors.get("kerusakan")}
                 placeholder="Misalkan : TV mati total"
-                onChangeText={text =>
-                  this.handleChangeText("nama_kerusakan", text)
-                }
+                onChangeText={text => this.handleChangeText("kerusakan", text)}
               />
             </FormGroup>
             <FormGroup>
               <FormLabel text="Ceritakan bagaimana kerusakan alat anda" />
               <FormInput
-                error={errors.has("deskripsi_kerusakan")}
-                feedback={errors.get("deskripsi_kerusakan")}
+                error={errors.has("deskripsi")}
+                feedback={errors.get("deskripsi")}
                 placeholder="Misalkan : Ketika dihidupkan tidak ada indikator nyala, layar mati..."
                 multiline={true}
-                onChangeText={text =>
-                  this.handleChangeText("deskripsi_kerusakan", text)
-                }
+                onChangeText={text => this.handleChangeText("deskripsi", text)}
               />
             </FormGroup>
-            <Button fullRound block textLight onPress={this.processPesan}>
+            <Button fullRound block textLight onPress={this._pesan}>
               Pesan
             </Button>
           </ScrollView>

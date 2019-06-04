@@ -62,10 +62,6 @@ class RegisterPelanggan extends Component {
     };
   }
 
-  componentDidMount() {
-    // this.getHakAkses();
-  }
-
   getHakAkses = async () => {
     this.setState({ spinner: true });
 
@@ -102,8 +98,8 @@ class RegisterPelanggan extends Component {
     this.setState({ spinner: true });
 
     try {
-      await PenggunaService.register('pelanggan', this.state.form);
-      this.props.navigation.navigate("Login");
+      await PenggunaService.register("pelanggan", this.state.form);
+      this.props.navigation.navigate("LoginPelanggan");
     } catch (error) {
       this.setState({
         errors: new FormError(error),
@@ -121,7 +117,12 @@ class RegisterPelanggan extends Component {
           backgroundColor={colors.white}
           translucent={true}
         />
-        <Spinner isVisible={this.state.spinner} type="bar" color="white" />
+        <Spinner
+          isVisible={this.state.spinner}
+          type="bar"
+          color={colors.black}
+          whiteBackdrop
+        />
         <Container>
           <Block spaceAround>
             <Block>

@@ -1,15 +1,15 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React from "react";
+import { StyleSheet } from "react-native";
 
-import { colors } from '../../components/styles';
+import { colors } from "../../components/styles";
 
 const styles = StyleSheet.create({
-  menuLayanan: {
+  menu: {
     paddingVertical: 20,
     paddingHorizontal: 30
   },
   separator: {
-    width: '100%',
+    width: "100%",
     height: 1,
     backgroundColor: colors.extraLightGrey
   }

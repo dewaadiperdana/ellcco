@@ -21,7 +21,7 @@ import {
 import { text, spacing, colors } from "../../components/styles";
 import PenggunaService from "../../services/PenggunaService";
 import FormError from "../../helpers/FormError";
-import Storage from '../../helpers/Storage';
+import Storage from "../../helpers/Storage";
 
 class LoginTukang extends Component {
   static navigationOptions = {
@@ -96,12 +96,17 @@ class LoginTukang extends Component {
           backgroundColor={colors.white}
           translucent={true}
         />
-        <Spinner isVisible={this.state.spinner} type="bar" color="white" />
+        <Spinner
+          isVisible={this.state.spinner}
+          type="bar"
+          color={colors.black}
+          whiteBackdrop
+        />
         <Container>
           <Alert
             title="Error"
-            text={errors.get('modal')}
-            isVisible={errors.has('modal')}
+            text={errors.get("modal")}
+            isVisible={errors.has("modal")}
             onClosePress={() => this.setState({ errors: new FormError({}) })}
           />
           <Block spaceAround>

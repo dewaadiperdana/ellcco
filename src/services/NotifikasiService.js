@@ -1,7 +1,7 @@
-import Config from 'react-native-config';
-import axios from 'axios';
-import Storage from '../helpers/Storage';
-import Notifikasi from '../models/notifikasi';
+import Config from "react-native-config";
+import axios from "axios";
+import Storage from "../helpers/Storage";
+import Notifikasi from "../models/notifikasi";
 
 class NotifikasiService {
   static auth = {};
@@ -11,18 +11,18 @@ class NotifikasiService {
   }
 
   static async getAuth() {
-    NotifikasiService.auth = await Storage.get('auth');
+    NotifikasiService.auth = await Storage.get("auth");
   }
 
   static async single(id) {
-    const auth = await Storage.get('auth');
+    const auth = await Storage.get("auth");
 
     try {
       const url = `${Config.APP_URL}/api/v1/notifikasi/${id}`;
 
       const response = await axios.get(url, {
         headers: {
-          "Authorization": `Bearer ${auth.token}`
+          Authorization: `Bearer ${auth.token}`
         }
       });
 
@@ -33,14 +33,14 @@ class NotifikasiService {
   }
 
   static async getNotifikasi() {
-    const auth = await Storage.get('auth');
-    const role = auth.akun.hak_akses === 'pelanggan' ? 'pelanggan' : 'tukang';
+    const auth = await Storage.get("auth");
+    const role = auth.akun.hak_akses === "pelanggan" ? "pelanggan" : "tukang";
     const url = `${Config.APP_URL}/api/v1/notifikasi/${role}/${auth.akun.id}`;
 
     try {
       const notifikasi = await axios.get(url, {
         headers: {
-          "Authorization": `Bearer ${auth.token}`
+          Authorization: `Bearer ${auth.token}`
         }
       });
 
@@ -52,30 +52,37 @@ class NotifikasiService {
 
   static async tandaiSudahDibaca(id) {
     const url = `${Config.APP_URL}/api/v1/notifikasi/mark-as-read`;
-    const auth = await Storage.get('auth');
+    const auth = await Storage.get("auth");
 
     try {
-      await axios.post(url, { id: id }, {
-        headers: {
-          "Authorization": `Bearer ${auth.token}`
+      const response = await axios.post(
+        url,
+        { id: id },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`
+          }
         }
-      });
+      );
 
-      return Promise.resolve(true);
+      return Promise.resolve(response.data);
     } catch (error) {
+      console.log(error);
       return Promise.reject(error);
     }
   }
 
   static async getNotifikasiBelumDibaca() {
-    const auth = await Storage.get('auth');
-    const role = auth.akun.hak_akses === 'pelanggan' ? 'pelanggan' : 'tukang';
-    const url = `${Config.APP_URL}/api/v1/notifikasi/unread/${role}/${auth.akun.id}`;
+    const auth = await Storage.get("auth");
+    const role = auth.akun.hak_akses === "pelanggan" ? "pelanggan" : "tukang";
+    const url = `${Config.APP_URL}/api/v1/notifikasi/unread/${role}/${
+      auth.akun.id
+    }`;
 
     try {
       const notifikasi = await axios.get(url, {
         headers: {
-          "Authorization": `Bearer ${auth.token}`
+          Authorization: `Bearer ${auth.token}`
         }
       });
 
@@ -87,12 +94,12 @@ class NotifikasiService {
 
   static async delete(id) {
     const url = `${Config.APP_URL}/api/v1/notifikasi/${id}`;
-    const auth = await Storage.get('auth');
+    const auth = await Storage.get("auth");
 
     try {
       const response = await axios.delete(url, {
         headers: {
-          "Authorization": `Bearer ${auth.token}`
+          Authorization: `Bearer ${auth.token}`
         }
       });
 

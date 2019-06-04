@@ -28,10 +28,10 @@ class Intro extends Component {
             height={240}
             source={require("../../assets/images/intro.jpg")}
           />
-          <Text style={[text.alignCenter, text.h2]}>Selamat Datang</Text>
           <Text style={[text.alignCenter, text.paragraph, spacing.mb4]}>
-            Silahkan Login atau Daftar terlebih dahulu untuk menggunakan
-            aplikasi
+            Silahkan Login terlebih dahulu untuk menggunakan aplikasi. Jika
+            belum punya akun, pendaftaran bisa dilakukan melalui halaman login
+            masing-masing
           </Text>
           <Button
             block

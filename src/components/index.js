@@ -13,6 +13,7 @@ import Separator from "./Separator";
 import ListItem from "./ListItem";
 import Illustration from "./Illustration";
 import Badge from "./Badge";
+import CustomModal from "./CustomModal";
 
 export {
   Container,
@@ -29,5 +30,6 @@ export {
   Separator,
   ListItem,
   Illustration,
-  Badge
+  Badge,
+  CustomModal
 };

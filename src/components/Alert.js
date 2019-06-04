@@ -16,7 +16,7 @@ class Alert extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    return {...props};
+    return { ...props };
   }
 
   closeModal = () => {
@@ -36,44 +36,46 @@ class Alert extends Component {
             <Text style={[text.regular, text.paragraph, styles.modalContent]}>
               {this.state.text}
             </Text>
-            {
-              this.props.allowCancelAndConfirm === true ? (
-                <Block row>
-                  <Button
-                    textLight
-                    red
-                    half
-                    style={{ borderRadius: 0, borderBottomLeftRadius: 5 }}
-                    onPress={this.props.onClosePress}
-                  >Tutup</Button>
-                  <Button
-                    textLight
-                    half
-                    style={{ borderRadius: 0, borderBottomRightRadius: 5 }}
-                    onPress={() => {
-                      this.closeModal();
-                      this.props.onClosePress();
-                      this.props.onConfirm();
-                    }}
-                  >Oke</Button>
-                </Block>
-              ) : (
+            {this.props.allowCancelAndConfirm === true ? (
+              <Block row>
                 <Button
-                  block
                   textLight
-                  noTopRound
-                  onPress={() => {
-                    this.closeModal();
-                    
-                    if ('onClosePress' in this.props) {
-                      this.state.onClosePress();
-                    }
-                  }}
+                  red
+                  half
+                  style={{ borderRadius: 0, borderBottomLeftRadius: 5 }}
+                  onPress={this.props.onClosePress}
                 >
                   Tutup
                 </Button>
-              )
-            }
+                <Button
+                  textLight
+                  half
+                  style={{ borderRadius: 0, borderBottomRightRadius: 5 }}
+                  onPress={() => {
+                    this.closeModal();
+                    this.props.onClosePress();
+                    this.props.onConfirm();
+                  }}
+                >
+                  Oke
+                </Button>
+              </Block>
+            ) : (
+              <Button
+                block
+                textLight
+                noTopRound
+                onPress={() => {
+                  this.closeModal();
+
+                  if ("onClosePress" in this.props) {
+                    this.state.onClosePress();
+                  }
+                }}
+              >
+                Tutup
+              </Button>
+            )}
           </Block>
         </Container>
       </Modal>

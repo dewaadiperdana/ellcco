@@ -14,9 +14,9 @@ import {
   Background,
   Illustration
 } from "../../components";
-import LayananService from "../../services/LayananService";
+import JasaService from "../../services/JasaService";
 import styles from "./styles";
-import Socket from '../../providers/Socket';
+import Socket from "../../providers/Socket";
 
 import { text, colors, spacing } from "../../components/styles";
 
@@ -39,37 +39,43 @@ class Pesan extends Component {
     super(props);
 
     this.state = {
-      layanan: [],
+      jasa: [],
       spinner: false
     };
   }
 
   componentDidMount() {
-    this.getAllLayanan();
+    this._fetchJasa();
   }
 
-  getAllLayanan = async () => {
+  _fetchJasa = async () => {
     this.setState({ spinner: true });
 
     try {
-      const layanan = await LayananService.getLayanan();
+      const jasa = await JasaService.index();
 
-      this.setState({ layanan: layanan, spinner: false });
+      this.setState({ jasa: jasa, spinner: false });
     } catch (error) {
       this.setState({ spinner: false });
+      alert(error);
     }
   };
 
   onPressMenu = item => {
     this.props.navigation.navigate("FormPesan", {
-      layanan: item
+      jasa: item
     });
   };
 
   render() {
     return (
       <Background color={colors.white}>
-        <Spinner isVisible={this.state.spinner} type="bar" color="white" />
+        <Spinner
+          isVisible={this.state.spinner}
+          type="bar"
+          color={colors.black}
+          whiteBackdrop
+        />
         <Container style={{ flex: 0 }}>
           <Block spaceBetween>
             <Block>
@@ -82,18 +88,18 @@ class Pesan extends Component {
             <Block column alignLeft alignMiddle wrapContent style={spacing.ml2}>
               <Text style={[text.h1, text.alignLeft]}>Pesan</Text>
               <Text style={[text.paragraph, text.alignLeft]}>
-                Silahkan pilih layanan yang tertera dibawah
+                Silahkan pilih jasa yang tertera dibawah
               </Text>
             </Block>
           </Block>
           <Text style={[text.fontSemiRegular, text.medium, spacing.mt2]}>
-            Layanan Perbaikan
+            Jasa Perbaikan
           </Text>
         </Container>
         <Container noPaddingAndMargin={true}>
           <ScrollView>
             <FlatList
-              data={this.state.layanan}
+              data={this.state.jasa}
               keyExtractor={(item, index) => item.id}
               contentContainerStyle={{
                 borderTopWidth: 1,
@@ -104,7 +110,7 @@ class Pesan extends Component {
               renderItem={({ item }) => (
                 <TouchableOpacity
                   key={item.id}
-                  style={styles.menuLayanan}
+                  style={styles.menu}
                   onPress={() => this.onPressMenu(item)}
                 >
                   <Block spaceBetween>
