@@ -14,6 +14,7 @@ import ListItem from "./ListItem";
 import Illustration from "./Illustration";
 import Badge from "./Badge";
 import CustomModal from "./CustomModal";
+import ChatBubble from "./ChatBubble";
 
 export {
   Container,
@@ -31,5 +32,6 @@ export {
   ListItem,
   Illustration,
   Badge,
-  CustomModal
+  CustomModal,
+  ChatBubble
 };

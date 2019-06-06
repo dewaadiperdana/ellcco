@@ -3,7 +3,8 @@ import {
   Text,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  ScrollView
 } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {
@@ -103,62 +104,69 @@ class LoginTukang extends Component {
           whiteBackdrop
         />
         <Container>
-          <Alert
-            title="Error"
-            text={errors.get("modal")}
-            isVisible={errors.has("modal")}
-            onClosePress={() => this.setState({ errors: new FormError({}) })}
-          />
-          <Block spaceAround>
-            <Block>
-              <Illustration
-                width={152}
-                height={152}
-                source={require("../../assets/images/intro.jpg")}
+          <ScrollView>
+            <Alert
+              title="Error"
+              text={errors.get("modal")}
+              isVisible={errors.has("modal")}
+              onClosePress={() => this.setState({ errors: new FormError({}) })}
+            />
+            <Block spaceAround>
+              <Block>
+                <Illustration
+                  width={152}
+                  height={152}
+                  source={require("../../assets/images/intro.jpg")}
+                />
+              </Block>
+              <Block column alignLeft wrapContent style={spacing.ml2}>
+                <Text style={[text.h1, text.alignLeft]}>Login</Text>
+                <Text style={[text.paragraph, text.alignLeft, spacing.mb2]}>
+                  Silahkan login sebagai tukang jika sudah punya akun
+                </Text>
+              </Block>
+            </Block>
+            <FormGroup>
+              <FormLabel text="Email" />
+              <FormInput
+                error={errors.has("email")}
+                feedback={errors.get("email")}
+                placeholder="Email anda"
+                onChangeText={text => this.handleChangeText("email", text)}
               />
-            </Block>
-            <Block column alignLeft wrapContent style={spacing.ml2}>
-              <Text style={[text.h1, text.alignLeft]}>Login</Text>
-              <Text style={[text.paragraph, text.alignLeft, spacing.mb2]}>
-                Silahkan login sebagai tukang jika sudah punya akun
+            </FormGroup>
+            <FormGroup>
+              <FormLabel text="Password" />
+              <FormInput
+                error={errors.has("password")}
+                feedback={errors.get("password")}
+                placeholder="Password anda"
+                password
+                onChangeText={text => this.handleChangeText("password", text)}
+              />
+            </FormGroup>
+            <Button block fullRound textLight onPress={this.processLogin}>
+              Login
+            </Button>
+            <Block alignMiddle style={spacing.mt2}>
+              <Text
+                style={[
+                  spacing.mt2,
+                  spacing.mb1,
+                  text.fontRegular,
+                  text.regular
+                ]}
+              >
+                Belum punya akun?
               </Text>
+              <TouchableOpacity
+                style={[spacing.ml1, spacing.mt2]}
+                onPress={this.gotoRegister}
+              >
+                <Text style={[text.bold]}>Daftar</Text>
+              </TouchableOpacity>
             </Block>
-          </Block>
-          <FormGroup>
-            <FormLabel text="Email" />
-            <FormInput
-              error={errors.has("email")}
-              feedback={errors.get("email")}
-              placeholder="Email anda"
-              onChangeText={text => this.handleChangeText("email", text)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <FormLabel text="Password" />
-            <FormInput
-              error={errors.has("password")}
-              feedback={errors.get("password")}
-              placeholder="Password anda"
-              password
-              onChangeText={text => this.handleChangeText("password", text)}
-            />
-          </FormGroup>
-          <Button block fullRound textLight onPress={this.processLogin}>
-            Login
-          </Button>
-          <Block alignMiddle style={spacing.mt2}>
-            <Text
-              style={[spacing.mt2, spacing.mb1, text.fontRegular, text.regular]}
-            >
-              Belum punya akun?
-            </Text>
-            <TouchableOpacity
-              style={[spacing.ml1, spacing.mt2]}
-              onPress={this.gotoRegister}
-            >
-              <Text style={[text.bold]}>Daftar</Text>
-            </TouchableOpacity>
-          </Block>
+          </ScrollView>
         </Container>
       </Background>
     );

@@ -1,19 +1,20 @@
-import io from 'socket.io-client';
-import React, { Component } from 'react';
-import Sound from 'react-native-sound';
-import { AppState, Vibration } from 'react-native';
-import Storage from '../helpers/Storage';
-import Socket from './Socket';
-import Config from 'react-native-config';
-import { connect } from 'react-redux';
-import { fetchUnreadNotifications } from '../store/actions/notificationAction';
+import io from "socket.io-client";
+import React, { Component } from "react";
+import Sound from "react-native-sound";
+import { AppState, Vibration } from "react-native";
+import Storage from "../helpers/Storage";
+import Socket from "./Socket";
+import Config from "react-native-config";
+import { connect } from "react-redux";
+import { fetchUnreadNotifications } from "../store/actions/notificationAction";
 
 import {
   ON_NEW_ORDER,
   ON_ORDER_ACCEPTED,
   ON_NEW_SOCKET_ID,
-  ON_REUQEST_JOIN_ROOM
-} from '../config/events';
+  ON_REUQEST_JOIN_ROOM,
+  ON_CHAT_MESSAGE
+} from "../config/events";
 
 class SocketProvider extends Component {
   constructor(props) {
@@ -23,98 +24,122 @@ class SocketProvider extends Component {
       appState: AppState.currentState,
       auth: {}
     };
-    
+
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
 
-    this.inAppNotificationSound = new Sound('stairs.mp3', Sound.MAIN_BUNDLE, (error) => {
-      if (error) {
-        console.log('Failed to load the sound', error);
-        return;
+    this.inAppNotificationSound = new Sound(
+      "stairs.mp3",
+      Sound.MAIN_BUNDLE,
+      error => {
+        if (error) {
+          console.log("Failed to load the sound", error);
+          return;
+        }
       }
-    });
+    );
   }
 
   componentDidMount() {
     Socket.connect();
 
-    Socket.io.on('connect', () => {
+    Socket.io.on("connect", () => {
       this.sendNewSocket();
       this.registerSocketListener();
     });
   }
 
   sendNewSocket = async () => {
-    const auth = await Storage.get('auth');
-    
+    const auth = await Storage.get("auth");
+
     this.setState({ auth: auth });
 
-    Socket.io.emit(ON_NEW_SOCKET_ID, JSON.stringify({
-      hakAkses: auth.akun.hak_akses,
-      idAkun: auth.akun.id,
-      socket: Socket.io.id
-    }));
-  }
+    Socket.io.emit(
+      ON_NEW_SOCKET_ID,
+      JSON.stringify({
+        hakAkses: auth.akun.hak_akses,
+        idAkun: auth.akun.id,
+        socket: Socket.io.id
+      })
+    );
+  };
 
-  handleAppStateChange = (nextAppState) => {
-    this.setState({appState: nextAppState});
-  }
+  handleAppStateChange = nextAppState => {
+    this.setState({ appState: nextAppState });
+  };
 
   registerSocketListener = () => {
     Socket.io.on(ON_NEW_ORDER, this.onNewOrderListener);
     Socket.io.on(ON_ORDER_ACCEPTED, this.onOrderAcceptedListener);
+    Socket.io.on(ON_CHAT_MESSAGE, this.onChatMessage);
 
     // Other listeners will be down here...
-  }
+  };
 
   playInAppNotificationSound = () => {
     Vibration.vibrate(700);
     this.inAppNotificationSound.play();
-  }
+  };
 
   onNewOrderListener = message => {
-    if (this.state.appState === 'active') {
+    if (this.state.appState === "active") {
       this.playInAppNotificationSound();
       this.props.fetchUnreadNotifications();
     }
-  }
+  };
 
   onOrderAcceptedListener = async message => {
-    if (this.state.appState === 'active') {
+    if (this.state.appState === "active") {
       this.playInAppNotificationSound();
       this.props.fetchUnreadNotifications();
-      
-      const auth = await Storage.get('auth');
 
-      this.socket.emit(ON_REUQEST_JOIN_ROOM, JSON.stringify({
-        tipe: 'pelanggan',
-        id: auth.id
-      }));
+      const auth = await Storage.get("auth");
+
+      this.socket.emit(
+        ON_REUQEST_JOIN_ROOM,
+        JSON.stringify({
+          tipe: "pelanggan",
+          id: auth.id
+        })
+      );
     }
-  }
+  };
+
+  onChatMessage = message => {
+    if (this.state.appState === "active") {
+      this.playInAppNotificationSound();
+      this.props.fetchUnreadNotifications();
+    }
+  };
 
   emitNewSocketId = async () => {
-    const token = await Storage.get('fcm_token');
-    const auth = await Storage.get('auth');
+    const token = await Storage.get("fcm_token");
+    const auth = await Storage.get("auth");
 
-    this.socket.emit(ON_NEW_SOCKET_ID, JSON.stringify({
-      id_pengguna: auth.id,
-      socket: this.socket.id
-    }));
+    this.socket.emit(
+      ON_NEW_SOCKET_ID,
+      JSON.stringify({
+        id_pengguna: auth.id,
+        socket: this.socket.id
+      })
+    );
 
     this.emitNewFcmToken();
-  }
+  };
 
   emitNewFcmToken = async () => {
-    const token = await Storage.get('fcm_token');
-    const auth = await Storage.get('auth');
+    const token = await Storage.get("fcm_token");
+    const auth = await Storage.get("auth");
 
     if (token) {
-      this.socket.emit(ON_NEW_FCM_TOKEN, JSON.stringify({
-        id_pengguna: auth.id,
-        token: token
-      }));
+      this.socket.emit(
+        ON_NEW_FCM_TOKEN,
+        JSON.stringify({
+          id_pengguna: auth.id,
+          token: token
+        })
+      );
     }
-  }
+  };
 
   render() {
     return null;
@@ -127,4 +152,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SocketProvider);
+export default connect(
+  null,
+  mapDispatchToProps
+)(SocketProvider);

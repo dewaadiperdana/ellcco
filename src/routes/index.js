@@ -26,8 +26,9 @@ import FormPesan from "../screens/pesan/FormPesan";
 import Notifikasi from "../screens/notifikasi/Notifikasi";
 import DetailNotifikasi from "../screens/notifikasi/DetailNotifikasi";
 import DetailPesanan from "../screens/pesan/DetailPesanan";
-import DetailPerbaikan from '../screens/pesan/DetailPerbaikan';
-import Obrolan from '../screens/pesan/Obrolan';
+import DetailPerbaikan from "../screens/pesan/DetailPerbaikan";
+import Obrolan from "../screens/pesan/Obrolan";
+import EditProfil from "../screens/profil/EditProfil";
 
 const PesanNavigator = createStackNavigator(
   {
@@ -93,7 +94,15 @@ const DashboardPelangganTabNavigator = createBottomTabNavigator(
         backgroundColor: colors.white,
         borderWidth: 1,
         borderTopColor: colors.extraLightGrey,
-        borderBottomColor: colors.transparent
+        borderBottomColor: colors.transparent,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowColor: colors.black,
+        shadowOpacity: 0.1,
+        shadowRadius: 3.84,
+        elevation: 2
       },
       labelStyle: {
         fontSize: 11,
@@ -111,7 +120,8 @@ const DashboardPelangganStackNavigator = createStackNavigator(
     Notifikasi,
     DetailNotifikasi,
     DetailPerbaikan,
-    Obrolan
+    Obrolan,
+    EditProfil
   },
   {
     initialRouteName: "DashboardPelanggan"
@@ -141,7 +151,15 @@ const DashboardTukangTabNavigator = createBottomTabNavigator(
         backgroundColor: colors.white,
         borderWidth: 1,
         borderTopColor: colors.extraLightGrey,
-        borderBottomColor: colors.transparent
+        borderBottomColor: colors.transparent,
+        shadowOffset: {
+          width: 0,
+          height: 3
+        },
+        shadowColor: colors.black,
+        shadowOpacity: 0.1,
+        shadowRadius: 3.84,
+        elevation: 2
       },
       labelStyle: {
         fontSize: 11,
@@ -159,7 +177,8 @@ const DashboardTukangStackNavigator = createStackNavigator(
     Notifikasi,
     DetailNotifikasi,
     DetailPerbaikan,
-    Obrolan
+    Obrolan,
+    EditProfil
   },
   {
     initialRouteName: "DashboardTukang"

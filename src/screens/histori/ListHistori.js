@@ -4,9 +4,16 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  RefreshControl
 } from "react-native";
-import { Block, Wrapper, Illustration, Badge } from "../../components";
+import {
+  Container,
+  Block,
+  Wrapper,
+  Illustration,
+  Badge
+} from "../../components";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import moment from "moment";
 
@@ -14,80 +21,101 @@ import { colors, text, spacing } from "../../components/styles";
 
 import styles from "./styles";
 
-const ListHistori = props => {
-  return (
-    <Wrapper>
-      <Block spaceAround padding style={[spacing.mt3]}>
-        <Block>
-          <Illustration
-            width={152}
-            height={152}
-            source={require("../../assets/images/histori.jpg")}
-          />
+class ListHistori extends Component {
+  state = {
+    refreshing: false,
+    histori: []
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    return { ...props };
+  }
+
+  render() {
+    return (
+      <Container noPaddingAndMargin>
+        <Block spaceAround padding style={[spacing.mt3]}>
+          <Block>
+            <Illustration
+              width={152}
+              height={152}
+              source={require("../../assets/images/histori.jpg")}
+            />
+          </Block>
+          <Block column wrapContent alignLeft alignMiddle style={spacing.ml2}>
+            <Text style={text.h1}>Histori</Text>
+            <Text style={[text.paragraph, spacing.mb2]}>
+              Catatan Layanan Yang Pernah Anda Pesan
+            </Text>
+          </Block>
         </Block>
-        <Block column wrapContent alignLeft alignMiddle style={spacing.ml2}>
-          <Text style={text.h1}>Histori</Text>
-          <Text style={[text.paragraph, spacing.mb2]}>
-            Catatan Layanan Yang Pernah Anda Pesan
-          </Text>
-        </Block>
-      </Block>
-      <Block style={[spacing.mt2]}>
-        <ScrollView>
-          <FlatList
-            data={props.histori}
-            keyExtractor={(item, index) => item.id}
-            contentContainerStyle={{
-              borderTopWidth: 1,
-              borderBottomWidth: 1,
-              borderColor: colors.extraLightGrey
-            }}
-            ItemSeparatorComponent={() => <View style={styles.separator} />}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.listHistori}
-                onPress={() => props.gotoDetail(item)}
-              >
-                <Block spaceBetween alignCenter>
-                  <Block column>
-                    <Block>
-                      <FontAwesome5
-                        name="question-circle"
-                        size={16}
-                        color={colors.black}
-                        style={spacing.mr1}
-                      />
-                      <Text style={text.medium}>{item.kerusakan}</Text>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.props.onRefresh}
+            />
+          }
+        >
+          <Block style={[spacing.mt2]}>
+            <FlatList
+              data={this.state.histori}
+              keyExtractor={(item, index) => item.id}
+              contentContainerStyle={{
+                borderTopWidth: 1,
+                borderBottomWidth: 1,
+                borderColor: colors.extraLightGrey
+              }}
+              ItemSeparatorComponent={() => <View style={styles.separator} />}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.listHistori}
+                  onPress={() => this.props.gotoDetail(item)}
+                >
+                  <Block spaceBetween alignCenter>
+                    <Block column>
+                      <Block>
+                        <FontAwesome5
+                          name="question-circle"
+                          size={16}
+                          color={colors.black}
+                          style={spacing.mr1}
+                        />
+                        <Text style={text.medium}>{item.kerusakan}</Text>
+                      </Block>
+                      <Block style={[spacing.mt1, spacing.mb1]}>
+                        <FontAwesome5
+                          name="calendar"
+                          size={16}
+                          color={colors.black}
+                          style={spacing.mr1}
+                        />
+                        <Text style={text.medium}>
+                          {moment(item.tanggal).format("LLL")}
+                        </Text>
+                      </Block>
+                      <Block>
+                        <Badge
+                          blue={item.status === "perbaikan_selesai"}
+                          red={
+                            item.status === "menunggu_pembayaran" ||
+                            item.status === "perbaikan_dibatalkan"
+                          }
+                        >
+                          {item.status}
+                        </Badge>
+                      </Block>
                     </Block>
-                    <Block style={[spacing.mt1, spacing.mb1]}>
-                      <FontAwesome5
-                        name="calendar"
-                        size={16}
-                        color={colors.black}
-                        style={spacing.mr1}
-                      />
-                      <Text style={text.medium}>
-                        {moment(item.tanggal).format("LLL")}
-                      </Text>
-                    </Block>
-                    <Block>
-                      <Badge
-                        blue={(item.status === 'perbaikan_selesai')}
-                        red={(item.status === 'menunggu_pembayaran' || item.status === 'perbaikan_dibatalkan')}
-                      >
-                        {item.status}
-                      </Badge>
-                    </Block>
+                    <FontAwesome5 name="angle-right" size={35} />
                   </Block>
-                  <FontAwesome5 name="angle-right" size={35} />
-                </Block>
-              </TouchableOpacity>
-            )}
-          />
+                </TouchableOpacity>
+              )}
+            />
+          </Block>
         </ScrollView>
-      </Block>
-    </Wrapper>
-  );
-};
+      </Container>
+    );
+  }
+}
 
 export default ListHistori;

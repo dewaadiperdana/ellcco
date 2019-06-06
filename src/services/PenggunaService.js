@@ -1,11 +1,11 @@
-import Config from 'react-native-config';
-import axios from 'axios';
+import Config from "react-native-config";
+import axios from "axios";
 
 class PenggunaService {
   static async register(hakAkses, user) {
-    let role = hakAkses === 'pelanggan' ? 'pelanggan' : 'tukang';
+    let role = hakAkses === "pelanggan" ? "pelanggan" : "tukang";
     const url = `${Config.APP_URL}/api/v1/${role}/register`;
-    
+
     try {
       await axios.post(url, user);
 
@@ -16,12 +16,12 @@ class PenggunaService {
   }
 
   static async login(hakAkses, user) {
-    let role = hakAkses === 'pelanggan' ? 'pelanggan' : 'tukang';
+    let role = hakAkses === "pelanggan" ? "pelanggan" : "tukang";
     const url = `${Config.APP_URL}/api/v1/${role}/login`;
 
     try {
       const response = await axios.post(url, user);
-      
+
       return Promise.resolve(response.data);
     } catch (error) {
       return Promise.reject(error.response.data);
@@ -32,7 +32,7 @@ class PenggunaService {
     try {
       const url = `${Config.APP_URL}/api/v1/pengguna/hakakses`;
       const response = await axios.get(url);
-      
+
       return Promise.resolve(JSON.parse(response.data.data));
     } catch (error) {
       return Promise.reject(error);
@@ -40,15 +40,19 @@ class PenggunaService {
   }
 
   static async isAuthenticated(hakAkses, token) {
-    let role = hakAkses === 'pelanggan' ? 'pelanggan' : 'tukang';
+    let role = hakAkses === "pelanggan" ? "pelanggan" : "tukang";
     const url = `${Config.APP_URL}/api/v1/${role}/is-authenticated`;
 
     try {
-      const response = await axios.post(url, {}, {
-        headers: {
-          "Authorization": `Bearer ${token}`
+      const response = await axios.post(
+        url,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      });
+      );
 
       return Promise.resolve(response.data.isAuthenticated);
     } catch (error) {

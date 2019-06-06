@@ -6,9 +6,9 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "android-dev": "SET ENVFILE=.env.dev && react-native run-android",
-    "android-staging": "SET ENVFILE=.env.staging && react-native run-android",
     "android-prod": "SET ENVFILE=.env.prod && react-native run-android",
-    "build-android-prod": "export ENVFILE=.env.prod && cd android && ./gradlew assembleRelease && cd .."
+    "run-release-android": "ENVFILE=.env.prod && react-native run-android --variant=release",
+    "build-release-android": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.3.4",

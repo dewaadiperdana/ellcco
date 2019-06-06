@@ -62,3 +62,6 @@ android/app/google-services.json
 .env.prod
 .vscode/launch.json
 .vscode
+keys/
+android/app/ellcco-release-v1.keystore
+android/app/gradle.properties

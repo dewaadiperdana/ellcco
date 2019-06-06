@@ -4,7 +4,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  RefreshControl
 } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {
@@ -40,13 +41,18 @@ class Pesan extends Component {
 
     this.state = {
       jasa: [],
-      spinner: false
+      spinner: false,
+      refreshing: false
     };
   }
 
   componentDidMount() {
     this._fetchJasa();
   }
+
+  _onRefresh = () => {
+    this._fetchJasa();
+  };
 
   _fetchJasa = async () => {
     this.setState({ spinner: true });
@@ -88,7 +94,7 @@ class Pesan extends Component {
             <Block column alignLeft alignMiddle wrapContent style={spacing.ml2}>
               <Text style={[text.h1, text.alignLeft]}>Pesan</Text>
               <Text style={[text.paragraph, text.alignLeft]}>
-                Silahkan pilih jasa yang tertera dibawah
+                Silahkan pilih jasa yang tersedia dibawah
               </Text>
             </Block>
           </Block>
@@ -97,7 +103,14 @@ class Pesan extends Component {
           </Text>
         </Container>
         <Container noPaddingAndMargin={true}>
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
+          >
             <FlatList
               data={this.state.jasa}
               keyExtractor={(item, index) => item.id}
