@@ -107,7 +107,7 @@ class PesanService {
 
       return Promise.resolve(response.data);
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error.response.data);
     }
   }
 

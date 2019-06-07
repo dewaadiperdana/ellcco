@@ -18,7 +18,7 @@ class DetailPerbaikanService {
 
       return Promise.resolve(response.data);
     } catch (error) {
-      throw error;
+      return Promise.reject(error.response.data);
     }
   }
 

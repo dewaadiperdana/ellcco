@@ -304,17 +304,19 @@ class DetailPesanan extends Component {
                       })
                     }
                   />
-                  <Button
-                    circleWithIcon={true}
-                    icon="comments"
-                    green
-                    style={[spacing.ml1, spacing.mr1]}
-                    onPress={() =>
-                      this._goto("Obrolan", {
-                        pemesanan: this.state.detail
-                      })
-                    }
-                  />
+                  {this.state.detail.status !== "menunggu_penerimaan" ? (
+                    <Button
+                      circleWithIcon={true}
+                      icon="comments"
+                      green
+                      style={[spacing.ml1, spacing.mr1]}
+                      onPress={() =>
+                        this._goto("Obrolan", {
+                          pemesanan: this.state.detail
+                        })
+                      }
+                    />
+                  ) : null}
                   {auth.akun.hak_akses === "tukang" ? (
                     <Button
                       circleWithIcon={true}

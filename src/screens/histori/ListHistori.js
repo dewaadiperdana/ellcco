@@ -34,7 +34,7 @@ class ListHistori extends Component {
   render() {
     return (
       <Container noPaddingAndMargin>
-        <Block spaceAround padding style={[spacing.mt3]}>
+        <Block alignCenter spaceBetween padding style={[spacing.mt3]}>
           <Block>
             <Illustration
               width={152}
@@ -43,8 +43,10 @@ class ListHistori extends Component {
             />
           </Block>
           <Block column wrapContent alignLeft alignMiddle style={spacing.ml2}>
-            <Text style={text.h1}>Histori</Text>
-            <Text style={[text.paragraph, spacing.mb2]}>
+            <Text style={[text.fontSemiRegular, text.medium, spacing.mb1]}>
+              Histori
+            </Text>
+            <Text style={[text.paragraph]}>
               Catatan Layanan Yang Pernah Anda Pesan
             </Text>
           </Block>

@@ -40,16 +40,31 @@ class Lainnya extends Component {
           <View style={styles.header}>
             <Text style={[text.bold, text.fontSemiRegular]}>Menu Lainnya</Text>
           </View>
-          <ListItem>
-            <TouchableOpacity onPress={() => this._goto("EditProfil")}>
-              <Block paddingHorizontal>
+          <ListItem style={{ paddingVertical: 20, paddingHorizontal: 30 }}>
+            <TouchableOpacity
+              onPress={() => this._goto("EditProfil")}
+              style={{ flex: 1 }}
+            >
+              <Block>
+                <FontAwesome5
+                  name="address-card"
+                  size={15}
+                  color={colors.black}
+                  style={spacing.mr1}
+                />
                 <Text style={[text.medium]}>Edit Profil</Text>
               </Block>
             </TouchableOpacity>
           </ListItem>
-          <ListItem>
-            <TouchableOpacity onPress={this._logout}>
-              <Block paddingHorizontal>
+          <ListItem style={{ paddingVertical: 20, paddingHorizontal: 30 }}>
+            <TouchableOpacity onPress={this._logout} style={{ flex: 1 }}>
+              <Block>
+                <FontAwesome5
+                  name="sign-out-alt"
+                  size={15}
+                  color={colors.black}
+                  style={spacing.mr1}
+                />
                 <Text style={[text.medium]}>Keluar</Text>
               </Block>
             </TouchableOpacity>

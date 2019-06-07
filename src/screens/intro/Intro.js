@@ -1,6 +1,12 @@
 import React, { Component } from "react";
-import { Text, StatusBar } from "react-native";
-import { Container, Background, Button, Illustration } from "../../components";
+import { Text, StatusBar, Image } from "react-native";
+import {
+  Container,
+  Background,
+  Button,
+  Illustration,
+  Block
+} from "../../components";
 import { text, spacing } from "../../components/styles";
 
 class Intro extends Component {
@@ -62,6 +68,22 @@ class Intro extends Component {
             Masuk Sebagai Tukang
           </Button>
         </Container>
+        <Block alignCenter alignMiddle style={{ paddingVertical: 10 }}>
+          <Text style={[text.alignCenter, text.fontRegular]}>
+            All illustrations by
+          </Text>
+          <Block>
+            <Image
+              width={15}
+              height={14}
+              source={{ uri: "freepiklogo" }}
+              style={{ width: 15, height: 14, marginLeft: 7, marginRight: 3 }}
+            />
+          </Block>
+          <Text style={[text.alignCenter, text.bold, text.fontRegular]}>
+            freepik.com
+          </Text>
+        </Block>
       </Background>
     );
   }

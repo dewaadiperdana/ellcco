@@ -13,20 +13,29 @@ class HistoriKosong extends Component {
     return (
       <Container centerContent>
         <ScrollView
-          refreshing={this.state.refreshing}
-          onRefresh={this.props.onRefresh}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.props.onRefresh}
+            />
+          }
+          contentContainerStyle={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center"
+          }}
         >
           <Illustration
-            width={266}
-            height={266}
+            width={200}
+            height={200}
             source={require("../../assets/images/histori.jpg")}
           />
           <Text
             style={[
-              text.medium,
-              text.fontSmall,
+              text.fontSemiRegular,
               text.alignCenter,
-              spacing.mt4,
+              text.italic,
+              spacing.mt2,
               spacing.mb4
             ]}
           >

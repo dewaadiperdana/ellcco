@@ -22,7 +22,7 @@ class NotifikasiKosong extends Component {
 
   render() {
     return (
-      <Container>
+      <Container centerContent>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -30,8 +30,13 @@ class NotifikasiKosong extends Component {
               onRefresh={this._onRefresh}
             />
           }
+          contentContainerStyle={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center"
+          }}
         >
-          <Container centerContent>
+          <Block alignCenter alignMiddle column>
             <Illustration
               width={189}
               height={189}
@@ -39,15 +44,15 @@ class NotifikasiKosong extends Component {
             />
             <Text
               style={[
-                text.fontSmall,
-                text.medium,
+                text.fontSemiRegular,
+                text.italic,
                 text.alignCenter,
                 spacing.mt1
               ]}
             >
-              Anda Belum Memiliki Notifikasi
+              Anda tidak memiliki notifikasi
             </Text>
-          </Container>
+          </Block>
         </ScrollView>
       </Container>
     );

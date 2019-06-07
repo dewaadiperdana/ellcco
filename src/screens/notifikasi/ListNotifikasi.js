@@ -7,14 +7,14 @@ import {
   TouchableOpacity,
   RefreshControl
 } from "react-native";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { Container, Block, Wrapper, Illustration } from "../../components";
 
 import moment from "moment";
 
 import { colors, text, spacing } from "../../components/styles";
-import { fetchAllNotifications } from '../../store/actions/notificationAction';
+import { fetchAllNotifications } from "../../store/actions/notificationAction";
 
 import styles from "./styles";
 
@@ -29,7 +29,7 @@ class ListNotifikasi extends Component {
 
   _onRefresh = () => {
     this.props.fetchAllNotifications();
-  }
+  };
 
   render() {
     const { notifikasi } = this.props;
@@ -37,7 +37,7 @@ class ListNotifikasi extends Component {
     return (
       <Wrapper>
         <Container noFlex>
-          <Block spaceBetween>
+          <Block alignCenter spaceBetween>
             <Block>
               <Illustration
                 width={152}
@@ -46,8 +46,10 @@ class ListNotifikasi extends Component {
               />
             </Block>
             <Block column alignLeft alignMiddle wrapContent style={spacing.ml2}>
-              <Text style={[text.h2, text.alignLeft]}>Notifikasi</Text>
-              <Text style={[text.paragraph, text.alignLeft]}>
+              <Text style={[text.fontSemiRegular, text.medium, spacing.mb1]}>
+                Notifikasi
+              </Text>
+              <Text style={[text.paragraph]}>
                 Daftar Notifikasi Yang Masuk Ke Akun Anda
               </Text>
             </Block>
@@ -135,7 +137,9 @@ class ListNotifikasi extends Component {
                     <FontAwesome5
                       style={[
                         {
-                          color: item.dibaca ? colors.verylightgrey : colors.black
+                          color: item.dibaca
+                            ? colors.verylightgrey
+                            : colors.black
                         }
                       ]}
                       name="angle-right"
@@ -154,8 +158,13 @@ class ListNotifikasi extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAllNotifications: () => { dispatch(fetchAllNotifications()) }
+    fetchAllNotifications: () => {
+      dispatch(fetchAllNotifications());
+    }
   };
 };
 
-export default connect(null, mapDispatchToProps)(ListNotifikasi);
+export default connect(
+  null,
+  mapDispatchToProps
+)(ListNotifikasi);

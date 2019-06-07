@@ -83,7 +83,7 @@ class Pesan extends Component {
           whiteBackdrop
         />
         <Container style={{ flex: 0 }}>
-          <Block spaceBetween>
+          <Block alignCenter spaceBetween>
             <Block>
               <Illustration
                 width={152}
@@ -92,8 +92,10 @@ class Pesan extends Component {
               />
             </Block>
             <Block column alignLeft alignMiddle wrapContent style={spacing.ml2}>
-              <Text style={[text.h1, text.alignLeft]}>Pesan</Text>
-              <Text style={[text.paragraph, text.alignLeft]}>
+              <Text style={[text.fontSemiRegular, text.medium, spacing.mb1]}>
+                Pesan
+              </Text>
+              <Text style={[text.paragraph]}>
                 Silahkan pilih jasa yang tersedia dibawah
               </Text>
             </Block>

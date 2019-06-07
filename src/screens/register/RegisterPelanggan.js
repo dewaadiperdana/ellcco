@@ -124,7 +124,7 @@ class RegisterPelanggan extends Component {
           whiteBackdrop
         />
         <Container>
-          <Block spaceAround>
+          <Block alignCenter spaceBetween>
             <Block>
               <Illustration
                 width={152}
@@ -133,8 +133,10 @@ class RegisterPelanggan extends Component {
               />
             </Block>
             <Block column wrapContent alignLeft style={spacing.ml2}>
-              <Text style={text.h1}>Daftar</Text>
-              <Text style={[text.paragraph, spacing.mb2]}>
+              <Text style={[text.fontSemiRegular, text.medium, spacing.mb1]}>
+                Daftar
+              </Text>
+              <Text style={[text.paragraph]}>
                 Silahkan daftar sebagai pelanggan jika belum punya akun
               </Text>
             </Block>

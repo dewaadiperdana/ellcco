@@ -111,7 +111,7 @@ class LoginTukang extends Component {
               isVisible={errors.has("modal")}
               onClosePress={() => this.setState({ errors: new FormError({}) })}
             />
-            <Block spaceAround>
+            <Block alignCenter spaceBetween>
               <Block>
                 <Illustration
                   width={152}
@@ -120,8 +120,10 @@ class LoginTukang extends Component {
                 />
               </Block>
               <Block column alignLeft wrapContent style={spacing.ml2}>
-                <Text style={[text.h1, text.alignLeft]}>Login</Text>
-                <Text style={[text.paragraph, text.alignLeft, spacing.mb2]}>
+                <Text style={[text.fontSemiRegular, text.medium, spacing.mb1]}>
+                  Login
+                </Text>
+                <Text style={[text.paragraph]}>
                   Silahkan login sebagai tukang jika sudah punya akun
                 </Text>
               </Block>

@@ -4,9 +4,11 @@ import {
   StatusBar,
   TouchableOpacity,
   StyleSheet,
-  View
+  View,
+  ScrollView,
+  RefreshControl
 } from "react-native";
-import { Background, Container, Block } from "../../components";
+import { Background, Container, Block, Illustration } from "../../components";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
@@ -23,7 +25,7 @@ import ListPerbaikanTukang from "./components/ListPerbaikanTukang";
 
 import { colors, text, spacing } from "../../components/styles";
 
-import Auth from '../../models/auth';
+import Auth from "../../models/auth";
 
 class DashboardTukang extends Component {
   static navigationOptions = {
@@ -46,7 +48,8 @@ class DashboardTukang extends Component {
 
     this.state = {
       auth: new Auth({}),
-      notifikasi: null
+      notifikasi: null,
+      refreshing: false
     };
   }
 
@@ -59,6 +62,11 @@ class DashboardTukang extends Component {
     this.setState({
       auth: await Storage.get("auth")
     });
+  };
+
+  _onRefresh = () => {
+    this.props.fetchUnreadNotifications();
+    this.getAuthUser();
   };
 
   goto = route => {
@@ -113,7 +121,25 @@ class DashboardTukang extends Component {
               {this.renderNotificationIcon()}
             </Block>
           </Block>
-          <ListPerbaikanTukang />
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
+            contentContainerStyle={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Illustration
+              width={325}
+              height={325}
+              source={require("../../assets/images/intro.jpg")}
+            />
+          </ScrollView>
         </Container>
       </Background>
     );

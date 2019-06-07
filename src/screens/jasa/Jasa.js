@@ -102,7 +102,7 @@ class Jasa extends Component {
             color={colors.black}
             whiteBackdrop
           />
-          <Block alignMiddle style={{ marginTop: 30 }}>
+          <Block alignMiddle style={{ marginTop: 45 }}>
             <Illustration
               width={200}
               height={200}

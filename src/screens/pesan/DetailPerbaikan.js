@@ -25,6 +25,7 @@ import Pemesanan from "../../models/pemesanan";
 import Perbaikan from "../../models/perbaikan";
 import Auth from "../../models/auth";
 import Storage from "../../helpers/Storage";
+import FormError from "../../helpers/FormError";
 import DetailPerbaikanService from "../../services/DetailPerbaikanService";
 import PesanService from "../../services/PesanService";
 
@@ -60,7 +61,8 @@ class DetailPerbaikan extends Component {
       namaDetail: "",
       biaya: "",
       detail: [],
-      pemesanan: new Pemesanan(props.navigation.getParam("pemesanan"))
+      pemesanan: new Pemesanan(props.navigation.getParam("pemesanan")),
+      errors: new FormError({})
     };
   }
 
@@ -106,6 +108,18 @@ class DetailPerbaikan extends Component {
     this.setState({ [key]: text });
   };
 
+  _resetState = () => {
+    this.setState({
+      errors: new FormError({}),
+      refreshing: false,
+      spinner: false,
+      isAddingDetail: false,
+      isAddingBill: false,
+      namaDetail: "",
+      biaya: ""
+    });
+  };
+
   _saveDetail = async () => {
     this.setState({ spinner: true });
 
@@ -119,11 +133,11 @@ class DetailPerbaikan extends Component {
       this.setState({
         spinner: false,
         isAddingDetail: false,
-        isAddingBill: false
+        isAddingBill: false,
+        errors: new FormError({})
       });
     } catch (error) {
-      this.setState({ spinner: false });
-      alert(error);
+      this.setState({ spinner: false, errors: new FormError(error) });
     }
   };
 
@@ -157,16 +171,15 @@ class DetailPerbaikan extends Component {
       this.setState({
         spinner: false,
         isAddingBill: false,
-        isAddingDetail: false
+        isAddingDetail: false,
+        errors: new FormError({})
       });
       this._fetchDetailPemesanan();
     } catch (error) {
       this.setState({
         spinner: false,
-        isAddingBill: false,
-        isAddingDetail: false
+        errors: new FormError(error)
       });
-      alert(error);
     }
   };
 
@@ -181,7 +194,8 @@ class DetailPerbaikan extends Component {
       isAddingDetail,
       isAddingBill,
       auth,
-      detail
+      detail,
+      errors
     } = this.state;
 
     return isAddingDetail &&
@@ -191,6 +205,8 @@ class DetailPerbaikan extends Component {
         <FormGroup>
           <FormLabel text="Detail" />
           <FormInput
+            error={errors.has("nama")}
+            feedback={errors.get("nama")}
             placeholder="Deskripsi detail kegiatan perbaikan"
             onChangeText={text => this._handleChangeText("namaDetail", text)}
           />
@@ -262,6 +278,7 @@ class DetailPerbaikan extends Component {
         outline
         themeLight
         onPress={() => {
+          this._resetState();
           this.setState({ isAddingBill: !this.state.isAddingBill });
 
           if (!this.state.isAddingBill) {
@@ -281,13 +298,21 @@ class DetailPerbaikan extends Component {
   };
 
   _renderAddBillingForm = () => {
-    const { pemesanan, isAddingDetail, isAddingBill, auth } = this.state;
+    const {
+      pemesanan,
+      isAddingDetail,
+      isAddingBill,
+      auth,
+      errors
+    } = this.state;
 
     const addBillingForm = (
       <Block padding column>
         <FormGroup>
           <FormLabel text="Biaya" />
           <FormInput
+            error={errors.has("biaya")}
+            feedback={errors.get("biaya")}
             placeholder="Biaya perbaikan"
             onChangeText={text => this._handleChangeText("biaya", text)}
           />
@@ -362,6 +387,7 @@ class DetailPerbaikan extends Component {
                   icon={isAddingDetail && !isAddingBill ? "times" : "plus"}
                   red={isAddingDetail && !isAddingBill ? true : false}
                   onPress={() => {
+                    this._resetState();
                     this.setState({
                       isAddingDetail: !this.state.isAddingDetail
                     });

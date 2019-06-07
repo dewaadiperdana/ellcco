@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.chatMessageGrey
   },
   chatWrapperOwn: {
-    backgroundColor: colors.purple
+    backgroundColor: colors.primary
   },
   triangle: {
     width: 0,
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
   },
   triangleRight: {
     transform: [{ rotate: "90deg" }],
-    borderBottomColor: colors.purple
+    borderBottomColor: colors.primary
   }
 });

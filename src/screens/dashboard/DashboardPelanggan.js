@@ -4,9 +4,18 @@ import {
   StatusBar,
   TouchableOpacity,
   StyleSheet,
-  View
+  View,
+  ScrollView,
+  RefreshControl
 } from "react-native";
-import { Background, Container, Block, Card, Button } from "../../components";
+import {
+  Background,
+  Container,
+  Block,
+  Card,
+  Button,
+  Illustration
+} from "../../components";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
@@ -20,7 +29,7 @@ import NotifikasiService from "../../services/NotifikasiService";
 import { connect } from "react-redux";
 import { fetchUnreadNotifications } from "../../store/actions/notificationAction";
 
-import Auth from '../../models/auth';
+import Auth from "../../models/auth";
 
 import { colors, text, spacing } from "../../components/styles";
 
@@ -45,7 +54,8 @@ class DashboardPelanggan extends Component {
 
     this.state = {
       auth: new Auth({}),
-      notifikasi: null
+      notifikasi: null,
+      refreshing: false
     };
   }
 
@@ -80,6 +90,11 @@ class DashboardPelanggan extends Component {
     );
   };
 
+  _onRefresh = () => {
+    this.props.fetchUnreadNotifications();
+    this.getAuthUser();
+  };
+
   render() {
     const { auth, notifikasi } = this.state;
 
@@ -107,61 +122,25 @@ class DashboardPelanggan extends Component {
               {this.renderNotificationIcon()}
             </Block>
           </Block>
-
-          <Block column style={spacing.mb2}>
-            <Block spaceBetween>
-              <Card
-                contentCenter={true}
-                allowClick={true}
-                onClick={() => alert("Clicked")}
-              >
-                <ElectronicIcons name="smart-tv" size={65} />
-                <Text style={[text.alignCenter, text.fontRegular, spacing.mt1]}>
-                  Televisi
-                </Text>
-              </Card>
-              <Card
-                contentCenter={true}
-                allowClick={true}
-                onClick={() => alert("Clicked")}
-              >
-                <ElectronicIcons name="fan" size={65} />
-                <Text style={[text.alignCenter, text.fontRegular, spacing.mt1]}>
-                  Kipas Angin
-                </Text>
-              </Card>
-            </Block>
-            <Block>
-              <Card
-                contentCenter={true}
-                allowClick={true}
-                onClick={() => alert("Clicked")}
-              >
-                <ElectronicIcons name="rice-cooker" size={65} />
-                <Text style={[text.alignCenter, text.fontRegular, spacing.mt1]}>
-                  Rice Cooker
-                </Text>
-              </Card>
-              <Card
-                contentCenter={true}
-                allowClick={true}
-                onClick={() => alert("Clicked")}
-              >
-                <ElectronicIcons name="blender" size={65} />
-                <Text style={[text.alignCenter, text.fontRegular, spacing.mt1]}>
-                  Blender
-                </Text>
-              </Card>
-            </Block>
-          </Block>
-          <Button
-            fullRound={true}
-            block={true}
-            textLight={true}
-            onPress={() => this.goto("Pesan")}
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
+            contentContainerStyle={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
           >
-            Selengkapnya
-          </Button>
+            <Illustration
+              width={325}
+              height={325}
+              source={require("../../assets/images/intro.jpg")}
+            />
+          </ScrollView>
         </Container>
       </Background>
     );

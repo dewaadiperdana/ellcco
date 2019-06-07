@@ -75,7 +75,7 @@ export default class FormPesan extends Component {
 
       await PesanService.pesan(data);
 
-      this.setState({ spinner: false });
+      this.setState({ spinner: false, errors: new FormError({}) });
 
       this.props.navigation.dispatch({
         type: "Navigation/NAVIGATE",
