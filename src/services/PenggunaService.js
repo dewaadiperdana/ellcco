@@ -1,6 +1,7 @@
 import Config from "react-native-config";
 import axios from "axios";
 import Storage from "../helpers/Storage";
+import { YellowBox } from "react-native";
 
 class PenggunaService {
   static async register(hakAkses, user) {

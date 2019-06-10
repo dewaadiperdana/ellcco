@@ -10,6 +10,8 @@ class HistoriKosong extends Component {
   };
 
   render() {
+    const { auth } = this.props;
+
     return (
       <Container centerContent>
         <ScrollView
@@ -39,11 +41,11 @@ class HistoriKosong extends Component {
               spacing.mb4
             ]}
           >
-            {this.props.role === "pelanggan"
+            {auth.akun.hak_akses === "pelanggan"
               ? "Anda belum memesan layanan"
               : "Anda belum menerima pesanan"}
           </Text>
-          {this.props.role === "pelanggan" ? (
+          {auth.akun.hak_akses === "pelanggan" ? (
             <Button
               fullRound={true}
               block={true}

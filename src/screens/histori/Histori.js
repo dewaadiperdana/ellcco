@@ -76,7 +76,7 @@ class Histori extends Component {
       histori === null || histori.length <= 0 ? (
         <HistoriKosong
           gotoPesan={this.gotoPesan}
-          role={auth}
+          auth={auth}
           onRefresh={this._onRefresh}
         />
       ) : (

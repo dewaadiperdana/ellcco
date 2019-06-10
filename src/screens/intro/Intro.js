@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, StatusBar, Image } from "react-native";
+import { Text, StatusBar, Image, PermissionsAndroid } from "react-native";
 import {
   Container,
   Background,
@@ -17,6 +17,34 @@ class Intro extends Component {
 
   goto = route => {
     this.props.navigation.navigate(route);
+  };
+
+  componentDidMount() {
+    this._askPermission();
+  }
+
+  _askPermission = async () => {
+    // try {
+    //   const granted = await PermissionsAndroid.request(
+    //     PermissionsAndroid.PERMISSIONS.INTERNET,
+    //     {
+    //       title: "Cool Photo App Camera Permission",
+    //       message:
+    //         "Cool Photo App needs access to your camera " +
+    //         "so you can take awesome pictures.",
+    //       buttonNeutral: "Ask Me Later",
+    //       buttonNegative: "Cancel",
+    //       buttonPositive: "OK"
+    //     }
+    //   );
+    //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    //     alert("You can use the camera");
+    //   } else {
+    //     alert("Camera permission denied");
+    //   }
+    // } catch (err) {
+    //   alert(err);
+    // }
   };
 
   render() {

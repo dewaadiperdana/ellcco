@@ -79,8 +79,7 @@ project.ext.react = [
 apply from: "../../node_modules/react-native/react.gradle"
 project.ext.envConfigFiles = [
     debug: ".env.dev",
-    release: ".env.prod",
-    anothercustombuild: ".env",
+    release: ".env",
 ]
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
@@ -170,7 +169,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-auth:16.2.1"
     implementation "com.google.firebase:firebase-core:16.0.8"
-    implementation "com.google.firebase:firebase-messaging:17.5.0"
+    implementation "com.google.firebase:firebase-messaging:17.3.3"
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
 }
 
