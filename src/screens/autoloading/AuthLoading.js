@@ -33,6 +33,8 @@ class AuthLoading extends Component {
           this.props.navigation.navigate('Welcome');
           return;
       }
+    } else {
+      this.props.navigation.navigate('Welcome');
     }
   }
 

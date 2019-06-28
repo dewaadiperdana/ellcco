@@ -12,8 +12,6 @@ import {
   Background,
   Container,
   Block,
-  Card,
-  Button,
   Illustration
 } from "../../components";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -22,9 +20,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NotificationProvider from "../../providers/NotificationProvider";
 import SocketProvider from "../../providers/SocketProvider";
 
-import ElectronicIcons from "../../config/fonticons/electronicicons";
 import Storage from "../../helpers/Storage";
-import NotifikasiService from "../../services/NotifikasiService";
 
 import { connect } from "react-redux";
 import { fetchUnreadNotifications } from "../../store/actions/notificationAction";

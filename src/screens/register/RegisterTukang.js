@@ -17,7 +17,8 @@ import {
   FormLabel,
   Block,
   Spinner,
-  Illustration
+  Illustration,
+  Alert,
 } from "../../components";
 import PenggunaService from "../../services/PenggunaService";
 import { text, spacing, colors, fonts } from "../../components/styles";
@@ -57,7 +58,8 @@ class RegisterTukang extends Component {
         no_telp: "",
         password: ""
       },
-      errors: new FormError({})
+      errors: new FormError({}),
+      modal: false,
     };
   }
 
@@ -98,7 +100,7 @@ class RegisterTukang extends Component {
 
     try {
       await PenggunaService.register("tukang", this.state.form);
-      this.props.navigation.navigate("LoginTukang");
+      this.setState({ modal: true, spinner: false });
     } catch (error) {
       this.setState({
         errors: new FormError(error),
@@ -123,6 +125,12 @@ class RegisterTukang extends Component {
           type="bar"
           color={colors.black}
           whiteBackdrop
+        />
+        <Alert
+          title="Berhasil"
+          text="Pendaftaran berhasil, silahkan cek email anda untuk melakukan verifikasi akun."
+          isVisible={this.state.modal}
+          onClosePress={() => this.props.navigation.navigate("LoginTukang")}
         />
         <Container>
           <Block alignCenter spaceBetween>

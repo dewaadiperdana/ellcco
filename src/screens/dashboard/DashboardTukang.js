@@ -16,12 +16,9 @@ import NotificationProvider from "../../providers/NotificationProvider";
 import SocketProvider from "../../providers/SocketProvider";
 
 import Storage from "../../helpers/Storage";
-import NotifikasiService from "../../services/NotifikasiService";
 
 import { connect } from "react-redux";
 import { fetchUnreadNotifications } from "../../store/actions/notificationAction";
-import ListPerbaikanTukangKosong from "./components/ListPerbaikanTukangKosong";
-import ListPerbaikanTukang from "./components/ListPerbaikanTukang";
 
 import { colors, text, spacing } from "../../components/styles";
 
