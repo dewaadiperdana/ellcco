@@ -58,12 +58,12 @@ class Obrolan extends Component {
   componentDidMount() {
     this._getRuangObrolanAndPesanObrolan();
     this._listenOnNewChatMessage();
-    this._scrollChatMessagesToVeryBottom();
+    // this._scrollChatMessagesToVeryBottom();
   }
 
-  _scrollChatMessagesToVeryBottom = () => {
-    this.refs._chatMessagesScrollViewRef.scrollToEnd({ animated: true });
-  };
+  // _scrollChatMessagesToVeryBottom = () => {
+  //   this.refs._chatMessagesScrollViewRef.scrollToEnd({ animated: true });
+  // };
 
   _getRuangObrolanAndPesanObrolan = async () => {
     try {
@@ -116,7 +116,7 @@ class Obrolan extends Component {
     );
 
     this._getRuangObrolanAndPesanObrolan();
-    this._scrollChatMessagesToVeryBottom();
+    // this._scrollChatMessagesToVeryBottom();
 
     this.setState({ message: "" });
   };
@@ -124,7 +124,7 @@ class Obrolan extends Component {
   _listenOnNewChatMessage = () => {
     Socket.io.on(ON_CHAT_MESSAGE, payload => {
       this._getRuangObrolanAndPesanObrolan();
-      this._scrollChatMessagesToVeryBottom();
+      // this._scrollChatMessagesToVeryBottom();
     });
   };
 
@@ -134,7 +134,7 @@ class Obrolan extends Component {
         <View style={styles.chatContainer}>
           <View style={styles.chatMessagesContainer}>
             <ScrollView
-              ref="_chatMessagesScrollViewRef"
+              // ref="_chatMessagesScrollViewRef"
               refreshControl={
                 <RefreshControl
                   refreshing={this.state.refreshing}

@@ -4,7 +4,6 @@ import Storage from '../helpers/Storage';
 import Socket from './Socket';
 import { ON_NEW_FCM_TOKEN } from '../config/events';
 
-
 class NotificationProvider extends Component {
   constructor(props) {
     super(props);
